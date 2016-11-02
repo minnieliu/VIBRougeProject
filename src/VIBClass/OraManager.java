@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Created by minnieliu on 2016-11-01.
+ * Created by IvyLuo on 2016-11-01.
  */
 public class OraManager {
-    public java.sql.Connection con;
+    public java.sql.Connection conn;
     public Statement stmt;
 
     public OraManager() {}
@@ -27,14 +27,13 @@ public class OraManager {
             System.exit(-1);
         }
 
-        String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug";
         try{
             System.out.println("Connecting database...");
 
             String url = "jdbc:oracle:thin:@localhost:1522:ug";
-            java.sql.Connection conn = DriverManager.getConnection(url, "ora_m6v9a", "a31147144");
+            conn = DriverManager.getConnection(url, "ora_m6v9a", "a31147144");
             conn.setAutoCommit(true);
-            stmt = con.createStatement();
+
             System.out.println("Connect Successful");
 
         }
@@ -46,44 +45,37 @@ public class OraManager {
         }
     }
 
-    public int execute(String stringForExecute){
-        int rowCount = -1;
+    public void execute(String stringForExecute){
+        // int rowCount = -1;
         try {
-            rowCount = stmt.executeUpdate(stringForExecute);
-            System.out.println("row " + rowCount + " updated");
+            stmt = conn.createStatement();
+            stmt.executeUpdate(stringForExecute);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(stringForExecute + " : update fails");
         }
-        return rowCount;
+
     }
 
 
 
     public ResultSet query(String stringForQuery){
-        ResultSet rs = null;
-//        try {
-//            System.out.print("making stmt " + stringForQuery);
-//            stmt = con.createStatement();
-//        } catch (SQLException e) {
-//            System.out.print("stmt failed");
-//            e.printStackTrace();
-//        }
-       //  System.out.print("out of try/catch");
-        if(stmt==null)
-            System.out.println("stmt is NULL");
+        ResultSet resultset = null;
         try {
-            System.out.print("executing query" + stringForQuery);
-            rs = stmt.executeQuery(stringForQuery);
+            stmt = conn.createStatement();
+            resultset = stmt.executeQuery(stringForQuery);
+
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(stringForQuery + " : query fails");
         }
-        return rs;
+        return resultset;
     }
+
     public void disconnect(){
         try {
-            con.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("disconnect fails");

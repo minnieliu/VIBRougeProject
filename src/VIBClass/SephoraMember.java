@@ -13,7 +13,7 @@ public class SephoraMember {
         oraManager = new OraManager();
     }
 
-    public int updateStatus(int accountNo) throws SQLException {
+    public void updateStatus(int accountNo) throws SQLException {
         int yearToDateSpent = 0;
         String newStatus = "BeautyInsider";
         ResultSet rs = null;
@@ -32,25 +32,25 @@ public class SephoraMember {
                 "yearToDateSpent =" + yearToDateSpent + "AND" +
                 "status =" + newStatus+
                 "WHERE accountNo = " + accountNo;
-        int row = oraManager.execute(updateQuery);
-        return row;
+         oraManager.execute(updateQuery);
+       // return row;
     }
 
-    public int removeMember(int accountNo){
+    public void removeMember(int accountNo){
         String deleteQuery = "DELETE FROM member1 WHERE accountNo = "+accountNo+ ")";
-        int rows = oraManager.execute(deleteQuery);
-        return rows;
+        oraManager.execute(deleteQuery);
+
     }
 
 
-    public int updateAccountInfo(int accountNo, String email, String phoneNumber, String password){
+    public void updateAccountInfo(int accountNo, String email, String phoneNumber, String password){
         String updateQuery = "UPDATE member1 SET " +
                             "email =" + email + "AND" +
                             "phoneNumber =" + phoneNumber+ "AND" +
                             "password =" + password + "WHERE accountNo = " + accountNo;
 
-        int rows = oraManager.execute(updateQuery);
-        return rows;
+        oraManager.execute(updateQuery);
+
     }
 
     public int bookService(int serviceid, int accountno){

@@ -70,12 +70,12 @@ public class Employee {
     public static void main(String argv[]) {
         Employee employee = new Employee();
 
-        // Test add employee
-        // employee.addEmployee(93485, "'IT WORKS'");
+         //Test add employee
+         employee.addEmployee(123456, "'IT WORKS'");
 
         // Test isEmployee
-//        System.out.println(employee.isEmployee(93485));
-//        System.out.println(employee.isEmployee(1298374));
+        System.out.println(employee.isEmployee(123456));
+        System.out.println(employee.isEmployee(1298374));
 
 
     }

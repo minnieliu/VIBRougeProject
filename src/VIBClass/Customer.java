@@ -16,17 +16,14 @@ public class Customer {
         oraManager = new OraManager();
     }
 
-    public int addCustomer(String name, int phoneNumber, String gender) {
+    public void addCustomer(String name, int phoneNumber, String gender) {
         String insertQuery = "INSERT INTO customer VALUES ("
                 + name + ","
                 + phoneNumber + ","
                 + gender + ")";
 
         System.out.println(insertQuery);
-        int rowCountInsertQuery = oraManager.execute(insertQuery);
-        System.out.println(rowCountInsertQuery);
-        return rowCountInsertQuery;
-
+         oraManager.execute(insertQuery);
     }
 
 
@@ -44,7 +41,7 @@ public class Customer {
         }
     }
 
-    public int addMember(String email, String password, Date birthday, String name, int phoneNum){
+    public void addMember(String email, String password, Date birthday, String name, int phoneNum){
         // changed birthday from string to date
         Random rand = new Random();
         int accountNum = rand.nextInt(99999999);
@@ -58,8 +55,7 @@ public class Customer {
                 + name + ","
                 + phoneNum
                 + ")";
-     int rowCountInsertQuery =oraManager.execute(insertQuery);
-        return rowCountInsertQuery;
+     oraManager.execute(insertQuery);
     }
 
     public static void main(String[] args) {
