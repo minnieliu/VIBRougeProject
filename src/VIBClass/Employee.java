@@ -71,10 +71,10 @@ public class Employee {
         Employee employee = new Employee();
 
          //Test add employee
-         employee.addEmployee(123456, "'IT WORKS'");
+         employee.addEmployee(12455, "'IT WORKS'");
 
         // Test isEmployee
-        System.out.println(employee.isEmployee(123456));
+        System.out.println(employee.isEmployee(12455));
         System.out.println(employee.isEmployee(1298374));
 
 

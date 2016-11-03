@@ -65,7 +65,6 @@ public class OraManager {
             stmt = conn.createStatement();
             resultset = stmt.executeQuery(stringForQuery);
 
-
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(stringForQuery + " : query fails");

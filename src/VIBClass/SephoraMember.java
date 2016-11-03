@@ -53,12 +53,20 @@ public class SephoraMember {
 
     }
 
-    public int bookService(int serviceid, int accountno){
+
+    public boolean bookService(int serviceid, String name, int phone){
+        Customer c = new Customer();
+        if (c.isMember(name,phone)){
+            // book service
+            // update the points
+            // update status
+            return true;
+        }
     // isMember()
     // deduct points from member
     // check if service, if capacity is > 0
     // deduct capacity number from service
-        return -1;
+        return false;
     }
 
 }
