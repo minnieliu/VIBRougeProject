@@ -45,9 +45,9 @@ public class SephoraMember {
 
     public void updateAccountInfo(int accountNo, String email, String phoneNumber, String password){
         String updateQuery = "UPDATE member1 SET " +
-                            "email =" + email + "AND" +
-                            "phoneNumber =" + phoneNumber+ "AND" +
-                            "password =" + password + "WHERE accountNo = " + accountNo;
+                            "email = '" + email + "' AND" +
+                            "phoneNumber = " + phoneNumber+ "AND" +
+                            "password = '" + password + "' WHERE accountNo = " + accountNo;
 
         oraManager.execute(updateQuery);
 
@@ -55,18 +55,31 @@ public class SephoraMember {
 
 
     public boolean bookService(int serviceid, String name, int phone){
+        // checks the name and phone to see if member
+        // updates the capacity number when service is booked
+        int capacityNum = 0;
         Customer c = new Customer();
         if (c.isMember(name,phone)){
-            // book service
-            // update the points
-            // update status
-            return true;
-        }
-    // isMember()
-    // deduct points from member
-    // check if service, if capacity is > 0
-    // deduct capacity number from service
-        return false;
-    }
+            ResultSet rs = null;
+            String selectQuery = "SELECT capacityNum FROM service WHERE serviceID = " + serviceid;
+            rs = oraManager.query(selectQuery);
+            try {
+                while (rs.next()) {
+                    capacityNum = rs.getInt("capacityNum");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
+            if (capacityNum == 0) {
+                return false;
+            }
+            capacityNum --;
+
+            String updateQuery = "UPDATE service SET capacityNum = " + capacityNum + "WHERE serviceID = " + serviceid;
+            oraManager.execute(updateQuery);
+
+        }
+        return true;
+    }
 }
