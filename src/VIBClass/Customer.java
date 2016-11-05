@@ -34,7 +34,7 @@ public class Customer {
         ResultSet rs = null;
         String selectQuery = "SELECT * FROM member1 WHERE name = '" + name +
                             "' AND phoneNumber = " + phoneNumber;
-
+        System.out.println(selectQuery);
         rs = oraManager.query(selectQuery);
         Boolean result = null;
 
@@ -68,13 +68,36 @@ public class Customer {
         oraManager.disconnect();
     }
 
+    public boolean deleteMember(int accountNo, String password){
+        String selectQuery = "SELECT * FROM member1 WHERE accountNo = " + accountNo +
+                " AND phoneNumber = " + password;
+        ResultSet rs = null;
+        rs = oraManager.query(selectQuery);
+        Boolean result = null;
+        try {
+            result = rs.isBeforeFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (result){
+            String deleteQuery = "DELETE FROM member 1 WHERE accountNo = " + accountNo;
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
     public static void main(String[] args) {
         Customer c = new Customer();
         boolean result = c.isMember("Minnie Liu", 9849000);
         System.out.print("Before adding: "+ result);
-       // c.addCustomer("Minnie Liu", 123, "F");
-       // c.addMember("minnieliu96@hotmail.com", "hello", "10/27/1996", "Minnie Liu", 123);
-        result = c.isMember("Minnie Liu", 123);
+        // c.addCustomer("Minnie Liu", 234, "F");
+        // c.addMember("minnieliu96@hotmail.com", "hello", "10/27/1996", "Minnie Liu", 234);
+
+        result = c.isMember("Sophie Sanders", 5950177);
         System.out.print("After adding: "+ result);
 
       }
