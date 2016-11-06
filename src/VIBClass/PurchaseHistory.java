@@ -50,6 +50,26 @@ public class PurchaseHistory {
             return false;
         }
     }
+    public void checkMemberPurchaseHistory(int accountno) {
+
+        ResultSet rs = oraManager.query("SELECT *," +
+                "FROM purchaseOrder, productOrder, member1" +
+                "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND purchaseOrder.name=member1.name AND purchaseOrder.phoneNumber=member1.phoneNumber AND" +
+                "accountNo="+accountno+";");
+        try{
+            while (rs.next()) {
+                int productID = rs.getInt("productID");
+                System.out.println("accountno: "+ accountno + "productID: "+ productID + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+
+
+//return boolean
+    }
+
 
 
     public void checkHistory(int purchaseID) {
@@ -71,6 +91,25 @@ public class PurchaseHistory {
 
 //return boolean
     }
+    //average item purchased per transaction per customer
+    public void averageitemspercustomer(){
+        oraManager.query("CREATE VIEW purchasecount (" +
+                "SELECT COUNT(productID) AS count, name, phoneNumber, purchaseID, FROM purchaseOrder, productOrder, " +
+                "WHERE purchaseOrder.purchaseID = productOrder.productID," +
+                "GROUPBY name, phoneNumber, purchaseID);");
+        ResultSet rs = oraManager.query("SELECT AVG(count) AS avgcount, name, FROM purchasecount, GROUPBY name, phoneNumber;");
+        try{
+            while (rs.next()) {
+                int avgcount = rs.getInt("avgcount");
+                String name = rs.getString("name");
+                System.out.println("name:  "+ name + "avg count: "+ avgcount + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+
+    }
 
     public boolean deleteEntirePurchase(int purchaseID){
         try{
@@ -88,8 +127,8 @@ public class PurchaseHistory {
     public boolean deleteprod(int purchaseID, int productID){
         try{
             oraManager.execute("DELETE FROM prodOrder," +
-                    "WHERE purchaseID = "+ purchaseID+
-                    "AND productID = "+productID+";");
+                    "WHERE purchaseID = " + purchaseID +
+                    "AND productID = " + productID + ";");
             System.out.println("added successfully");
             return true;
 
@@ -99,6 +138,8 @@ public class PurchaseHistory {
             return false;
         }
     }
+
+
 
 
     public static void main(String argv[]) {

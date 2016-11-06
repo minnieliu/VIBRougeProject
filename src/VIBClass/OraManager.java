@@ -31,7 +31,7 @@ public class OraManager {
             System.out.println("Connecting database...");
 
             String url = "jdbc:oracle:thin:@localhost:1522:ug";
-            conn = DriverManager.getConnection(url, "ora_m6v9a", "a31147144");
+            conn = DriverManager.getConnection(url, "ora_g9z9a", "a16182140");
             conn.setAutoCommit(true);
 
             System.out.println("Connect Successful");
