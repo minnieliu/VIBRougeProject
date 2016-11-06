@@ -79,7 +79,7 @@ public class Employee {
                 String brand = rs.getString("brand");
                 Integer inventoryNumber = rs.getInt("inventoryNumber");
                 String productType = rs.getString("productType");
-                Product product  = new Product(productID, price, brand, inventoryNumber, productType);
+                Product product  = new Product();
                 list.add(product);
             }
         } catch (SQLException e) {
