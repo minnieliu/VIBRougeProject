@@ -48,7 +48,7 @@ public class Employee {
 
     //return the list of name of customer who has birthday on the current date
     public ArrayList<String> birthdayGift(Date currentDate) {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList();
         ResultSet rs = null;
         String query = "SELECT name FROM customer WHERE birthday = " + currentDate;
         rs = oraManager.query(query);
@@ -67,7 +67,7 @@ public class Employee {
 
     // select all tuples with inventory less than low
     public ArrayList<Product> lowStockReport(int low) {
-        ArrayList<Product> list = new ArrayList<>();
+        ArrayList<Product> list = new ArrayList();
         ResultSet rs = null;
         String query = "SELECT * FROM product WHERE inventoryNumber <= " + low;
         rs = oraManager.query(query);
@@ -79,7 +79,7 @@ public class Employee {
                 String brand = rs.getString("brand");
                 Integer inventoryNumber = rs.getInt("inventoryNumber");
                 String productType = rs.getString("productType");
-                Product product  = new Product(productID, price, brand, inventoryNumber, productType);
+                Product product  = new Product();
                 list.add(product);
             }
         } catch (SQLException e) {
