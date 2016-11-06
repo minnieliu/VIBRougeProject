@@ -86,6 +86,70 @@ public class Product {
         //TODO: STEP2 Update the purchaseHistory with purchaseID, purchaseHistory should deduct point for customer
     }
 
+    public void popularProduct(){
+        String query = "SELECT productID, FROM product, WHERE NOT EXISTS" +
+                "(SELECT *, FROM customer, WHERE NOT EXISTS" +
+                "(SELECT name, phoneNumber, FROM purchaseOrder, productOrder, WHERE" +
+                "product.productID = productOrder.productID AND purchaseOrder.name = customer.name " +
+                "AND purchaseOrder.phoneNumber = customer.phoneNumber AND purchaseOrder.purchaseID = productOrder.purchaseID));";
+        ResultSet rs = oraManager.query(query);
+        try{
+            while (rs.next()) {
+                int productID = rs.getInt("productID");
+                System.out.println("popular products: "+ productID + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+    }
+
+    public void mostExpensive(){
+        String query = "SELECT productID, FROM product, WHERE price IN (SELECT MAX(price), FROM product);";
+        ResultSet rs = oraManager.query(query);
+        try{
+            while (rs.next()) {
+                int productID = rs.getInt("productID");
+                System.out.println("most expensive: "+ productID + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+    }
+
+    public void leastExpensive(){
+        String query = "SELECT productID, FROM product, WHERE price IN (SELECT MIN(price), FROM product);";
+        ResultSet rs = oraManager.query(query);
+        try{
+            while (rs.next()) {
+                int productID = rs.getInt("productID");
+                System.out.println("least expensive: "+ productID + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+    }
+
+    public void avgpricepertype(){
+        String query = "SELECT AVG(price) AS avg, productType, FROM product, GROUPBY productType;";
+        ResultSet rs = oraManager.query(query);
+        try{
+            while (rs.next()) {
+                int producttype = rs.getInt("productType");
+                int avg = rs.getInt("avg");
+
+                System.out.println("type: "+ producttype + "average price: " + avg + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+    }
+
+
+
     public static void main(String[] args) {
         Product p = new Product();
         int result = p.checkInventory(6969);
