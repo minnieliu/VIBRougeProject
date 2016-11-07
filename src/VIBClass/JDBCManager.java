@@ -2,6 +2,7 @@ package VIBClass;
 
 import javax.print.StreamPrintService;
 import java.sql.*;
+import java.sql.ResultSet;
 
 class JDBCManager {
 
@@ -22,12 +23,14 @@ class JDBCManager {
 
             String url = "jdbc:oracle:thin:@localhost:1522:ug";
 
-            Connection conn = DriverManager.getConnection(url, "ora_m6v9a", "a31147144");
+            Connection conn = DriverManager.getConnection(url, "ora_u3v9a", "a40796147");
             conn.setAutoCommit(true);
 
             System.out.println("Connect Successful");
             Statement stmt = null;
-            stmt = conn.createStatement();
+            stmt = conn.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
 
             //int rowCount = stmt.executeUpdate("INSERT INTO newauthors VALUES ('345')");
             ResultSet rs = stmt.executeQuery("SELECT productID, brand FROM product WHERE inventoryNumber < 50");

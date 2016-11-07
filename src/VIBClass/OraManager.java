@@ -31,7 +31,7 @@ public class OraManager {
             System.out.println("Connecting database...");
 
             String url = "jdbc:oracle:thin:@localhost:1522:ug";
-            conn = DriverManager.getConnection(url, "ora_g9z9a", "a16182140");
+            conn = DriverManager.getConnection(url, "ora_u3v9a", "a40796147");
             conn.setAutoCommit(true);
 
             System.out.println("Connect Successful");
@@ -48,7 +48,9 @@ public class OraManager {
     public void execute(String stringForExecute){
         // int rowCount = -1;
         try {
-            stmt = conn.createStatement();
+            stmt = conn.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
             stmt.executeUpdate(stringForExecute);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +64,9 @@ public class OraManager {
     public ResultSet query(String stringForQuery){
         ResultSet resultset = null;
         try {
-            stmt = conn.createStatement();
+            stmt = conn.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
             resultset = stmt.executeQuery(stringForQuery);
 
         } catch (SQLException e) {
