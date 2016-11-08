@@ -15,26 +15,26 @@ public class OraManager {
     public OraManager() {}
 
 
-    public void buildConnection() {
+    public java.sql.Connection buildConnection() {
 
         try {
-            System.out.println("Loading driver");
+            //System.out.println("Loading driver");
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            System.out.println("Finished Loading");
+            // System.out.println("Finished Loading");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Unable to load driver");
+            //  System.out.println("Unable to load driver");
             System.exit(-1);
         }
 
         try{
-            System.out.println("Connecting database...");
+            //System.out.println("Connecting database...");
 
             String url = "jdbc:oracle:thin:@localhost:1522:ug";
-            conn = DriverManager.getConnection(url, "ora_u3v9a", "a40796147");
+            conn = DriverManager.getConnection(url, "ora_z1v9a", "a15297147");
             conn.setAutoCommit(true);
 
-            System.out.println("Connect Successful");
+            //System.out.println("Connect Successful");
 
         }
         catch (SQLException e)
@@ -43,13 +43,14 @@ public class OraManager {
             System.out.println("Connection fail"+e);
 
         }
+        return conn;
     }
 
     public void execute(String stringForExecute){
         // int rowCount = -1;
+        buildConnection();
         try {
-            stmt = conn.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             stmt.executeUpdate(stringForExecute);
         } catch (SQLException e) {
@@ -63,11 +64,12 @@ public class OraManager {
 
     public ResultSet query(String stringForQuery){
         ResultSet resultset = null;
+        Statement stm = null;
+        buildConnection();
         try {
-            stmt = conn.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+            stm = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
-            resultset = stmt.executeQuery(stringForQuery);
+            resultset = stm.executeQuery(stringForQuery);
 
         } catch (SQLException e) {
             e.printStackTrace();
