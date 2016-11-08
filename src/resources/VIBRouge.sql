@@ -11,7 +11,7 @@ drop table product;
 
 create table customer
 ( name        CHAR(20),
-  phoneNumber INTEGER,
+  phoneNumber CHAR(20),
   gender      CHAR(1),
   PRIMARY KEY (name, phoneNumber)
 );
@@ -25,7 +25,7 @@ CREATE TABLE member1
   birthday        CHAR(20),
   currentPoints   INTEGER,
   name            CHAR(20) NOT NULL,
-  phoneNumber     INTEGER  NOT NULL,
+  phoneNumber     CHAR(20) NOT NULL,
   PRIMARY KEY (accountNo),
   FOREIGN KEY (name, phoneNumber) REFERENCES customer
 );
@@ -66,7 +66,7 @@ create table product
 create table purchaseOrder
 (
   purchaseID     INTEGER,
-  phoneNumber     INTEGER,
+  phoneNumber     CHAR(20),
   name            CHAR(20),
   methodOfPayment CHAR(20),
   purchaseDate    CHAR(20),
@@ -78,62 +78,63 @@ create table productOrder
 (
   purchaseID INTEGER,
   productID   INTEGER,
+  quantityPurchased INTEGER,
   PRIMARY KEY (purchaseID),
   FOREIGN KEY (productID) REFERENCES product
 );
 
 insert into customer
-    values('Elaine Wong',7789849871,'F');
+    values('Elaine Wong','7789849871','F');
 
 insert into customer
-    values('Charles Roberts',7781369280,'M');
+    values('Charles Roberts','7781369280','M');
 
 insert into customer
-    values('Samantha Kam',6042958321,'F');
+    values('Samantha Kam','6042958321','F');
 
 insert into customer
-    values('Sophie Sanders',6135950177,'F');
+    values('Sophie Sanders','6135950177','F');
 
 insert into customer
-    values('Jessica Peters',6042958190,'F');
+    values('Jessica Peters','6042958190','F');
 
 insert into customer
-    values('Sally Chang',7785933842,'F');
+    values('Sally Chang','7785933842','F');
 
 insert into customer
-    values('Lily Jin',6042019382,'F');
+    values('Lily Jin','6042019382','F');
 
 insert into customer
-    values('Sarah Kwong',7782341039,'F');
+    values('Sarah Kwong','7782341039','F');
 
 
 
 insert into member1
-    values(42590000,140,'sarah_kwong@yahoo.com','eciwhe1','1988-09-24', 280, 'Sarah Kwong',7782341039);
+    values(42590000,140,'sarah_kwong@yahoo.com','eciwhe1','1988-09-24', 280, 'Sarah Kwong','7782341039');
 
 insert into updateStatus
     values(140, 'BeautyInsider');
 
 insert into member1
-    values(39512350,400,'jpeter@gmail.com','12kdj8*','1980-02-02', 2500 , 'Jessica Peters',6042958190);
+    values(39512350,400,'jpeter@gmail.com','12kdj8*','1980-02-02', 2500 , 'Jessica Peters','6042958190');
 
 insert into updateStatus
     values(400, 'VIB');
 
 insert into member1
-    values(91827400,1600,'lililili@yahoo.com','qowieh*4','1990-10-24', 3000, 'Lily Jin',6042019382);
+    values(91827400,1600,'lililili@yahoo.com','qowieh*4','1990-10-24', 3000, 'Lily Jin','6042019382');
 
 insert into updateStatus
     values(1600, 'VIB Rouge');
 
 insert into member1
-    values(12304509,234,'sally_change@outlook.com','57dlfn*3lk','1997-01-14', 380, 'Sally Chang',7785933842);
+    values(12304509,234,'sally_change@outlook.com','57dlfn*3lk','1997-01-14', 380, 'Sally Chang','7785933842');
 
 insert into updateStatus
     values(234, 'BeautyInsider');
 
 insert into member1
-    values(18572039,600,'sophies@gmail.com','dlvnei$7','1992-06-18', 700, 'Sophie Sanders',6135950177);
+    values(18572039,600,'sophies@gmail.com','dlvnei$7','1992-06-18', 700, 'Sophie Sanders','6135950177');
 
 insert into updateStatus
     values(600, 'VIB');
@@ -197,51 +198,51 @@ insert into product
 
 
 insert into productOrder
-    values(68019349,5555);
+    values(68019349,5555,1);
 
 insert into purchaseOrder
-    values(68019349,7789849871, 'Elaine Wong', 'credit','2016-07-07');
+    values(68019349,'7789849871', 'Elaine Wong', 'credit','2016-07-07');
 
 insert into productOrder
-    values(22304709,3333);
+    values(22304709,3333,2);
 
 insert into purchaseOrder
-    values(22304709,7781369280, 'Charles Roberts', 'cash','2016-07-23');
+    values(22304709,'7781369280', 'Charles Roberts', 'cash','2016-07-23');
 
 insert into productOrder
-    values(32709384,5151);
+    values(32709384,5151,1);
 
 insert into purchaseOrder
-    values(32709384,6042958321, 'Samantha Kam', 'debit','2016-08-12');
+    values(32709384,'6042958321', 'Samantha Kam', 'debit','2016-08-12');
 
 insert into productOrder
-    values(49572746,5151);
+    values(49572746,5151,3);
 
 insert into purchaseOrder
-    values(49572746,7782341039, 'Sarah Kwong','credit','2016-09-30');
+    values(49572746,'7782341039', 'Sarah Kwong','credit','2016-09-30');
 
 insert into productOrder
-    values(56983098,8123);
+    values(56983098,8123,5);
 
 insert into purchaseOrder
-    values(56983098,6042958190, 'Jessica Peters', 'credit','2016-01-01');
+    values(56983098,'6042958190', 'Jessica Peters', 'credit','2016-01-01');
 
 insert into productOrder
-    values(79823094,1000);
+    values(79823094,1000,1);
 
 insert into purchaseOrder
-    values(79823094,7785933842, 'Sally Chang', 'debit','2016-07-23');
+    values(79823094,'7785933842', 'Sally Chang', 'debit','2016-07-23');
 
 insert into productOrder
-    values(55726347,6969);
+    values(55726347,6969,1);
 
 insert into purchaseOrder
-    values(55726347,6042019382, 'Lily Jin', 'cash','2016-08-09');
+    values(55726347,'6042019382', 'Lily Jin', 'cash','2016-08-09');
 
 insert into productOrder
-    values(74923748,6969);
+    values(74923748,6969,1);
 
 insert into purchaseOrder
-    values(74923748,6135950177, 'Sophie Sanders', 'credit','2016-07-23');
+    values(74923748,'6135950177', 'Sophie Sanders', 'credit','2016-07-23');
 
 

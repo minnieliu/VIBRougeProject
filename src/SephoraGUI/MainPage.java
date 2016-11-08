@@ -49,7 +49,7 @@ public class MainPage extends JPanel{
 
         try {
             frame.setContentPane(new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/Documents/VIBRouge/src/resources/sephora.jpg"));
+                BufferedImage image = ImageIO.read(new File("/Users/ivylu/Desktop/VIBRougeProject/src/resources/sephora.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
