@@ -32,8 +32,8 @@ public class SephoraMember {
                 "yearToDateSpent =" + yearToDateSpent + "AND" +
                 "status =" + newStatus+
                 "WHERE accountNo = " + accountNo;
-         oraManager.execute(updateQuery);
-       // return row;
+        oraManager.execute(updateQuery);
+        // return row;
     }
 
     public void removeMember(int accountNo){
@@ -45,16 +45,45 @@ public class SephoraMember {
 
     public void updateAccountInfo(int accountNo, String email, String phoneNumber, String password){
         String updateQuery = "UPDATE member1 SET " +
-                            "email = '" + email + "' AND" +
-                            "phoneNumber = " + phoneNumber+ "AND" +
-                            "password = '" + password + "' WHERE accountNo = " + accountNo;
+                "email = '" + email + "' AND" +
+                "phoneNumber = " + phoneNumber+ "AND" +
+                "password = '" + password + "' WHERE accountNo = " + accountNo;
 
         oraManager.execute(updateQuery);
 
     }
 
+    //edit by Hailey
+    public int getCurrentPointbyNameAndPhone(String name, String phoneNumber){
+        oraManager.buildConnection();
+        String selectQuery = "SELECT currentPoints FROM member1 WHERE name ='" + name+ "'AND phoneNumber='" +phoneNumber+"'";
+        ResultSet rs = oraManager.query(selectQuery);
+        int result = 0;
+        try {
+            rs.first();
+            result = rs.getInt("currentPoints");
+            System.out.println("currentPoints for customer "+ name+ " with phone number "+ phoneNumber+ " is "+ result);
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
 
-    public boolean bookService(int serviceid, String name, int phone){
+    }
+
+    //edit by Hailey
+    public int updatePoint(String name, String phoneNumber,int change ){
+        int currentPoints= this.getCurrentPointbyNameAndPhone(name,phoneNumber);
+        int newPoints= currentPoints+change;
+        String updateQuery = "UPDATE member1 SET " +
+                "currentPoints= " + newPoints + "WHERE name = '" + name +"'AND phoneNumber='" +phoneNumber+"'";
+        oraManager.execute(updateQuery);
+        int result= this.getCurrentPointbyNameAndPhone(name,phoneNumber);
+        System.out.println("After changing "+change+", currentPoints for customer "+ name+ " with phone number "+ phoneNumber+ " is "+ result);
+        return result;
+    }
+
+    public boolean bookService(int serviceid, String name, String phone){
         // checks the name and phone to see if member
         // updates the capacity number when service is booked
         int capacityNum = 0;

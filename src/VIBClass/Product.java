@@ -14,37 +14,80 @@ public class Product {
         oraManager.buildConnection();
     }
 
-    public void addProduct(int productID,float price,String brand,int inventoryNumber,String productType) {
+    public void addProduct(int productID,double price,String brand,int inventoryNumber,String productType) {
         oraManager.buildConnection();
-        String insertQuery = "INSERT INTO product VALUES ('"
-                + productID + "',"
-                + price + "',"
+        String insertQuery = "INSERT INTO product VALUES ("
+                + productID + ","
+                + price + ",'"
                 + brand + "',"
-                + inventoryNumber +"',"
-                + productType + ")";
+                + inventoryNumber +",'"
+                + productType + "')";
         System.out.println(insertQuery);
         oraManager.execute(insertQuery);
     }
 
-    public void checkProductbyID(int productID){
+    public boolean checkProductbyID(int productID){
         oraManager.buildConnection();
         String selectQuery = "SELECT * FROM product WHERE productID = " + productID;
         System.out.println(selectQuery);
         ResultSet rs = oraManager.query(selectQuery);
+        Boolean result = null;
+        try {
+            result = rs.isBeforeFirst();
+            if(result) {
+                System.out.println("The selected product by ID " + productID + " is/are");
+                while (rs.next()) {
+                    System.out.println(rs.getInt("productID") + " " + rs.getDouble("price") + " " + rs.getString("brand") + " " + rs.getInt("inventoryNumber") + " " + rs.getString("productType"));
+                }
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
-    public void checkProductbyBrand(String brand){
+    public boolean checkProductbyBrand(String brand){
         oraManager.buildConnection();
-        String selectQuery = "SELECT * FROM product WHERE brand = " + brand;
+        String selectQuery = "SELECT * FROM product WHERE brand = '" + brand +"'";
         System.out.println(selectQuery);
         ResultSet rs = oraManager.query(selectQuery);
+        Boolean result = null;
+        try {
+            result = rs.isBeforeFirst();
+            if(result) {
+                System.out.println("The selected product by brand " + brand + " is/are");
+                while (rs.next()) {
+                    System.out.println(rs.getInt("productID") + " " + rs.getDouble("price") + " " + rs.getString("brand") + " " + rs.getInt("inventoryNumber") + " " + rs.getString("productType"));
+                }
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
-    public void checkProductbyType(String productType){
+    public boolean checkProductbyType(String productType){
         oraManager.buildConnection();
-        String selectQuery = "SELECT * FROM product WHERE productType = " + productType;
+        String selectQuery = "SELECT * FROM product WHERE productType = '%" + productType+"%'";
         System.out.println(selectQuery);
         ResultSet rs = oraManager.query(selectQuery);
+        Boolean result = null;
+        try {
+            result = rs.isBeforeFirst();
+            if(result) {
+                System.out.println("The selected product by productType " + productType + " is/are");
+                while (rs.next()) {
+                    System.out.println(rs.getInt("productID") + " " + rs.getDouble("price") + " " + rs.getString("brand") + " " + rs.getInt("inventoryNumber") + " " + rs.getString("productType"));
+                }
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+
     }
 
     public int checkInventory(int productID){
@@ -54,36 +97,55 @@ public class Product {
         ResultSet rs = oraManager.query(selectQuery);
         int result = 0;
         try {
-            result = rs.getInt(0);
+            rs.first();
+            result = rs.getInt("inventoryNumber");
+            System.out.println("Inventory Number for productID "+ productID+ " is "+ result);
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    public void updateInventory(int productID, int change){
+    public int checkPrice(int productID){
+        oraManager.buildConnection();
+        String selectQuery = "SELECT price FROM product WHERE productID = " + productID;
+        System.out.println(selectQuery);
+        ResultSet rs = oraManager.query(selectQuery);
+        int result = 0;
+        try {
+            rs.first();
+            result = rs.getInt("price");
+            System.out.println("price for productID "+ productID+ " is "+ result);
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public int updateInventory(int productID, int change){
         oraManager.buildConnection();
         int currentInv = this.checkInventory(productID);
         int newInv = currentInv + change;
-        String updateQuery = "UPDATE service SET serviceCapacity ="+ newInv+ "WHERE serviceID = " + productID;
+        String updateQuery = "UPDATE product SET inventoryNumber ="+ newInv+ "WHERE productID = " + productID;
         System.out.println(updateQuery);
-        ResultSet rs = oraManager.query(updateQuery);
+        oraManager.query(updateQuery);
+        int result = this.checkInventory(productID);
+        System.out.println("After changing "+ change+", Inventory Number for productID "+ productID+ " is "+ result);
+        return result;
     }
 
-    public void purchaseProduct (int productID,int purchaseID){
+    public void removeProduct(int productID) {
         oraManager.buildConnection();
-        int currentInv = this.checkInventory(productID);
-        if(currentInv >0) {
-            this.updateInventory(productID, -1);
-            //TODO: Update the purchaseHistory with purchaseID
+        if(checkProductbyID(productID)) {
+            String deleteQuery = "DELETE FROM product WHERE productID = " + productID;
+            oraManager.execute(deleteQuery);
+            System.out.println("delete the productID" +productID);
         }
-    }
-
-    public void returnProduct (int productID,int purchaseID){
-        oraManager.buildConnection();
-        //TODO: STEP1 check the purchaseID
-        this.updateInventory(productID, 1);
-        //TODO: STEP2 Update the purchaseHistory with purchaseID, purchaseHistory should deduct point for customer
+        else{
+            System.out.println("there is no such productID");
+        }
     }
 
     public void popularProduct(){
@@ -152,11 +214,12 @@ public class Product {
 
     public static void main(String[] args) {
         Product p = new Product();
-        int result = p.checkInventory(6969);
-        System.out.print("Before changing inventory: " + result);
-        p.updateInventory(6969, 5);
-        result = p.checkInventory(6969);
-        System.out.print("After changing inventory: " + result);
+        p.removeProduct(1001);
+        p.addProduct(1001, 10.99, "OPI", 100, "nail (red)");
+        p.checkProductbyID(1001);
+        p.checkProductbyBrand("OPI");
+        p.checkProductbyType("nail");
+        p.updateInventory(1001, 5);
     }
 
 }

@@ -1,27 +1,88 @@
 package VIBClass;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class PurchaseHistory {
 
 
     OraManager oraManager;
-
+    Product product;
+    Customer customer;
+    SephoraMember sephoraMember;
     // Constructor
     public PurchaseHistory() {
         oraManager = new OraManager();
+        product=new Product();
+        customer=new Customer();
+        sephoraMember=new SephoraMember();
         oraManager.buildConnection();
     }
 
-    public boolean createPurchaseHistory (String methodOfPayment, String date, int purchaseID, String CName, String CPhoneNum){
+    //edit by Hailey
+    public void purchaseProduct (int productID,int purchaseID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date){
+
+        int currentInv = product.checkInventory(productID);
+        if(currentInv >0) {
+            // Update the inventory
+            product.updateInventory(productID, -quantity);
+            //Update the purchaseHistory with purchaseID
+            this.createPurchaseHistory(purchaseID,CPhoneNum, CName, methodOfPayment, date);
+            //Check whether the customer is a member
+            if(customer.isMember(CName,CPhoneNum)){
+                int price= product.checkPrice(productID);
+                int point= price * quantity;
+                sephoraMember.updatePoint(CName, CPhoneNum, point);
+            }
+        }
+    }
+
+    //edit by Hailey
+    public void returnProduct (int productID,int purchaseID){
+
+        //check the purchaseID
+        if(this.checkHistory(purchaseID))
+        {
+            //update the inventory number
+            product.updateInventory(productID, 1);
+
+            //should deduct point for customer
+            String selectQuery = "SELECT phoneNumber,name FROM purchaseOrder WHERE purchaseID = " + purchaseID;
+            String secondSelectQuery = "SELECT quantityPurchased FROM productOrder WHERE purchaseID = " + purchaseID;
+            ResultSet rs = oraManager.query(selectQuery);
+            ResultSet newrs = oraManager.query(selectQuery);
+            String name = "";
+            String phoneNumber = "";
+            int quantity=0;
+            try {
+                rs.first();
+                newrs.first();
+                name = rs.getString("name");
+                phoneNumber = rs.getString("phoneNumber");
+                quantity = newrs.getInt("quantityPurchased");
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if(customer.isMember(name,phoneNumber)){
+                int price = product.checkPrice(productID);
+                sephoraMember.updatePoint(name, phoneNumber, -price*quantity);
+            }
+            //clean the whole purchase history
+            this.deleteEntirePurchase(purchaseID);
+        };
+    }
+
+    //edit the sequence of insert by Hailey to make it the same with sql
+    public boolean createPurchaseHistory (int purchaseID, String CPhoneNum,String CName, String methodOfPayment, String date){
         try {
             String insertpur = "INSERT INTO purchaseOrder VALUES ("
-                    + CName + ","
-                    + CPhoneNum + ","
-                    + methodOfPayment + "," +
-                    +purchaseID +","
-                    + date +")";
+                    + purchaseID + ",'"
+                    + CPhoneNum + "','"
+                    + CName + "','"
+                    +methodOfPayment +"','"
+                    + date +"')";
 
 
             System.out.println(insertpur);
@@ -36,11 +97,12 @@ public class PurchaseHistory {
         }
 
     }
-    public boolean additem(int purchaseID, int productID){
+    public boolean additem(int purchaseID, int productID, int quantityPurchased){
         try{
             String insertprod = "INSERT INTO productOrder VALUES ("
                     + productID + ","
-                    + purchaseID + ")";
+                    + purchaseID +","
+                    + quantityPurchased+")";
             oraManager.execute(insertprod);
             System.out.println("added successfully");
             return true;
@@ -72,24 +134,27 @@ public class PurchaseHistory {
 
 
 
-    public void checkHistory(int purchaseID) {
+    public boolean checkHistory(int purchaseID) {
 
-                ResultSet rs = oraManager.query("SELECT *," +
+        ResultSet rs = oraManager.query("SELECT *," +
                 "FROM purchaseOrder, productOrder," +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND" +
                 "purchaseID="+purchaseID+";");
-       try{
-        while (rs.next()) {
-            int productID = rs.getInt("productID");
-            System.out.println("purchaseID: "+ purchaseID + "productID: "+ productID + "\n");
+        Boolean result = null;
+        try{
+            //edited by Hailey
+            result = rs.isBeforeFirst();
+            while (rs.next()) {
+                int productID = rs.getInt("productID");
+                System.out.println("purchaseID: "+ purchaseID + "productID: "+ productID + "\n");
+            }
+            rs.close();
         }
-        rs.close();}
-       catch (Exception e){
-           System.out.println("found error: " + e);
-       }
-
-
-//return boolean
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+        //return boolean
+        return result;
     }
     //average item purchased per transaction per customer
     public void averageitemspercustomer(){
@@ -144,9 +209,9 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-        ps.createPurchaseHistory("Visa","1988-09-24" ,555, "clara","7782341039");
-        ps.additem(181,555);
-        ps.additem(182,555);
+        ps.createPurchaseHistory(555,"7782341039","clara", "Visa","2016-07-24");
+        ps.additem(181, 555,2);
+        ps.additem(182,555,1);
         ps.checkHistory(555);
         ps.deleteprod(181,555);
         ps.checkHistory(555);

@@ -17,23 +17,23 @@ public class Customer {
         oraManager.buildConnection();
     }
 
-    public void addCustomer(String name, int phoneNumber, String gender) {
+    public void addCustomer(String name, String phoneNumber, String gender) {
         oraManager.buildConnection();
         String insertQuery = "INSERT INTO customer VALUES ('"
-                + name + "',"
-                + phoneNumber + ",'"
+                + name + "','"
+                + phoneNumber + "','"
                 + gender + "')";
 
         System.out.println(insertQuery);
         oraManager.execute(insertQuery);
-       // oraManager.disconnect();
+        // oraManager.disconnect();
     }
 
 
-    public boolean isMember(String name, int phoneNumber){
+    public boolean isMember(String name, String phoneNumber){
         ResultSet rs = null;
         String selectQuery = "SELECT * FROM member1 WHERE name = '" + name +
-                            "' AND phoneNumber = " + phoneNumber;
+                "' AND phoneNumber = '" + phoneNumber + "'";
         System.out.println(selectQuery);
         rs = oraManager.query(selectQuery);
         Boolean result = null;
@@ -47,7 +47,7 @@ public class Customer {
         return result;
     }
 
-    public void addMember(String email, String password, String birthday, String name, int phoneNum){
+    public void addMember(String email, String password, String birthday, String name, String phoneNum){
         // changed birthday from string to date
         Random rand = new Random();
         int accountNum = rand.nextInt(99999999);
@@ -61,10 +61,10 @@ public class Customer {
                 + password + "', '"
                 + birthday + "',"
                 + currentPoints + ", '"
-                + name + "',"
+                + name + "','"
                 + phoneNum
-                + ")";
-     oraManager.execute(insertQuery);
+                + "')";
+        oraManager.execute(insertQuery);
         oraManager.disconnect();
     }
 
@@ -92,16 +92,13 @@ public class Customer {
 
     public static void main(String[] args) {
         Customer c = new Customer();
-        boolean result = c.isMember("Minnie Liu", 9849000);
+        boolean result = c.isMember("Minnie Liu", "9849000");
         System.out.print("Before adding: "+ result);
         // c.addCustomer("Minnie Liu", 234, "F");
         // c.addMember("minnieliu96@hotmail.com", "hello", "10/27/1996", "Minnie Liu", 234);
 
-        result = c.isMember("Sophie Sanders", 5950177);
+        result = c.isMember("Sophie Sanders", "5950177");
         System.out.print("After adding: "+ result);
 
-      }
+    }
 }
-
-
-

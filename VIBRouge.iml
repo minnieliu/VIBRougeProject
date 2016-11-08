@@ -19,11 +19,12 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$USER_HOME$/Desktop/hb15 (1)" />
+          <root url="file://$MODULE_DIR$/../hb15 (1)" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="classes12" level="project" />
   </component>
 </module>
