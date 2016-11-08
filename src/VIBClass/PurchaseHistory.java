@@ -17,32 +17,11 @@ public class PurchaseHistory {
         product=new Product();
         customer=new Customer();
         sephoraMember=new SephoraMember();
-<<<<<<< HEAD
-=======
+
         oraManager.buildConnection();
     }
 
     //edit by Hailey
-    public void purchaseProduct (int productID,int purchaseID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date){
->>>>>>> ca1a0133eed5082b5ce26be38080914a82b5a0c5
-        oraManager.buildConnection();
-        int currentInv = product.checkInventory(productID);
-        if(currentInv >0) {
-            // Update the inventory
-            product.updateInventory(productID, -quantity);
-            //Update the purchaseHistory with purchaseID
-            this.createPurchaseHistory(purchaseID,CPhoneNum, CName, methodOfPayment, date);
-            //Check whether the customer is a member
-            if(customer.isMember(CName,CPhoneNum)){
-                int price= product.checkPrice(productID);
-                int point= price * quantity;
-                sephoraMember.updatePoint(CName, CPhoneNum, point);
-            }
-        }
-    }
-
-    //edit by Hailey
-<<<<<<< HEAD
     public void purchaseProduct (int productID,int purchaseID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date){
 
         int currentInv = product.checkInventory(productID);
@@ -60,13 +39,10 @@ public class PurchaseHistory {
         }
     }
 
-    //edit by Hailey
-    public void returnProduct (int productID,int purchaseID){
 
-=======
     public void returnProduct (int productID,int purchaseID){
         oraManager.buildConnection();
->>>>>>> ca1a0133eed5082b5ce26be38080914a82b5a0c5
+
         //check the purchaseID
         if(this.checkHistory(purchaseID))
         {
@@ -167,7 +143,7 @@ public class PurchaseHistory {
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND" +
                 "purchaseID="+purchaseID+";");
         Boolean result = null;
-<<<<<<< HEAD
+
         try{
             //edited by Hailey
             result = rs.isBeforeFirst();
@@ -181,7 +157,6 @@ public class PurchaseHistory {
             System.out.println("found error: " + e);
         }
         //return boolean
-=======
        try{
            //edited by Hailey
           result = rs.isBeforeFirst();
@@ -195,7 +170,7 @@ public class PurchaseHistory {
            System.out.println("found error: " + e);
        }
        //return boolean
->>>>>>> ca1a0133eed5082b5ce26be38080914a82b5a0c5
+
         return result;
     }
     //average item purchased per transaction per customer

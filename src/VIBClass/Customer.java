@@ -18,7 +18,7 @@ public class Customer {
     }
 
     public void addCustomer(String name, String phoneNumber, String gender) {
-        oraManager.buildConnection();
+
         String insertQuery = "INSERT INTO customer VALUES ('"
                 + name + "','"
                 + phoneNumber + "','"
@@ -33,11 +33,8 @@ public class Customer {
     public boolean isMember(String name, String phoneNumber){
         ResultSet rs = null;
         String selectQuery = "SELECT * FROM member1 WHERE name = '" + name +
-<<<<<<< HEAD
                 "' AND phoneNumber = '" + phoneNumber + "'";
-=======
-                            "' AND phoneNumber = '" + phoneNumber + "'";
->>>>>>> ca1a0133eed5082b5ce26be38080914a82b5a0c5
+
         System.out.println(selectQuery);
         rs = oraManager.query(selectQuery);
         Boolean result = null;
@@ -68,11 +65,8 @@ public class Customer {
                 + name + "','"
                 + phoneNum
                 + "')";
-<<<<<<< HEAD
         oraManager.execute(insertQuery);
-=======
-     oraManager.execute(insertQuery);
->>>>>>> ca1a0133eed5082b5ce26be38080914a82b5a0c5
+        oraManager.execute(insertQuery);
         oraManager.disconnect();
     }
 
