@@ -226,13 +226,14 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-        ps.createPurchaseHistory(555,"7782341039","clara", "Visa","2016-07-24");
-        ps.additem(181, 555,2);
-        ps.additem(182,555,1);
-        ps.checkHistory(555);
-        ps.deleteprod(181,555);
-        ps.checkHistory(555);
-        ps.deleteEntirePurchase(555);
+        //ps.createPurchaseHistory(123,"7789849871","Elaine Wong", "credit","2016-07-07");
+
+        ps.additem(123,79823094,123);
+        ps.additem(123,55726347,321);
+        ps.checkHistory(123);
+        ps.deleteprod(55726347,123);
+        ps.checkHistory(123);
+        ps.deleteEntirePurchase(123);
 
 
     }
