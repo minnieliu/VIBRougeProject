@@ -238,6 +238,8 @@ public class PurchaseHistory {
 //        System.out.println("deletingentire purchase");
 //        ps.deleteEntirePurchase(55543215);
 
+        //ps.createPurchaseHistory(123,"7789849871","Elaine Wong", "credit","2016-07-07");
+
 
 
     }
