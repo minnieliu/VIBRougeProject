@@ -200,7 +200,7 @@ public class Employee {
 //        }
 
         // Test Higher Price Report
-//        ArrayList<String> list = employee.higherPriceReport(50);
+//        ArrayList<String> list = employee.higherPriceReport(30);
 //        for(int i=0; i<list.size(); i++){
 //            System.out.println(list.get(i));
 //        }
@@ -212,7 +212,7 @@ public class Employee {
 //        }
 
         //Test AddInventory
-//        employee.addInventory(9999,10);
+//        employee.addInventory(6969,30);
 //        String query = "SELECT * FROM product";
 //        ResultSet rs=null;
 //        rs = oramanager.query(query);
