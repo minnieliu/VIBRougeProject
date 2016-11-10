@@ -79,7 +79,7 @@ create table productOrder
   purchaseID INTEGER,
   productID   INTEGER,
   quantityPurchased INTEGER,
-  PRIMARY KEY (purchaseID),
+  PRIMARY KEY (purchaseID,productID),
   FOREIGN KEY (productID) REFERENCES product
 );
 
