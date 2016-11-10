@@ -102,8 +102,8 @@ public class PurchaseHistory {
     public boolean additem(int purchaseID, int productID, int quantityPurchased){
         try{
             String insertprod = "INSERT INTO productOrder VALUES ("
-                    + productID + ","
-                    + purchaseID +","
+                    + purchaseID + ","
+                    + productID +","
                     + quantityPurchased+")";
             oraManager.execute(insertprod);
             System.out.println("added successfully");
@@ -116,10 +116,10 @@ public class PurchaseHistory {
     }
     public void checkMemberPurchaseHistory(int accountno) {
 
-        ResultSet rs = oraManager.query("SELECT *," +
-                "FROM purchaseOrder, productOrder, member1" +
+        ResultSet rs = oraManager.query("SELECT * " +
+                "FROM purchaseOrder, productOrder, member1 " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND purchaseOrder.name=member1.name AND purchaseOrder.phoneNumber=member1.phoneNumber AND" +
-                "accountNo="+accountno+";");
+                "member1.accountNo="+accountno);
         try{
             while (rs.next()) {
                 int productID = rs.getInt("productID");
@@ -138,48 +138,37 @@ public class PurchaseHistory {
 
     public boolean checkHistory(int purchaseID) {
 
-        ResultSet rs = oraManager.query("SELECT *," +
-                "FROM purchaseOrder, productOrder," +
+        ResultSet rs = oraManager.query("SELECT * " +
+                "FROM purchaseOrder, productOrder " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND" +
-                "purchaseID="+purchaseID+";");
-        Boolean result = null;
+                " purchaseOrder.purchaseID="+purchaseID);
+        Boolean result = true;
 
         try{
             //edited by Hailey
             result = rs.isBeforeFirst();
             while (rs.next()) {
                 int productID = rs.getInt("productID");
-                System.out.println("purchaseID: "+ purchaseID + "productID: "+ productID + "\n");
+                int quantityPurchased = rs.getInt("quantityPurchased");
+                System.out.println("purchaseID: "+ purchaseID + "productID: "+ productID + "quantityPurchased "+quantityPurchased+"\n");
             }
             rs.close();
         }
         catch (Exception e){
             System.out.println("found error: " + e);
+            result = false;
         }
-        //return boolean
-       try{
-           //edited by Hailey
-          result = rs.isBeforeFirst();
-        while (rs.next()) {
-            int productID = rs.getInt("productID");
-            System.out.println("purchaseID: "+ purchaseID + "productID: "+ productID + "\n");
-        }
-        rs.close();
-       }
-       catch (Exception e){
-           System.out.println("found error: " + e);
-       }
-       //return boolean
+
 
         return result;
     }
     //average item purchased per transaction per customer
     public void averageitemspercustomer(){
         oraManager.query("CREATE VIEW purchasecount (" +
-                "SELECT COUNT(productID) AS count, name, phoneNumber, purchaseID, FROM purchaseOrder, productOrder, " +
-                "WHERE purchaseOrder.purchaseID = productOrder.productID," +
-                "GROUPBY name, phoneNumber, purchaseID);");
-        ResultSet rs = oraManager.query("SELECT AVG(count) AS avgcount, name, FROM purchasecount, GROUPBY name, phoneNumber;");
+                "SELECT COUNT(productID) AS count, name, phoneNumber, purchaseID FROM purchaseOrder, productOrder " +
+                "WHERE purchaseOrder.purchaseID = productOrder.productID " +
+                "GROUPBY purchaseOrder.name, purchaseOrder.phoneNumber, purchaseOrder.purchaseID)");
+        ResultSet rs = oraManager.query("SELECT AVG(count) AS avgcount, name FROM purchasecount GROUPBY name, phoneNumber");
         try{
             while (rs.next()) {
                 int avgcount = rs.getInt("avgcount");
@@ -195,10 +184,10 @@ public class PurchaseHistory {
 
     public boolean deleteEntirePurchase(int purchaseID){
         try{
-            oraManager.execute("DELETE FROM purchaseOrder," +
-                    "WHERE purchaseID = "+ purchaseID +";");
-            oraManager.execute("DELETE FROM productOrder," +
-                    "WHERE purchaseID = "+ purchaseID +";");
+            oraManager.execute("DELETE FROM purchaseOrder " +
+                    "WHERE purchaseID = "+ purchaseID );
+            oraManager.execute("DELETE FROM productOrder " +
+                    "WHERE purchaseID = "+ purchaseID );
             return true;
         }
         catch (Exception e){
@@ -206,12 +195,16 @@ public class PurchaseHistory {
         }
     }
 
-    public boolean deleteprod(int purchaseID, int productID){
+    public boolean deleteprod(int purchaseID, int productID,int quantity){
         try{
-            oraManager.execute("DELETE FROM prodOrder," +
+            oraManager.execute("UPDATE productOrder " +
+                    "SET quantityPurchased = quantityPurchased-"+quantity +
                     "WHERE purchaseID = " + purchaseID +
-                    "AND productID = " + productID + ";");
+                    " AND productID = " + productID);
             System.out.println("added successfully");
+            oraManager.execute("DELETE productOrder " +
+                    "WHERE purchaseID = " + purchaseID
+                    +" AND productID = " + productID+ " AND quantityPurchased <=0");
             return true;
 
         }
@@ -226,13 +219,25 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-        ps.createPurchaseHistory(555,"7782341039","clara", "Visa","2016-07-24");
-        ps.additem(181, 555,2);
-        ps.additem(182,555,1);
-        ps.checkHistory(555);
-        ps.deleteprod(181,555);
-        ps.checkHistory(555);
-        ps.deleteEntirePurchase(555);
+//        ps.createPurchaseHistory(55543215,"7789849871", "Elaine Wong", "Visa","2016-07-24");
+//        System.out.println("adding first item");
+//        ps.additem(55543215, 5555, 2);
+//        System.out.println("adding second item");
+//
+//        ps.additem(55543215, 6969, 1);
+//        System.out.println("checking history");
+//
+//        ps.checkHistory(55543215);
+//        System.out.println("deleting product");
+//
+//        ps.deleteprod(55543215, 5555,1);
+//        System.out.println("checking history again");
+//
+//
+//        ps.checkHistory(55543215);
+//        System.out.println("deletingentire purchase");
+//        ps.deleteEntirePurchase(55543215);
+
 
 
     }
