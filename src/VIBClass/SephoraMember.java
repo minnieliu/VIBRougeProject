@@ -82,7 +82,7 @@ public class SephoraMember {
                 "currentPoints= " + newPoints + "WHERE name = '" + name +"'AND phoneNumber='" +phoneNumber+"'";
         oraManager.execute(updateQuery);
 
-//        System.out.println("After changing "+change+", currentPoints for customer "+ name+ " with phone number "+ phoneNumber+ " is "+ result);
+
 
     }
 
