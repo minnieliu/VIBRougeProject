@@ -32,6 +32,7 @@ CREATE TABLE member1
 
 CREATE TABLE updateStatus
 (
+  accountNo       INTEGER,
   yearToDateSpent INTEGER,
   currentStatus   CHAR(20),
   PRIMARY KEY (yearToDateSpent)
@@ -113,31 +114,31 @@ insert into member1
     values(42590000,140,'sarah_kwong@yahoo.com','eciwhe1','1988-09-24', 280, 'Sarah Kwong','7782341039');
 
 insert into updateStatus
-    values(140, 'BeautyInsider');
+    values(42590000,140, 'BeautyInsider');
 
 insert into member1
     values(39512350,400,'jpeter@gmail.com','12kdj8*','1980-02-02', 2500 , 'Jessica Peters','6042958190');
 
 insert into updateStatus
-    values(400, 'VIB');
+    values(39512350,400, 'VIB');
 
 insert into member1
     values(91827400,1600,'lililili@yahoo.com','qowieh*4','1990-10-24', 3000, 'Lily Jin','6042019382');
 
 insert into updateStatus
-    values(1600, 'VIB Rouge');
+    values(91827400,1600, 'VIB Rouge');
 
 insert into member1
     values(12304509,234,'sally_change@outlook.com','57dlfn*3lk','1997-01-14', 380, 'Sally Chang','7785933842');
 
 insert into updateStatus
-    values(234, 'BeautyInsider');
+    values(12304509,234, 'BeautyInsider');
 
 insert into member1
     values(18572039,600,'sophies@gmail.com','dlvnei$7','1992-06-18', 700, 'Sophie Sanders','6135950177');
 
 insert into updateStatus
-    values(600, 'VIB');
+    values(18572039 ,600, 'VIB');
 
 insert into employee
     values(13579,'John Smith');
