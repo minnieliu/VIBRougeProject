@@ -85,37 +85,8 @@ public class MainPage extends JPanel{
             }
         });
 
-        final JTextField textField = new JTextField(10);
-        String text = textField.getText();
-        System.out.print("Text from GUI: " + text);
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    System.out.print("calling save");
-                    saveToFile("FileName", textField);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-
-            }
-        });
-
-
-        panel.add(saveButton);
-        panel.add(textField);
-
-
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
-    }
-
-    void saveToFile(String fileName, JTextField textField) throws Exception {
-        System.out.print("in save");
-        FileOutputStream out = new FileOutputStream(fileName, true);
-        System.out.print("String from textbox: " + textField.getText());
-        out.write(textField.getText().getBytes());
     }
 
 
