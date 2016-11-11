@@ -149,11 +149,11 @@ public class Product {
     }
 
     public void popularProduct(){
-        String query = "SELECT productID, FROM product, WHERE NOT EXISTS" +
-                "(SELECT *, FROM customer, WHERE NOT EXISTS" +
-                "(SELECT name, phoneNumber, FROM purchaseOrder, productOrder, WHERE" +
-                "product.productID = productOrder.productID AND purchaseOrder.name = customer.name " +
-                "AND purchaseOrder.phoneNumber = customer.phoneNumber AND purchaseOrder.purchaseID = productOrder.purchaseID));";
+        String query = "SELECT productID FROM product WHERE NOT EXISTS" +
+                "(SELECT * FROM customer WHERE NOT EXISTS" +
+                "(SELECT name, phoneNumber FROM purchaseOrder, productOrder WHERE" +
+                " product.productID = productOrder.productID AND purchaseOrder.name = customer.name " +
+                "AND purchaseOrder.phoneNumber = customer.phoneNumber AND purchaseOrder.purchaseID = productOrder.purchaseID))";
         ResultSet rs = oraManager.query(query);
         try{
             while (rs.next()) {
@@ -167,7 +167,7 @@ public class Product {
     }
 
     public void mostExpensive(){
-        String query = "SELECT productID, FROM product, WHERE price IN (SELECT MAX(price), FROM product);";
+        String query = "SELECT productID FROM product WHERE price IN (SELECT MAX(price) FROM product)";
         ResultSet rs = oraManager.query(query);
         try{
             while (rs.next()) {
@@ -181,7 +181,7 @@ public class Product {
     }
 
     public void leastExpensive(){
-        String query = "SELECT productID, FROM product, WHERE price IN (SELECT MIN(price), FROM product);";
+        String query = "SELECT productID FROM product WHERE price IN (SELECT MIN(price) FROM product)";
         ResultSet rs = oraManager.query(query);
         try{
             while (rs.next()) {
@@ -214,13 +214,16 @@ public class Product {
 
     public static void main(String[] args) {
         Product p = new Product();
-        p.removeProduct(1001);
-        p.addProduct(1001, 10.99, "OPI", 100, "nail (red)");
-        p.checkProductbyID(1001);
-        p.checkProductbyBrand("OPI");
-        p.checkProductbyType("nail");
-        p.updateInventory(1001, 5);
-        p.addProduct(1002, 50.6, "Tom Ford", 2, "lipsticks (red)");
+//        p.removeProduct(1001);
+//        p.addProduct(1001, 10.99, "OPI", 100, "nail (red)");
+//        p.checkProductbyID(1001);
+//        p.checkProductbyBrand("OPI");
+//        p.checkProductbyType("nail");
+//        p.updateInventory(1001, 5);
+//        p.addProduct(1002, 50.6, "Tom Ford", 2, "lipsticks (red)");
+        p.popularProduct();
+        p.mostExpensive();
+        p.leastExpensive();
 
     }
 

@@ -78,6 +78,7 @@ public class SephoraMember {
         String updateQuery = "UPDATE member1 SET " +
                 "currentPoints= " + newPoints + "WHERE name = '" + name +"'AND phoneNumber='" +phoneNumber+"'";
         oraManager.execute(updateQuery);
+
         int result= this.getCurrentPointbyNameAndPhone(name,phoneNumber);
         System.out.println("After changing "+change+", currentPoints for customer "+ name+ " with phone number "+ phoneNumber+ " is "+ result);
         return result;
