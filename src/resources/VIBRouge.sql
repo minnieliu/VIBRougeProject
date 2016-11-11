@@ -201,11 +201,30 @@ insert into product
 insert into productOrder
     values(68019349,5555,1);
 
+insert into productOrder
+    values(68019349,3333,1);
+insert into productOrder
+    values(68019349,6969,1);
+insert into productOrder
+    values(68019349,9999,1);
+insert into productOrder
+    values(68019350,8123,1);
+insert into productOrder
+    values(68019350,1000,1);
+insert into productOrder
+    values(68019349,5151,1);
+
 insert into purchaseOrder
     values(68019349,'7789849871', 'Elaine Wong', 'credit','2016-07-07');
+insert into purchaseOrder
+    values(68019350,'7789849871', 'Elaine Wong', 'credit','2016-07-07');
 
 insert into productOrder
     values(22304709,3333,2);
+
+insert into productOrder
+    values(22304709,5555,1);
+
 
 insert into purchaseOrder
     values(22304709,'7781369280', 'Charles Roberts', 'cash','2016-07-23');
@@ -213,11 +232,21 @@ insert into purchaseOrder
 insert into productOrder
     values(32709384,5151,1);
 
+insert into productOrder
+    values(32709385,5555,1);
+
 insert into purchaseOrder
     values(32709384,'6042958321', 'Samantha Kam', 'debit','2016-08-12');
 
+    insert into purchaseOrder
+        values(32709385,'6042958321', 'Samantha Kam', 'debit','2016-08-12');
+
+
 insert into productOrder
     values(49572746,5151,3);
+
+insert into productOrder
+    values(49572746,5555,2);
 
 insert into purchaseOrder
     values(49572746,'7782341039', 'Sarah Kwong','credit','2016-09-30');
@@ -225,24 +254,31 @@ insert into purchaseOrder
 insert into productOrder
     values(56983098,8123,5);
 
+insert into productOrder
+    values(56983098,5555,2);
+
 insert into purchaseOrder
     values(56983098,'6042958190', 'Jessica Peters', 'credit','2016-01-01');
 
 insert into productOrder
     values(79823094,1000,1);
 
+insert into productOrder
+    values(79823094,5555,1);
 insert into purchaseOrder
     values(79823094,'7785933842', 'Sally Chang', 'debit','2016-07-23');
 
 insert into productOrder
     values(55726347,6969,1);
-
+insert into productOrder
+    values(55726347,5555,1);
 insert into purchaseOrder
     values(55726347,'6042019382', 'Lily Jin', 'cash','2016-08-09');
 
 insert into productOrder
     values(74923748,6969,1);
-
+insert into productOrder
+    values(74923748,5555,1);
 insert into purchaseOrder
     values(74923748,'6135950177', 'Sophie Sanders', 'credit','2016-07-23');
 
