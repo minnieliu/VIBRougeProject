@@ -1,10 +1,6 @@
 package SephoraGUI;
 
 
-import VIBClass.Customer;
-import VIBClass.Employee;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -15,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -26,28 +21,23 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
-
-public class EmployeePage extends JPanel implements ActionListener{
+/**
+ * Created by hailey on 16/11/11.
+ */
+public class MemberPage extends JPanel {
+    //TODO: ADD More Functions for Member Specific
     private JFrame frame;
     private JPanel panel;
 
-    Employee employee;
-
-    public EmployeePage(){
+    public MemberPage(){
         super();
-        this.employee=new Employee();
-
-     //   setUpPage();
+        // setUpPage();
     }
 
     public void setUpPage(){
-
-        frame = new JFrame("Employee Page");
+        frame = new JFrame("Member Page");
         frame.setVisible(true);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -65,28 +55,9 @@ public class EmployeePage extends JPanel implements ActionListener{
         }
 
 
-        JButton lowStock = new JButton("Low Stock Report");
-        final JTextArea textArea = new JTextArea();
-
-        lowStock.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                ReportPage rp = new ReportPage();
-                rp.setUpPage();
-                Employee employee = new Employee();
-                JTable lowStockreport = employee.lowStockReport(50);
-                StringBuilder sb = new StringBuilder();
-                JScrollPane tableContainer = new JScrollPane(lowStockreport);
-                System.out.print("adding table");
-                panel.add(tableContainer, BorderLayout.CENTER);
-           //     frame.getContentPane().add(panel);
-
-            }
-        });
-
+        JButton purchaseButton = new JButton("Purchase");
+        JButton returnButton = new JButton("Return");
         JButton backButton = new JButton("Go Back");
-
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -96,27 +67,12 @@ public class EmployeePage extends JPanel implements ActionListener{
                 mp.setUpPage();
             }
         });
-        //panel.add(textArea);
+
         panel.add(backButton);
-        panel.add(lowStock);
-
-
-
-    //    frame.add(panel);
-
+        panel.add(purchaseButton);
+        panel.add(returnButton);
         frame.setMinimumSize(new Dimension(600, 315));
-        frame.setVisible(true);
         frame.pack();
     }
 
-//    public void printTextField(String text) {
-//        System.out.print("got to here");
-//        //textArea = new JTextArea(5,20);
-//        textArea.setText(text);
-//    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }

@@ -63,8 +63,8 @@ import javax.swing.*;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     frame.dispose();
-                    MainPage mp = new MainPage();
-                    mp.setUpPage();
+                    CustomerLogInPage clp = new CustomerLogInPage();
+                    clp.setUpPage();
                 }
             });
 

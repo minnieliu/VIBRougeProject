@@ -4,11 +4,7 @@ import VIBClass.Customer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -18,17 +14,18 @@ import javax.swing.border.EmptyBorder;
 public class CustomerLogInPage extends JFrame //create class NewUser
 {
     private JPanel contentPane; //declare variable
-    private JTextField txtUser;
+    private JTextField txtName;
     private JButton btnSignup;
     private JButton btnLogIn;
     private JButton btnNoAccount;
-    private JTextField txtPassword;
+    private JTextField txtPhone;
     private Customer customer;
     private JFrame frame;
 
     public CustomerLogInPage() // main method
     {
         super();
+        customer = new Customer();
     }
 
     public void setUpPage() //create constructor
@@ -44,22 +41,22 @@ public class CustomerLogInPage extends JFrame //create class NewUser
         frame.setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        txtUser = new JTextField();
-        txtUser.setBounds(188, 51, 99, 20);
-        contentPane.add(txtUser);
-        txtUser.setColumns(10);
+        txtName = new JTextField();
+        txtName.setBounds(188, 51, 99, 20);
+        contentPane.add(txtName);
+        txtName.setColumns(10);
 
-        txtPassword = new JTextField();
-        txtPassword.setBounds(188, 106, 99, 20);
-        contentPane.add(txtPassword);
-        txtPassword.setColumns(10);
+        txtPhone = new JTextField();
+        txtPhone.setBounds(188, 106, 99, 20);
+        contentPane.add(txtPhone);
+        txtPhone.setColumns(10);
 
-        JLabel lblUserName = new JLabel("Email");
+        JLabel lblUserName = new JLabel("Name");
         lblUserName.setBounds(70, 54, 86, 14);
         contentPane.add(lblUserName);
 
-        JLabel lblPassword = new JLabel("Password");
-        lblPassword.setBounds(70, 109, 86, 14);
+        JLabel lblPassword = new JLabel("Phone Number");
+        lblPassword.setBounds(70, 109, 100, 14);
         contentPane.add(lblPassword);
 
         btnSignup = new JButton("Sign Up");
@@ -79,7 +76,31 @@ public class CustomerLogInPage extends JFrame //create class NewUser
 
         btnLogIn = new JButton("Log In");
         //TODO: add event handler on Log In button
+        btnLogIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String textName = txtName.getText().trim();
+                String textPhone = txtPhone.getText().trim();
+                System.out.println(textName+" "+ textPhone);
+                try{
+                    boolean membership= customer.isMember(textName,textPhone);
+                    if(membership){
+                        JOptionPane.showMessageDialog(null,"Welcome Back!","Message",JOptionPane.PLAIN_MESSAGE);
+                        frame.dispose();
+                        MemberPage mp= new MemberPage();
+                        mp.setUpPage();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"You are not a member yet, sign up first!","Error",JOptionPane.ERROR_MESSAGE);
+                    }
 
+                }
+                catch (Exception error){
+                    JOptionPane.showMessageDialog(null,"You are not a member yet, sign up first!","Error",JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
         contentPane.add(btnLogIn);
         btnLogIn.setBounds(151, 165, 89, 23);
 

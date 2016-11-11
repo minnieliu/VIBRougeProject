@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -26,6 +28,7 @@ public class CustomerSignUp extends JFrame //create class NewUser
     private JTextField txtbday;
     private JTextField txtname;
     private JTextField txtphone;
+    private JTextField txtgender;
     private JButton btnSignup;
     private JButton btngoBack;
     private Customer customer;
@@ -34,6 +37,7 @@ public class CustomerSignUp extends JFrame //create class NewUser
     public CustomerSignUp() // main method
     {
         super();
+        customer = new Customer();
     }
 
     public void setUpPage() //create constructor
@@ -57,34 +61,38 @@ public class CustomerSignUp extends JFrame //create class NewUser
 //        }
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        frame.setContentPane(contentPane);
+        frame.add(contentPane);
         contentPane.setLayout(null);
 
         txtemail = new JTextField();
-        txtemail.setBounds(188, 51, 99, 20);
+        txtemail.setBounds(188, 51, 200, 20);
         contentPane.add(txtemail);
         txtemail.setColumns(10);
 
         txtPassword = new JTextField();
-        txtPassword.setBounds(188, 100, 99, 20);
+        txtPassword.setBounds(188, 100, 200, 20);
         contentPane.add(txtPassword);
         txtPassword.setColumns(10);
 
         txtbday = new JTextField();
-        txtbday.setBounds(188, 150, 99, 20);
+        txtbday.setBounds(188, 150, 200, 20);
         contentPane.add(txtbday);
         txtbday.setColumns(10);
 
         txtname = new JTextField();
-        txtname.setBounds(188, 200, 99, 20);
+        txtname.setBounds(188, 200, 200, 20);
         contentPane.add(txtname);
         txtname.setColumns(10);
 
         txtphone = new JTextField();
-        txtphone.setBounds(188, 250, 99, 20);
+        txtphone.setBounds(188, 250, 200, 20);
         contentPane.add(txtphone);
-        txtphone.setColumns(10);
+        //txtphone.setColumns();
 
+        txtgender = new JTextField();
+        txtgender.setBounds(188, 300, 50, 20);
+        contentPane.add(txtgender);
+        txtgender.setColumns(10);
 
         JLabel lblEmail = new JLabel("Email");
      //   lblEmail.setForeground(Color.white);
@@ -96,9 +104,9 @@ public class CustomerSignUp extends JFrame //create class NewUser
         lblPassword.setBounds(70, 96, 86, 14);
         contentPane.add(lblPassword);
 
-        JLabel lblbday = new JLabel("Birthday");
+        JLabel lblbday = new JLabel("Birthday (Y-M-D)");
      //   lblbday.setForeground(Color.white);
-        lblbday.setBounds(70,144, 86, 14);
+        lblbday.setBounds(50,150, 120, 14);
         contentPane.add(lblbday);
 
         JLabel lblname = new JLabel("Name");
@@ -111,7 +119,13 @@ public class CustomerSignUp extends JFrame //create class NewUser
         lblphone.setBounds(70, 245, 86, 14);
         contentPane.add(lblphone);
 
-     //   frame.setMinimumSize(new Dimension(600, 315));
+        JLabel lblgender = new JLabel("Gender");
+        //   lblphone.setForeground(Color.white);
+        lblgender.setBounds(70, 300, 86, 14);
+        contentPane.add(lblgender);
+
+
+        //   frame.setMinimumSize(new Dimension(600, 315));
 
         btnSignup = new JButton("Sign Up");
         //add event handler on SignUp button
@@ -119,11 +133,30 @@ public class CustomerSignUp extends JFrame //create class NewUser
         btnSignup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String textemail = txtemail.getText().trim();
+                String textPassword = txtPassword.getText().trim();
+                String textbday = txtbday.getText().trim();
+                String textname = txtname.getText().trim();
+                String textphone = txtphone.getText().trim();
+                String textgender = txtgender.getText().trim();
+                System.out.println(textemail+" "+ textPassword+" "+textbday+" "+textname+" "+textphone+" "+textgender);
+                try {
+                    customer.addCustomer(textname, textphone, textgender);
+                    customer.addMember(textemail,textPassword,textbday,textname,textphone);
+                    JOptionPane.showMessageDialog(null,"Welcome Beauty Insider","Message",JOptionPane.PLAIN_MESSAGE);
+                    // go back to the log in page
+                    frame.dispose();
+                    CustomerLogInPage clp= new CustomerLogInPage();
+                    clp.setUpPage();
+                }
+                catch (Exception error){
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Please fill in all blank; the birthay format is YYYY-MM-DD","Error",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(error.getMessage());
+                }
             }
         });
 
-        btnSignup.setBounds(70, 300, 89, 23);
+        btnSignup.setBounds(70, 320, 89, 23);
         contentPane.add(btnSignup);
 
         btngoBack= new JButton("Go Back");
@@ -139,7 +172,7 @@ public class CustomerSignUp extends JFrame //create class NewUser
         });
 
         contentPane.add(btngoBack);
-        btngoBack.setBounds(200, 300, 89, 23);
+        btngoBack.setBounds(200, 320, 89, 23);
 
 
     }

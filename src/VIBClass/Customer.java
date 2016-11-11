@@ -17,16 +17,24 @@ public class Customer {
         oraManager.buildConnection();
     }
 
-    public void addCustomer(String name, String phoneNumber, String gender) {
+    public void addCustomer(String name, String phoneNumber, String gender) throws Exception {
         String insertQuery = "INSERT INTO customer VALUES ('"
                 + name + "','"
                 + phoneNumber + "','"
                 + gender + "')";
 
-        //System.out.println(insertQuery);
-        oraManager.execute(insertQuery);
-        // oraManager.disconnect();
-
+        if(gender != null && name != null && phoneNumber != null){
+            if (gender.equals("M")|| gender.equals("F"))
+                oraManager.execute(insertQuery);
+            else{
+                Exception e= new Exception("Please put M or F in gender.");
+                throw e;
+            }
+        }
+        else{
+            Exception e= new Exception("Please fill in all blank.");
+            throw e;
+        }
     }
 
 
@@ -48,7 +56,7 @@ public class Customer {
         return result;
     }
 
-    public void addMember(String email, String password, String birthday, String name, String phoneNum){
+    public void addMember(String email, String password, String birthday, String name, String phoneNum)throws Exception {
         // changed birthday from string to date
         Random rand = new Random();
         int accountNum = rand.nextInt(99999999);
@@ -65,8 +73,22 @@ public class Customer {
                 + name + "','"
                 + phoneNum
                 + "')";
-        oraManager.execute(insertQuery);
-        oraManager.execute(insertQuery);
+
+
+        if(email != null && name != null && phoneNum!= null && birthday!= null && password !=null){
+            if(birthday.indexOf("-") == 4 && birthday.lastIndexOf("-") == 7)
+                oraManager.execute(insertQuery);
+            else{
+                Exception e= new Exception("The birthday format is YEAR-MONTH-DAY e.g. 1994-09-25");
+                throw e;
+            }
+        }
+        else{
+            Exception e= new Exception("Please fill in all Blank.");
+            throw e;
+        }
+       // oraManager.execute(insertQuery);
+      //  oraManager.execute(insertQuery);
         //oraManager.disconnect();
     }
 
@@ -89,13 +111,13 @@ public class Customer {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Customer c = new Customer();
         OraManager oramanager =  new OraManager();
 
         // Test addCustomer
-       c.addCustomer("Minnie Liu", "6041234567", "F");
-       c.addCustomer("It Works", "123456", "throw error");
+      // c.addCustomer("Minnie Liu", "6041234567", "F");
+      // c.addCustomer("It Works", "123456", "throw error");
         c.addCustomer("It Works", "123456", "a");
         // Test isMember
 //        System.out.println("Should be false: " + c.isMember("Sarah Up", "2847"));
