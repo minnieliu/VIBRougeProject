@@ -14,31 +14,28 @@ public class SephoraMember {
         oraManager = new OraManager();
     }
 
-    public void updateStatus(int accountNo) throws SQLException {
-        int currentPoints = 0;
-        String newStatus = "'BeautyInsider'";
+    public String checkStatus(int accountNo) throws SQLException {
+        int yearToDateSpent = 0;
+        String newStatus = "BeautyInsider";
         ResultSet rs = null;
-        String selectQuery = "SELECT currentPoints FROM member1 WHERE accountNo =" + accountNo;
+        String selectQuery = "SELECT yearToDateSpent FROM member1 WHERE accountNo =" + accountNo;
         rs = oraManager.query(selectQuery);
         while (rs.next()) {
-            currentPoints = rs.getInt("currentPoints");
-            System.out.println("Year to date spent result for member: " + currentPoints);
+            System.out.print("yeartodatespent from result: " + rs.getInt("yearToDateSpent"));
+            yearToDateSpent = rs.getInt("yearToDateSpent");
         }
-        if (currentPoints > 350 && currentPoints < 1000){
-            newStatus = "'VIB'";
+        if (yearToDateSpent > 350){
+            newStatus = "VIB";
         }
-        if (currentPoints > 1000){
-            newStatus = "'VIB Rouge'";
-        }
-        else{
-            newStatus = "'BeautyInsider'";
+        if (yearToDateSpent > 1000){
+            newStatus = "VIB Rouge";
         }
         String updateQuery = "UPDATE updateStatus SET " +
-                "currentPoints =" + currentPoints + " , " +
-                "currentStatus = " + newStatus+
+                "yearToDateSpent = " + yearToDateSpent + " AND " +
+                "status = " + newStatus+
                 " WHERE accountNo = " + accountNo;
         oraManager.execute(updateQuery);
-        // return row;
+         return newStatus;
     }
 
     public void removeMember(int accountNo){
@@ -75,15 +72,16 @@ public class SephoraMember {
     }
 
     //edit by Hailey
-    public void updatePoint(String name, String phoneNumber,int change ){
+    public int updatePoint(String name, String phoneNumber,int change ){
         int currentPoints= this.getCurrentPointbyNameAndPhone(name,phoneNumber);
         int newPoints= currentPoints+change;
         String updateQuery = "UPDATE member1 SET " +
                 "currentPoints= " + newPoints + "WHERE name = '" + name +"'AND phoneNumber='" +phoneNumber+"'";
         oraManager.execute(updateQuery);
 
-
-
+        int result= this.getCurrentPointbyNameAndPhone(name,phoneNumber);
+        System.out.println("After changing "+change+", currentPoints for customer "+ name+ " with phone number "+ phoneNumber+ " is "+ result);
+        return result;
     }
 
     public boolean bookService(int serviceid, String name, String phone){
@@ -121,20 +119,21 @@ public class SephoraMember {
         OraManager oramanager =  new OraManager();
 
         // Test updatePoints
-//         sm.updatePoint("Sophie Sanders","6135950177",1400);
+        // sm.updatePoint("Sarah Kwong", "7782341039",70);
 
-        // Test UpdateStatus
-//        try {
-//            sm.updateStatus(18572039);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        // Test UpdateStatus <- need to finish
+        try {
+            String s = sm.checkStatus(12304509);
+            System.out.print("Status: " + s);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Test removeMember
         // sm.removeMember(39512350);
 
         // Test updateAccountInfo
-//        sm.updateAccountInfo(39512350,"so@gmail.com","number1");
+        //sm.updateAccountInfo(39512350,"so@gmail.com","number1");
 
         // Test getCurrentPointsbyNameandPhone
         // sm.getCurrentPointbyNameAndPhone("Sarah Kwong", "7782341039");
@@ -143,16 +142,15 @@ public class SephoraMember {
 //        sm.bookService(124356,"Sally Chang", "7785933842");
 //
 
-//
-//        String query = "SELECT * FROM updateStatus";
+
+//        String query = "SELECT * FROM service";
 //        ResultSet rs=null;
 //        rs = oramanager.query(query);
 //        try {
 //            while(rs.next())
 //            {
-////                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getInt(6) + " " +rs.getString(7) + " "  + rs.getString(8));
-////                 System.out.println(rs.getInt(1) + " " + rs.getInt(3) + " " + rs.getString(4));
-//                System.out.println(rs.getInt(1) + " " + rs.getInt(2)+ " " + rs.getString(3));
+//                //System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getInt(6) + " " +rs.getString(7) + " "  + rs.getString(8));
+//                 System.out.println(rs.getInt(1) + " " + rs.getInt(3) + " " + rs.getString(4));
 //            }
 //        } catch (SQLException e) {
 //            e.printStackTrace();
