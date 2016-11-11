@@ -1,9 +1,11 @@
 package VIBClass;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 
 /**
@@ -69,26 +71,67 @@ public class Employee {
     }
 
     // select all tuples with inventory less than or equal to low
-    public ArrayList<String> lowStockReport(int low) {
-        ArrayList<String> list = new ArrayList();
+    public JTable lowStockReport(int low) {
+       // ArrayList<String> list = new ArrayList();
+        Object obj = new Object();
         ResultSet rs = null;
+       // Object data [][] = new Object[][]{};
         String query = "SELECT * FROM product WHERE inventoryNumber <= " + low;
         rs = oraManager.query(query);
-
+        Integer[] pidArray = new Integer[15];
+        Integer[] priceArray = new Integer[15];
+        String[] brandArray = new String[15];
+        Integer[] invNumArray = new Integer[15];
+        String[] typeArray = new String[15];
+        ResultSetMetaData md = null;
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
         try {
-            while(rs.next()){
-                Integer productID = rs.getInt("productID");
-                Integer price = rs.getInt("price");
-                String brand = rs.getString("brand");
-                Integer inventoryNumber = rs.getInt("inventoryNumber");
-                String productType = rs.getString("productType");
-                list.add(productID + " " + price + " " + brand + " " + inventoryNumber + " " + productType);
-            }
+            md = rs.getMetaData();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        //int i = 0;
+        Object column[] = {"Product ID", "Price", "Brand", "Inventory Number", "Type"};
+        try {
 
-        return list;
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+//            while(rs.next()){
+//                pidArray[i]     = rs.getInt("productID");
+//                priceArray[i]   = rs.getInt("price");
+//                brandArray[i]   = rs.getString("brand");
+//                invNumArray[i]  = rs.getInt("inventoryNumber");
+//                typeArray[i]    = rs.getString("productType");
+//                i++;
+//
+//            }
+//            for (int j = 0;  j < data.length; j++){
+//                for (i = 0; i < pidArray.length; i++) {
+//                    data[i][j] = new Object[][]{{pidArray[i], priceArray[i], brandArray[i], invNumArray[i], typeArray[i]}};
+//                    //  System.out.print("data: " + data);
+//                }
+//            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
     }
 
     // select all tuples in product that has a price higher than the given price
