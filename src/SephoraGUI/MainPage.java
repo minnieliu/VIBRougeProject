@@ -34,7 +34,7 @@ public class MainPage extends JPanel{
 
     public MainPage(){
         super();
-       // this.setUpPage();
+        // this.setUpPage();
 
     }
 
@@ -45,11 +45,10 @@ public class MainPage extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        panel = new JPanel();
 
         try {
-            frame.setContentPane(new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/ivylu/Desktop/VIBRougeProject/src/resources/sephora.jpg"));
+            frame.setContentPane(panel= new JPanel(){
+                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -59,10 +58,9 @@ public class MainPage extends JPanel{
             e.printStackTrace();
         }
 
-        frame.pack();
-        frame.setSize(600,315);
 
         JButton employeeButton = new JButton("Employee");
+        panel.add(employeeButton);
         employeeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,8 +70,8 @@ public class MainPage extends JPanel{
 
             }
         });
-
         JButton customerButton = new JButton("Customer");
+        panel.add(customerButton);
         customerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,10 +80,9 @@ public class MainPage extends JPanel{
                 cp.setUpPage();
             }
         });
-        frame.add(employeeButton);
-        frame.add(customerButton);
 
-
+        frame.setMinimumSize(new Dimension(600, 315));
+        frame.pack();
     }
 
     public static void main(String[] args){
@@ -95,3 +92,4 @@ public class MainPage extends JPanel{
     }
 
 }
+

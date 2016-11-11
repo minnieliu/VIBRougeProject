@@ -220,6 +220,8 @@ public class Product {
         p.checkProductbyBrand("OPI");
         p.checkProductbyType("nail");
         p.updateInventory(1001, 5);
+        p.addProduct(1002, 50.6, "Tom Ford", 2, "lipsticks (red)");
+
     }
 
 }

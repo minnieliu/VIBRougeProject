@@ -1,6 +1,8 @@
 package SephoraGUI;
 
 
+import VIBClass.Employee;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -22,16 +24,20 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 
-public class EmployeePage extends JPanel {
+public class EmployeePage extends JPanel implements ActionListener{
     private JFrame frame;
     private JPanel panel;
-    private JButton button;
+    private JTextField lowInventoryNumber;
 
+    Employee employee;
 
     public EmployeePage(){
         super();
+        this.employee=new Employee();
      //   setUpPage();
     }
 
@@ -43,12 +49,10 @@ public class EmployeePage extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        panel = new JPanel();
 
-        JPanel picturePanel = new JPanel();
         try {
-            frame.setContentPane(new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/Documents/VIBRouge/src/resources/sephora.jpg"));
+            frame.setContentPane(panel=new JPanel(){
+                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -58,14 +62,20 @@ public class EmployeePage extends JPanel {
             e.printStackTrace();
         }
 
-        frame.pack();
-        frame.setSize(600,315);
-
-       // mainpanel.add(picturePanel, BorderLayout.NORTH);
-       // mainpanel.add(panel, BorderLayout.SOUTH);
 
         JButton lowStock = new JButton("Low Stock Report");
+
+        lowStock.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+               // employee.lowStockReport(5);
+            }
+        });
+
+
         JButton backButton = new JButton("Go Back");
+
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,24 +84,15 @@ public class EmployeePage extends JPanel {
                 mp.setUpPage();
             }
         });
-        frame.add(backButton);
-        frame.add(lowStock);
+        panel.add(backButton);
+        panel.add(lowStock);
 
-
-        frame.add(panel);
-
+        frame.setMinimumSize(new Dimension(600, 315));
+        frame.pack();
     }
 
-    public void setBackGround(JPanel panel){
-
-        ImageIcon background = new ImageIcon("/Users/minnieliu/Documents/VIBRouge/src/resources/sephora.jpg");
-        JLabel label = new JLabel();
-        label.setBounds(0,0,background.getIconWidth(),background.getIconHeight());
-        label.setIcon(background);
-
-        panel.setLayout(null);
-        panel.add(label);
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
     }
-
 }

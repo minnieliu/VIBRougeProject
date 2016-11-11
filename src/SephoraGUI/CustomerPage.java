@@ -29,8 +29,6 @@ import javax.swing.*;
     public class CustomerPage extends JPanel {
         private JFrame frame;
         private JPanel panel;
-        private JButton button;
-
 
         public CustomerPage(){
             super();
@@ -43,11 +41,10 @@ import javax.swing.*;
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
             frame.setResizable(false);
-            panel = new JPanel();
 
             try {
-                frame.setContentPane(new JPanel(){
-                    BufferedImage image = ImageIO.read(new File("/Users/minnieliu/Documents/VIBRouge/src/resources/sephora.jpg"));
+                frame.setContentPane(panel=new JPanel(){
+                    BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
                         g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -57,13 +54,11 @@ import javax.swing.*;
                 e.printStackTrace();
             }
 
-            frame.pack();
-            frame.setSize(600,315);
-
 
             JButton purchaseButton = new JButton("Purchase");
             JButton returnButton = new JButton("Return");
             JButton backButton = new JButton("Go Back");
+
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -72,11 +67,12 @@ import javax.swing.*;
                     mp.setUpPage();
                 }
             });
-            frame.add(backButton);
-            frame.add(purchaseButton);
-            frame.add(returnButton);
-            frame.add(panel);
 
+            panel.add(backButton);
+            panel.add(purchaseButton);
+            panel.add(returnButton);
+            frame.setMinimumSize(new Dimension(600, 315));
+            frame.pack();
         }
 
     }
