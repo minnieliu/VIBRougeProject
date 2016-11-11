@@ -36,6 +36,7 @@ import javax.swing.*;
         }
 
         public void setUpPage(){
+
             frame = new JFrame("Customer Page");
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
