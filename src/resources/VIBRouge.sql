@@ -30,12 +30,12 @@ CREATE TABLE member1
   FOREIGN KEY (name, phoneNumber) REFERENCES customer
 );
 
-CREATE TABLE updateStatus
+CREATE TABLE Updatestatus
 (
   accountNo       INTEGER,
-  yearToDateSpent INTEGER,
+  currentPoints INTEGER,
   currentStatus   CHAR(20),
-  PRIMARY KEY (yearToDateSpent)
+  PRIMARY KEY (accountNo)
 );
 
 create table employee
