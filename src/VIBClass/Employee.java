@@ -52,37 +52,11 @@ public class Employee {
     }
 
     //return the list of name of customer who has birthday on the current date
-    public ArrayList<String> birthdayGift(int currentDate) {
-        ArrayList<String> list = new ArrayList();
+    public JTable birthdayGift(int currentDate) {
+
         ResultSet rs;
-        String query = "SELECT name FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
+        String query = "SELECT * FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
         rs = oraManager.query(query);
-
-        try {
-            while(rs.next()){
-                String name = rs.getString("name");
-                list.add(name);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
-
-    // select all tuples with inventory less than or equal to low
-    public JTable lowStockReport(int low) {
-       // ArrayList<String> list = new ArrayList();
-        Object obj = new Object();
-        ResultSet rs = null;
-       // Object data [][] = new Object[][]{};
-        String query = "SELECT * FROM product WHERE inventoryNumber <= " + low;
-        rs = oraManager.query(query);
-        Integer[] pidArray = new Integer[15];
-        Integer[] priceArray = new Integer[15];
-        String[] brandArray = new String[15];
-        Integer[] invNumArray = new Integer[15];
-        String[] typeArray = new String[15];
         ResultSetMetaData md = null;
         Vector columnNames = new Vector();
         Vector data = new Vector();
@@ -91,16 +65,13 @@ public class Employee {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //int i = 0;
-        Object column[] = {"Product ID", "Price", "Brand", "Inventory Number", "Type"};
-        try {
 
+        try {
             int columns = md.getColumnCount();
             //  Get column names
             for (int i = 1; i <= columns; i++) {
                 columnNames.addElement(md.getColumnName(i));
             }
-
             //  Get row data
             while (rs.next()) {
                 Vector row = new Vector(columns);
@@ -112,21 +83,48 @@ public class Employee {
                 data.addElement(row);
             }
 
-//            while(rs.next()){
-//                pidArray[i]     = rs.getInt("productID");
-//                priceArray[i]   = rs.getInt("price");
-//                brandArray[i]   = rs.getString("brand");
-//                invNumArray[i]  = rs.getInt("inventoryNumber");
-//                typeArray[i]    = rs.getString("productType");
-//                i++;
-//
-//            }
-//            for (int j = 0;  j < data.length; j++){
-//                for (i = 0; i < pidArray.length; i++) {
-//                    data[i][j] = new Object[][]{{pidArray[i], priceArray[i], brandArray[i], invNumArray[i], typeArray[i]}};
-//                    //  System.out.print("data: " + data);
-//                }
-//            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
+    }
+
+    // select all tuples with inventory less than or equal to low
+    public JTable lowStockReport(int low) {
+        Object obj = new Object();
+        ResultSet rs = null;
+        String query = "SELECT * FROM product WHERE inventoryNumber <= " + low;
+        rs = oraManager.query(query);
+        ResultSetMetaData md = null;
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
+        try {
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,51 +133,77 @@ public class Employee {
     }
 
     // select all tuples in product that has a price higher than the given price
-    public ArrayList<String> higherPriceReport(int givenprice) {
-        ArrayList<String> list = new ArrayList();
+    public JTable higherPriceReport(int givenprice) {
         ResultSet rs = null;
         String query = "SELECT * FROM product WHERE price >= " + givenprice;
         rs = oraManager.query(query);
-
+        ResultSetMetaData md = null;
+        Vector data = new Vector();
+        Vector columnNames = new Vector();
         try {
-            while(rs.next()){
-                Integer productID = rs.getInt("productID");
-                Integer price = rs.getInt("price");
-                String brand = rs.getString("brand");
-                Integer inventoryNumber = rs.getInt("inventoryNumber");
-                String productType = rs.getString("productType");
-                list.add(productID + " " + price + " " + brand + " " + inventoryNumber + " " + productType);
-            }
+            md = rs.getMetaData();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return list;
+        try {
+
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
     }
 
     // select all tuples in product that has a price higher than the given price
-    public ArrayList<String> lowerPriceReport(int givenprice) {
-        ArrayList<String> list = new ArrayList();
+    public JTable lowerPriceReport(int givenprice) {
         ResultSet rs = null;
         String query = "SELECT * FROM product WHERE price <= " + givenprice;
         rs = oraManager.query(query);
-
+        ResultSetMetaData md = null;
+        Vector data = new Vector();
+        Vector columnNames = new Vector();
         try {
-            while(rs.next()){
-                Integer productID = rs.getInt("productID");
-                Integer price = rs.getInt("price");
-                String brand = rs.getString("brand");
-                Integer inventoryNumber = rs.getInt("inventoryNumber");
-                String productType = rs.getString("productType");
-                //Product product  = new Product(productID, price, brand, inventoryNumber, productType);
-                // list.add(product);
-                list.add(productID + " " + price + " " + brand + " " + inventoryNumber + " " + productType);
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();}
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+                data.addElement(row);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return list;
+        JTable table = new JTable(data,columnNames);
+        return table;
     }
 
     // select the matching product
