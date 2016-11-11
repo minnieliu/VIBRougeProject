@@ -13,6 +13,7 @@ create table customer
 ( name        CHAR(20),
   phoneNumber CHAR(20),
   gender      CHAR(1),
+  Check (gender in ('M','F')),
   PRIMARY KEY (name, phoneNumber)
 );
 

@@ -18,7 +18,6 @@ public class Customer {
     }
 
     public void addCustomer(String name, String phoneNumber, String gender) {
-
         String insertQuery = "INSERT INTO customer VALUES ('"
                 + name + "','"
                 + phoneNumber + "','"
@@ -27,6 +26,7 @@ public class Customer {
         //System.out.println(insertQuery);
         oraManager.execute(insertQuery);
         // oraManager.disconnect();
+
     }
 
 
@@ -94,9 +94,9 @@ public class Customer {
         OraManager oramanager =  new OraManager();
 
         // Test addCustomer
-//        c.addCustomer("Minnie Liu", "6041234567", "F");
-//        c.addCustomer("It Works", "123456", "M");
-
+       c.addCustomer("Minnie Liu", "6041234567", "F");
+       c.addCustomer("It Works", "123456", "throw error");
+        c.addCustomer("It Works", "123456", "a");
         // Test isMember
 //        System.out.println("Should be false: " + c.isMember("Sarah Up", "2847"));
 //        System.out.println("Should be true for contain Jessica Peters? : " + c.isMember("Jessica Peters", "6042958190"));
