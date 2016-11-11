@@ -44,7 +44,7 @@ import javax.swing.*;
 
             try {
                 frame.setContentPane(panel=new JPanel(){
-                    BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
+                    BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/sephora.jpg"));
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
                         g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
