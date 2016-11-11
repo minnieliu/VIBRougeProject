@@ -1,7 +1,9 @@
 package SephoraGUI;
 
 
+import VIBClass.Customer;
 import VIBClass.Employee;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,13 +33,13 @@ import javax.swing.table.TableModel;
 public class EmployeePage extends JPanel implements ActionListener{
     private JFrame frame;
     private JPanel panel;
-    private JTextField lowInventoryNumber;
 
     Employee employee;
 
     public EmployeePage(){
         super();
         this.employee=new Employee();
+
      //   setUpPage();
     }
 
@@ -64,17 +66,27 @@ public class EmployeePage extends JPanel implements ActionListener{
 
 
         JButton lowStock = new JButton("Low Stock Report");
+        final JTextArea textArea = new JTextArea();
 
         lowStock.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                ReportPage rp = new ReportPage();
+                rp.setUpPage();
+                Employee employee = new Employee();
+                JTable lowStockreport = employee.lowStockReport(50);
+                StringBuilder sb = new StringBuilder();
+                JScrollPane tableContainer = new JScrollPane(lowStockreport);
+                System.out.print("adding table");
+                panel.add(tableContainer, BorderLayout.CENTER);
+           //     frame.getContentPane().add(panel);
 
-               // employee.lowStockReport(5);
             }
         });
 
-
         JButton backButton = new JButton("Go Back");
+
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -84,12 +96,24 @@ public class EmployeePage extends JPanel implements ActionListener{
                 mp.setUpPage();
             }
         });
+        //panel.add(textArea);
         panel.add(backButton);
         panel.add(lowStock);
 
+
+
+    //    frame.add(panel);
+
         frame.setMinimumSize(new Dimension(600, 315));
+        frame.setVisible(true);
         frame.pack();
     }
+
+//    public void printTextField(String text) {
+//        System.out.print("got to here");
+//        //textArea = new JTextArea(5,20);
+//        textArea.setText(text);
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
