@@ -3,6 +3,7 @@ package SephoraGUI;
 
 import VIBClass.Customer;
 import VIBClass.Employee;
+import org.omg.PortableInterceptor.Interceptor;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -64,30 +66,43 @@ public class EmployeePage extends JPanel implements ActionListener{
             e.printStackTrace();
         }
 
-
-        JButton lowStock = new JButton("Low Stock Report");
-        final JTextArea textArea = new JTextArea();
-
-        lowStock.addActionListener(new ActionListener() {
+            JButton getReports = new JButton("Reports");
+            getReports.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 ReportPage rp = new ReportPage();
-                rp.setUpPage();
-                Employee employee = new Employee();
-                JTable lowStockreport = employee.lowStockReport(50);
-                StringBuilder sb = new StringBuilder();
-                JScrollPane tableContainer = new JScrollPane(lowStockreport);
-                System.out.print("adding table");
-                panel.add(tableContainer, BorderLayout.CENTER);
-           //     frame.getContentPane().add(panel);
-
             }
         });
 
+
+        panel.setLayout(new GridLayout(10,2));
+
+        JLabel productLabel = new JLabel("Product ID:");
+        final JTextField prodID = new JTextField("");
+        final JLabel NumberAdded = new JLabel("Number of Inventory to Add:");
+        final JTextField prodNum = new JTextField("");
+
+        panel.add(productLabel,BorderLayout.WEST);
+        panel.add(prodID,BorderLayout.CENTER);
+        panel.add(NumberAdded,BorderLayout.WEST);
+        panel.add(prodNum,BorderLayout.CENTER);
+
+        JButton addInventory = new JButton("Add Inventory");
+        addInventory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Employee employee = new Employee();
+                int productid = Integer.parseInt(prodID.getText());
+                int pNum = Integer.parseInt(prodNum.getText());
+                employee.addInventory(productid,pNum);
+               // JOptionPane.showMessageDialog(null, "Success", "InfoBox" , JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        panel.add(addInventory);
+        final JTextField textField = new JTextField(5);
         JButton backButton = new JButton("Go Back");
-
-
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,24 +111,12 @@ public class EmployeePage extends JPanel implements ActionListener{
                 mp.setUpPage();
             }
         });
-        //panel.add(textArea);
+        panel.add(getReports);
         panel.add(backButton);
-        panel.add(lowStock);
-
-
-
-    //    frame.add(panel);
-
         frame.setMinimumSize(new Dimension(600, 315));
         frame.setVisible(true);
         frame.pack();
     }
-
-//    public void printTextField(String text) {
-//        System.out.print("got to here");
-//        //textArea = new JTextArea(5,20);
-//        textArea.setText(text);
-//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

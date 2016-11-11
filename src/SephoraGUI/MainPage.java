@@ -51,7 +51,7 @@ public class MainPage extends JPanel{
 
         try {
             frame.setContentPane(panel= new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
+                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/sephora.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -84,37 +84,9 @@ public class MainPage extends JPanel{
             }
         });
 
-        final JTextField textField = new JTextField(10);
-        String text = textField.getText();
-        System.out.print("Text from GUI: " + text);
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    System.out.print("calling save");
-                    saveToFile("FileName", textField);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-
-            }
-        });
-
-
-        frame.add(saveButton);
-        frame.add(textField);
-
 
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
-    }
-
-    void saveToFile(String fileName, JTextField textField) throws Exception {
-        System.out.print("in save");
-        FileOutputStream out = new FileOutputStream(fileName, true);
-        System.out.print("String from textbox: " + textField.getText());
-        out.write(textField.getText().getBytes());
     }
 
 
