@@ -28,21 +28,19 @@ public class Service {
     }
 
     public void addService(int serviceID, String date, int capacity, String name) {
-        oraManager.buildConnection();
         String insertQuery = "INSERT INTO service VALUES ("
                 + serviceID + ",'"
                 + date +"',"
                 + capacity +",'"
                 + name+ "')";
 
-        System.out.println(insertQuery);
+//        System.out.println(insertQuery);
         oraManager.execute(insertQuery);
     }
 
     public boolean checkService(int serviceID){
-        oraManager.buildConnection();
         String selectQuery = "SELECT * FROM service WHERE serviceID = " + serviceID;
-        System.out.println(selectQuery);
+//        System.out.println(selectQuery);
         ResultSet rs = oraManager.query(selectQuery);
         Boolean result = null;
         try {
@@ -54,16 +52,16 @@ public class Service {
     }
 
     public int checkCapacity(int serviceID){
-        oraManager.buildConnection();
+
         String selectQuery = "SELECT serviceCapacity FROM service WHERE serviceID = " + serviceID;
-        System.out.println(selectQuery);
+//        System.out.println(selectQuery);
         ResultSet rs = oraManager.query(selectQuery);
         int result = 0;
         try {
             rs.first();
-            System.out.println("Displaying record...");
+//            System.out.println("Displaying record...");
             result=rs.getInt("serviceCapacity");
-            System.out.print("serviceCapacity: " + result);
+//            System.out.print("serviceCapacity: " + result);
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,26 +70,28 @@ public class Service {
     }
 
     public void updateCapacity(int serviceID, int change){
-        oraManager.buildConnection();
+
         int currentCapacity = this.checkCapacity(serviceID);
         int newCapacity = currentCapacity + change;
         String updateQuery = "UPDATE service SET serviceCapacity ="+ newCapacity+ "WHERE serviceID = " + serviceID;
-        System.out.println(updateQuery);
-        ResultSet rs = oraManager.query(updateQuery);
+//        System.out.println(updateQuery);
+        oraManager.query(updateQuery);
     }
 
-    public String checkServiceForThisMonth(String month){
-        oraManager.buildConnection();
-        String checkeQuery = "SELECT serviceName, serviceID FROM service WHERE serviceDate LIKE " + "'%-"+month+"-%'";
-        System.out.println(checkeQuery);
+    public ArrayList<String> checkServiceForThisMonth(int month){
+
+        String checkeQuery = "SELECT serviceName, serviceID, serviceCapacity FROM service WHERE serviceDate LIKE " + "'%-"+month+"-%'";
+//        System.out.println(checkeQuery);
         ResultSet rs = oraManager.query(checkeQuery);
-        String result = "";
+        ArrayList<String> result = new ArrayList<String>();
         try {
-            System.out.print("serviceCapacity:" +System.lineSeparator());
+//            System.out.print("serviceCapacity:" );
             while(rs.next()){
                 String serviceName=rs.getString("serviceName");
+                Integer cap = rs.getInt("serviceCapacity");
                 String serviceID=rs.getString("serviceID");
-                System.out.println(serviceID+ " "+serviceName+System.lineSeparator());
+//                System.out.println(serviceID+ " "+serviceName);
+                result.add(serviceID + " " + serviceName + "Capacity Left: " + cap);
             }
 
         } catch (SQLException e) {
@@ -102,17 +102,40 @@ public class Service {
 
     public static void main(String[] args) {
         Service s = new Service();
-        boolean result = s.checkService(7959);
-        System.out.print("Before adding: " + result);
-        s.addService(7959, "2016-3-22", 30, "make-up");
-        s.addService(8989, "2016-3-23", 15, "gift session");
-        result = s.checkService(7959);
-        int capacity= s.checkCapacity(7959);
-        System.out.print("After adding: " + result + capacity);
-        s.updateCapacity(7959, -1);
-        capacity= s.checkCapacity(7959);
-        System.out.print("After update capacity: " + capacity);
-        s.checkServiceForThisMonth("3");
+        OraManager oramanager = new OraManager();
+        // Test addService
+//        s.addService(123456888, "2016-5-21", 35, "meet and greet");
+//        s.addService(87566777, "2016-2-23", 15, "gifon");
+
+        // Test checkService
+//        System.out.println("should be true: " + s.checkService(8989));
+//        System.out.println("should be false: " + s.checkService(128459433));
+
+        // test checkCapacity
+//        s.checkCapacity(123456);
+//        s.checkCapacity(111222);
+
+        // Test updateCapacity
+//        s.updateCapacity(333444,40);
+
+        // Test checkserviceforthismonth
+//        ArrayList<String> result = s.checkServiceForThisMonth(2);
+//        for(int i = 0; i < result.size(); i++){
+//            System.out.println(result.get(i));
+//        }
+
+//
+//        String query = "SELECT * FROM service";
+//        ResultSet rs=null;
+//        rs = oramanager.query(query);
+//        try {
+//            while(rs.next())
+//            {
+//                System.out.println(rs.getInt(1) + " " + rs.getInt(3) + " " + rs.getString(4));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
     }
 }
