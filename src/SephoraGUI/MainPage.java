@@ -51,7 +51,7 @@ public class MainPage extends JPanel{
 
         try {
             frame.setContentPane(panel= new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/sephora.jpg"));
+                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -63,7 +63,7 @@ public class MainPage extends JPanel{
 
 
         JButton employeeButton = new JButton("Employee");
-        panel.add(employeeButton);
+        frame.add(employeeButton);
         employeeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,16 +74,16 @@ public class MainPage extends JPanel{
             }
         });
         JButton customerButton = new JButton("Customer");
-        panel.add(customerButton);
+        frame.add(customerButton);
         customerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerPage cp = new CustomerPage();
-                cp.setUpPage();
-
+                CustomerLogInPage clp= new CustomerLogInPage();
+                clp.setUpPage();
             }
         });
+
 
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
