@@ -1,7 +1,5 @@
 package VIBClass;
 
-import com.sun.jndi.cosnaming.CNCtx;
-
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -188,7 +186,7 @@ public class PurchaseHistory {
             Exception e= new Exception("You are currently not a member");
             throw e;
         }
-        ResultSet rs = oraManager.query("SELECT * " +
+        ResultSet rs = oraManager.query("SELECT purchaseDate, purchaseOrder.purchaseID, productID, methodOfPayment, quantityPurchased " +
                 "FROM purchaseOrder, productOrder, member1 " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND purchaseOrder.name=member1.name AND purchaseOrder.phoneNumber=member1.phoneNumber AND" +
                 " member1.accountNo="+accountno);
@@ -205,6 +203,7 @@ public class PurchaseHistory {
             int columns = md.getColumnCount();
             //  Get column names
             for (int i = 1; i <= columns; i++) {
+                System.out.println(md.getColumnName(i));
                 columnNames.addElement(md.getColumnName(i));
             }
             //  Get row data
