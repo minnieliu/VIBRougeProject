@@ -43,7 +43,7 @@ import javax.swing.JPanel;
 
             try {
                 frame.setContentPane(panel=new JPanel(){
-                    BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/glitter.jpg"));
+                    BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/glitter.jpg"));
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
                         g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);

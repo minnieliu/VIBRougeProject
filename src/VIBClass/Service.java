@@ -113,7 +113,14 @@ public class Service {
                 }
                 data.addElement(row);
             }
-//            System.out.print("serviceCapacity:" );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
+    }
+
+    //            System.out.print("serviceCapacity:" );
 //            while(rs.next()){
 //                String serviceName=rs.getString("serviceName");
 //                Integer cap = rs.getInt("serviceCapacity");
@@ -122,12 +129,6 @@ public class Service {
 //                result.add(serviceID + " " + serviceName + "Capacity Left: " + cap);
 //            }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        JTable table = new JTable(data,columnNames);
-        return table;
-    }
 
     public static void main(String[] args) {
         Service s = new Service();
