@@ -102,7 +102,7 @@ import javax.swing.*;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     frame.dispose();
-                    PopularProduct pp = new PopularProduct();
+                    PopularProductReport pp = new PopularProductReport();
                     pp.setUpPage();
                 }
             });
