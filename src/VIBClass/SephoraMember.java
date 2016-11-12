@@ -45,12 +45,16 @@ public class SephoraMember {
     }
 
 
-    public void updateAccountInfo(int accountNo, String email, String password){
+    public void updateAccountInfo(int accountNo, String email, String password) throws Exception {
         String updateQuery = "UPDATE member1 SET " +
                 "emailAddress = '" + email + "' , " +
                 "password = '" + password + "' WHERE accountNo = " + accountNo;
-
-        oraManager.execute(updateQuery);
+        if(accountNo != 0 && email != null && password!=null)
+            oraManager.execute(updateQuery);
+        else{
+            Exception e= new Exception("This is not a valid update");
+            throw e;
+        }
 
     }
 

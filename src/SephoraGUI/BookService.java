@@ -19,11 +19,15 @@ public class BookService {
     private JTextField txtPhone;
     private JTextField txtServiceID;
     private SephoraMember sephoraMember;
+    private String name;
+    private String phone;
 
-    public BookService() // main method
+    public BookService(String name, String phone) // main method
     {
         super();
         this.sephoraMember=new SephoraMember();
+        this.name=name;
+        this.phone=phone;
     }
 
     public void setUpPage() //create constructor
@@ -39,17 +43,17 @@ public class BookService {
         frame.add(contentPane);
         contentPane.setLayout(new GridLayout(8,8));
 
-        JLabel lblUserName = new JLabel("Name");
-        contentPane.add(lblUserName);
-
-        txtName = new JTextField();
-        contentPane.add(txtName);
-
-        JLabel lblPassword = new JLabel("Phone Number");
-        contentPane.add(lblPassword);
-
-         txtPhone = new JTextField();
-        contentPane.add(txtPhone);
+//        JLabel lblUserName = new JLabel("Name");
+//        contentPane.add(lblUserName);
+//
+//        txtName = new JTextField();
+//        contentPane.add(txtName);
+//
+//        JLabel lblPassword = new JLabel("Phone Number");
+//        contentPane.add(lblPassword);
+//
+//         txtPhone = new JTextField();
+//        contentPane.add(txtPhone);
 
         JLabel lblServiceID = new JLabel("Service ID");
         contentPane.add(lblServiceID);
@@ -57,27 +61,17 @@ public class BookService {
          txtServiceID = new JTextField();
         contentPane.add(txtServiceID);
 
-        JButton backButton = new JButton("Go Back");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                MainPage mp = new MainPage();
-                mp.setUpPage();
-            }
-        });
-        contentPane.add(backButton);
 
         JButton bookButton = new JButton("Book");
         bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int textServiceID=Integer.parseInt(txtServiceID.getText());
-                String textName = txtName.getText().trim();
-                String textPhone = txtPhone.getText().trim();
-                System.out.println(textName+" "+ textPhone+" "+ textServiceID);
+//                String textName = txtName.getText().trim();
+//                String textPhone = txtPhone.getText().trim();
+//                System.out.println(textName+" "+ textPhone+" "+ textServiceID);
                 try{
-                    boolean book= sephoraMember.bookService(textServiceID,textName,textPhone);
+                    boolean book= sephoraMember.bookService(textServiceID,name,phone);
                     if(book)
                         JOptionPane.showMessageDialog(null,"The service is booked successfully!","Message",JOptionPane.PLAIN_MESSAGE);
                     else{
@@ -91,6 +85,18 @@ public class BookService {
         });
         contentPane.add(bookButton);
 
+        JButton backButton = new JButton("Go Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MainPage mp = new MainPage();
+                mp.setUpPage();
+            }
+        });
+        contentPane.add(backButton);
+
+        
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
     }

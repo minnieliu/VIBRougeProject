@@ -58,7 +58,7 @@ public class MemberPage extends JPanel {
         contentPane.setLayout(new GridLayout(8,8));
 
 
-        JLabel account= new JLabel("Account No."+this.accountNo);
+        final JLabel account= new JLabel("Account No."+this.accountNo);
         contentPane.add(account);
 
         JButton backButton = new JButton("Common Action");
@@ -77,7 +77,7 @@ public class MemberPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                UpdateAccountInfo uai = new UpdateAccountInfo();
+                UpdateAccountInfo uai = new UpdateAccountInfo(accountNo,name,phone);
                 uai.setUpPage();
             }
         });
@@ -115,7 +115,7 @@ public class MemberPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                BookService bs = new BookService();
+                BookService bs = new BookService(name,phone);
                 bs.setUpPage();
             }
         });
