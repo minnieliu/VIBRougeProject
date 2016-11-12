@@ -107,7 +107,8 @@ public class SephoraMember {
                 }
 
                 if (capacityNum == 0) {
-                    return false;
+                    Exception e= new Exception("This is not a valid book");
+                    throw e;
                 }
                 capacityNum--;
 
