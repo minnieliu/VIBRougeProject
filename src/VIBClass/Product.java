@@ -1,12 +1,7 @@
 package VIBClass;
 
-import javax.swing.*;
-import java.sql.Array;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Created by hailey on 16/11/5.
@@ -31,47 +26,6 @@ public class Product {
         oraManager.execute(insertQuery);
     }
 
-    public JTable checkProductbyIDForUI (int productID) throws Exception{
-        ResultSet rs = null;
-        if(productID <=0){
-            Exception e= new Exception("It is not a valid month");
-            throw e;
-        }
-        oraManager.buildConnection();
-        String selectQuery = "SELECT * FROM product WHERE productID = " + productID;
-        rs = oraManager.query(selectQuery);
-        ResultSetMetaData md = null;
-        ArrayList<String> result = new ArrayList<String>();
-        Vector data = new Vector();
-        Vector columnNames = new Vector();
-        try {
-            md = rs.getMetaData();
-        } catch (SQLException e) {
-            e.printStackTrace();}
-
-        try {
-            int columns = md.getColumnCount();
-            //  Get column names
-            for (int i = 1; i <= columns; i++) {
-                columnNames.addElement(md.getColumnName(i));
-            }
-
-            while (rs.next()) {
-                Vector row = new Vector(columns);
-
-                for (int i = 1; i <= columns; i++) {
-                    row.addElement(rs.getObject(i));
-                }
-                data.addElement(row);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        JTable table = new JTable(data,columnNames);
-        return table;
-    }
-
-
     public boolean checkProductbyID(int productID){
         oraManager.buildConnection();
         String selectQuery = "SELECT * FROM product WHERE productID = " + productID;
@@ -92,127 +46,49 @@ public class Product {
         }
         return result;
     }
-    public JTable checkProductbyBrand (String brand) throws Exception{
-        ResultSet rs = null;
-        if(brand ==null){
-            Exception e= new Exception("It is not a valid month");
-            throw e;
-        }
+
+    public boolean checkProductbyBrand(String brand){
         oraManager.buildConnection();
         String selectQuery = "SELECT * FROM product WHERE brand = '" + brand +"'";
-        rs = oraManager.query(selectQuery);
-        ResultSetMetaData md = null;
-        ArrayList<String> result = new ArrayList<String>();
-        Vector data = new Vector();
-        Vector columnNames = new Vector();
+        System.out.println(selectQuery);
+        ResultSet rs = oraManager.query(selectQuery);
+        Boolean result = null;
         try {
-            md = rs.getMetaData();
-        } catch (SQLException e) {
-            e.printStackTrace();}
-
-        try {
-            int columns = md.getColumnCount();
-            //  Get column names
-            for (int i = 1; i <= columns; i++) {
-                columnNames.addElement(md.getColumnName(i));
-            }
-
-            while (rs.next()) {
-                Vector row = new Vector(columns);
-
-                for (int i = 1; i <= columns; i++) {
-                    row.addElement(rs.getObject(i));
+            result = rs.isBeforeFirst();
+            if(result) {
+                System.out.println("The selected product by brand " + brand + " is/are");
+                while (rs.next()) {
+                    System.out.println(rs.getInt("productID") + " " + rs.getDouble("price") + " " + rs.getString("brand") + " " + rs.getInt("inventoryNumber") + " " + rs.getString("productType"));
                 }
-                data.addElement(row);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        JTable table = new JTable(data,columnNames);
-        return table;
+        return result;
     }
-//    public boolean checkProductbyBrand(String brand){
-//        oraManager.buildConnection();
-//        String selectQuery = "SELECT * FROM product WHERE brand = '" + brand +"'";
-//        System.out.println(selectQuery);
-//        ResultSet rs = oraManager.query(selectQuery);
-//        Boolean result = null;
-//        try {
-//            result = rs.isBeforeFirst();
-//            if(result) {
-//                System.out.println("The selected product by brand " + brand + " is/are");
-//                while (rs.next()) {
-//                    System.out.println(rs.getInt("productID") + " " + rs.getDouble("price") + " " + rs.getString("brand") + " " + rs.getInt("inventoryNumber") + " " + rs.getString("productType"));
-//                }
-//            }
-//            rs.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
 
-    public JTable checkProductbyType (String productType) throws Exception{
-        ResultSet rs = null;
-        if(productType ==null){
-            Exception e= new Exception("It is not a valid month");
-            throw e;
-        }
+    public boolean checkProductbyType(String productType){
         oraManager.buildConnection();
-        String selectQuery = "SELECT * FROM product WHERE productType = '" + productType+"'";;
-        rs = oraManager.query(selectQuery);
-        ResultSetMetaData md = null;
-        ArrayList<String> result = new ArrayList<String>();
-        Vector data = new Vector();
-        Vector columnNames = new Vector();
+        String selectQuery = "SELECT * FROM product WHERE productType = '%" + productType+"%'";
+        System.out.println(selectQuery);
+        ResultSet rs = oraManager.query(selectQuery);
+        Boolean result = null;
         try {
-            md = rs.getMetaData();
-        } catch (SQLException e) {
-            e.printStackTrace();}
-
-        try {
-            int columns = md.getColumnCount();
-            //  Get column names
-            for (int i = 1; i <= columns; i++) {
-                columnNames.addElement(md.getColumnName(i));
-            }
-
-            while (rs.next()) {
-                Vector row = new Vector(columns);
-
-                for (int i = 1; i <= columns; i++) {
-                    row.addElement(rs.getObject(i));
+            result = rs.isBeforeFirst();
+            if(result) {
+                System.out.println("The selected product by productType " + productType + " is/are");
+                while (rs.next()) {
+                    System.out.println(rs.getInt("productID") + " " + rs.getDouble("price") + " " + rs.getString("brand") + " " + rs.getInt("inventoryNumber") + " " + rs.getString("productType"));
                 }
-                data.addElement(row);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        JTable table = new JTable(data,columnNames);
-        return table;
-    }
+        return result;
 
-//    public boolean checkProductbyType(String productType){
-//        oraManager.buildConnection();
-//        String selectQuery = "SELECT * FROM product WHERE productType = '%" + productType+"%'";
-//        System.out.println(selectQuery);
-//        ResultSet rs = oraManager.query(selectQuery);
-//        Boolean result = null;
-//        try {
-//            result = rs.isBeforeFirst();
-//            if(result) {
-//                System.out.println("The selected product by productType " + productType + " is/are");
-//                while (rs.next()) {
-//                    System.out.println(rs.getInt("productID") + " " + rs.getDouble("price") + " " + rs.getString("brand") + " " + rs.getInt("inventoryNumber") + " " + rs.getString("productType"));
-//                }
-//            }
-//            rs.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//
-//    }
+    }
 
     public int checkInventory(int productID){
         oraManager.buildConnection();
@@ -272,141 +148,68 @@ public class Product {
         }
     }
 
-    public JTable popularProduct(){
-        ResultSet rs = null;
-        String query = "SELECT * FROM product WHERE NOT EXISTS" +
+    public void popularProduct(){
+        String query = "SELECT productID FROM product WHERE NOT EXISTS" +
                 "(SELECT * FROM customer WHERE NOT EXISTS" +
                 "(SELECT name, phoneNumber FROM purchaseOrder, productOrder WHERE" +
                 " product.productID = productOrder.productID AND purchaseOrder.name = customer.name " +
                 "AND purchaseOrder.phoneNumber = customer.phoneNumber AND purchaseOrder.purchaseID = productOrder.purchaseID))";
-        rs = oraManager.query(query);
-        ResultSetMetaData md = null;
-        Vector data = new Vector();
-        Vector columnNames = new Vector();
-        try {
-            md = rs.getMetaData();
-        } catch (SQLException e) {
-            e.printStackTrace();}
-        try {
-            int columns = md.getColumnCount();
-            //  Get column names
-            for (int i = 1; i <= columns; i++) {
-                columnNames.addElement(md.getColumnName(i));
-            }
-            //  Get row data
-            while (rs.next()) {
-                Vector row = new Vector(columns);
-
-                for (int i = 1; i <= columns; i++) {
-                    row.addElement(rs.getObject(i));
-                }
-                data.addElement(row);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        JTable table = new JTable(data,columnNames);
-        return table;
-
-
-//        try{
-//            while (rs.next()) {
-//                int productID = rs.getInt("productID");
-//                System.out.println("popular products: "+ productID + "\n");
-//            }
-//            rs.close();}
-//        catch (Exception e){
-//            System.out.println("found error: " + e);
-//        }
-    }
-
-    public ArrayList<String> mostExpensive(){
-        ArrayList<String> result=new ArrayList<String>();
-        String query = "SELECT * FROM product WHERE price IN (SELECT MAX(price) FROM product)";
         ResultSet rs = oraManager.query(query);
         try{
             while (rs.next()) {
                 int productID = rs.getInt("productID");
-                result.add(String.valueOf(productID));
-                double price= rs.getDouble("price");
-                result.add(String.valueOf(price));
-                String brand=rs.getString("brand");
-                result.add(brand);
-                int inventory= rs.getInt("inventoryNumber");
-                result.add(String.valueOf(inventory));
-                String type=rs.getString("productType");
-                result.add(type);
-                System.out.println("most expensive: "+ productID + "\n");
-            }
-            rs.close();
-        }
-        catch (Exception e){
-            System.out.println("found error: " + e);
-        }
-        return result;
-    }
-
-    public ArrayList<String> leastExpensive(){
-        ArrayList<String> result=new ArrayList<String>();
-        String query = "SELECT * FROM product WHERE price IN (SELECT MIN(price) FROM product)";
-        ResultSet rs = oraManager.query(query);
-        try{
-            while (rs.next()) {
-                int productID = rs.getInt("productID");
-                result.add(String.valueOf(productID));
-                double price= rs.getDouble("price");
-                result.add(String.valueOf(price));
-                String brand=rs.getString("brand");
-                result.add(brand);
-                int inventory= rs.getInt("inventoryNumber");
-                result.add(String.valueOf(inventory));
-                String type=rs.getString("productType");
-                result.add(type);
-                System.out.println("least expensive: "+ productID + "\n");
+                System.out.println("popular products: "+ productID + "\n");
             }
             rs.close();}
         catch (Exception e){
             System.out.println("found error: " + e);
         }
-        return result;
     }
 
-    public JTable avgpricepertype(){
-        String query = "SELECT AVG(price) AveragePrice, productType FROM product GROUP BY productType";
+    public void mostExpensive(){
+        String query = "SELECT productID, price FROM product WHERE price IN (SELECT MAX(price) FROM product)";
         ResultSet rs = oraManager.query(query);
-        ResultSetMetaData md = null;
-        Vector columnNames = new Vector();
-        Vector data = new Vector();
-
-        try {
-            md = rs.getMetaData();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            int columns = md.getColumnCount();
-            //  Get column names
-            for (int i = 1; i <= columns; i++) {
-                columnNames.addElement(md.getColumnName(i));
-            }
-            //  Get row data
+        try{
             while (rs.next()) {
-                Vector row = new Vector(columns);
-
-                for (int i = 1; i <= columns; i++) {
-                    row.addElement(rs.getObject(i));
-                }
-
-                data.addElement(row);
+                int productID = rs.getInt("productID");
+                Float price = rs.getFloat("price");
+                System.out.println("most expensive: "+ productID + " at price: " + price + "\n");
             }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
         }
-        JTable table = new JTable(data,columnNames);
-        return table;
+    }
+
+    public void leastExpensive(){
+        String query = "SELECT productID, price FROM product WHERE price IN (SELECT MIN(price) FROM product)";
+        ResultSet rs = oraManager.query(query);
+        try{
+            while (rs.next()) {
+                int productID = rs.getInt("productID");
+                Float price = rs.getFloat("price");
+                System.out.println("least expensive: "+ productID + " at price: " + price + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
+    }
+
+    public void avgpricepertype(){
+        String query = "SELECT productType, AVG(price) AS avg FROM product GROUP BY productType";
+        ResultSet rs = oraManager.query(query);
+        try{
+            while (rs.next()) {
+                String producttype = rs.getString("productType");
+                Float avg = rs.getFloat("avg");
+
+                System.out.println("type: "+ producttype +  "average price: " + avg + "\n");
+            }
+            rs.close();}
+        catch (Exception e){
+            System.out.println("found error: " + e);
+        }
     }
 
 
@@ -420,9 +223,9 @@ public class Product {
 //        p.checkProductbyType("nail");
 //        p.updateInventory(1001, 5);
 //        p.addProduct(1002, 50.6, "Tom Ford", 2, "lipsticks (red)");
-//        p.popularProduct();
-//        p.mostExpensive();
-//        p.leastExpensive();
+        p.popularProduct();
+        p.mostExpensive();
+        p.leastExpensive();
         p.avgpricepertype();
 
     }

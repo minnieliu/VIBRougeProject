@@ -55,7 +55,7 @@ public class Employee {
     public JTable birthdayGift(int currentDate) {
 
         ResultSet rs;
-        String query = "SELECT  FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
+        String query = "SELECT * FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
         rs = oraManager.query(query);
         ResultSetMetaData md = null;
         Vector columnNames = new Vector();
@@ -208,35 +208,11 @@ public class Employee {
 
     // select the matching product
     // then add the numberAdded to current inventory
-    public boolean addInventory(int productID, int numAdded) {
-
-        String selectQuery = "SELECT * FROM product WHERE productID = " + productID;
-        ResultSet rs = oraManager.query(selectQuery);
-        int count = 0;
-        try {
-            while (rs.next()){
-                count++;
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (count < 1){
-            return false;
-        }
-
+    public void addInventory(int productID, int numAdded) {
         String updateQuery = "UPDATE product SET " +
-                    "inventoryNumber = inventoryNumber + " + numAdded +
-                    " WHERE productID = " + productID;
-
-        try{
-            oraManager.execute(updateQuery);
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
+                "inventoryNumber = inventoryNumber + " + numAdded +
+                " WHERE productID = " + productID;
+        oraManager.execute(updateQuery);
     }
 
     public void addMember(String email, String password, String birthday, String name, String phoneNum){
@@ -259,6 +235,10 @@ public class Employee {
         oraManager.execute(insertQuery);
     }
 
+    public void removeCustomer(String number){
+        String deleteQuery = "DELETE FROM customer WHERE phoneNumber =" + number;
+        oraManager.execute(deleteQuery);
+    }
 
     public static void main(String argv[]) {
         Employee employee = new Employee();
@@ -303,7 +283,7 @@ public class Employee {
 //        }
 
         //Test AddInventory
-       employee.addInventory(000000,30);
+//        employee.addInventory(6969,30);
 //        String query = "SELECT * FROM product";
 //        ResultSet rs=null;
 //        rs = oramanager.query(query);
@@ -329,6 +309,59 @@ public class Employee {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+//
+//        employee.removeCustomer("6042019382");
+////
+//        // Test on Delete Cascade for removeCustomer
+//        System.out.println("Customer Table" + "\n");
+//        String query = "SELECT * FROM customer";
+//        ResultSet rs=null;
+//        rs = oramanager.query(query);
+//        try {
+//            while(rs.next())
+//            {
+//                System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3)+ "\n");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("Member Table" + "\n");
+//        String query1 = "SELECT * FROM member1";
+//        rs = oramanager.query(query1);
+//        try {
+//            while(rs.next())
+//            {
+//                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " +rs.getString(7) + " "  + rs.getString(8)+ "\n");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("purchaseOrder Table" + "\n");
+//    String query2 = "SELECT * FROM purchaseOrder";
+//    rs = oramanager.query(query2);
+//    try {
+//        while(rs.next())
+//        {
+//            System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3)+ "\n");
+//        }
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//
+//        System.out.println("Status Table" + "\n");
+//
+//        String query3 = "SELECT * FROM updateStatus";
+//        rs = oramanager.query(query3);
+//        try {
+//            while(rs.next())
+//            {
+//                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3)+ "\n");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+}
 
-    }
 }
