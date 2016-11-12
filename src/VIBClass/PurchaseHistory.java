@@ -2,9 +2,12 @@ package VIBClass;
 
 import com.sun.jndi.cosnaming.CNCtx;
 
+import javax.swing.*;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.Vector;
 
 
 public class PurchaseHistory {
@@ -228,22 +231,45 @@ public class PurchaseHistory {
         return result;
     }
     //average item purchased per transaction per customer
-    public void averageitemspercustomer(){
+    public JTable averageitemspercustomer(){
         oraManager.query("CREATE VIEW purchasecount AS " +
                 "SELECT SUM(productOrder.quantityPurchased) AS count, purchaseOrder.name, purchaseOrder.phoneNumber, purchaseOrder.purchaseID FROM purchaseOrder, productOrder " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID " +
                 "GROUP BY purchaseOrder.name, purchaseOrder.phoneNumber, purchaseOrder.purchaseID");
         ResultSet rs = oraManager.query("SELECT AVG(count) AS avgcount, name FROM purchasecount GROUP BY name, phoneNumber");
-        try{
-            while (rs.next()) {
-                int avgcount = rs.getInt("avgcount");
-                String name = rs.getString("name");
-                System.out.println("name:  "+ name + "avg count: "+ avgcount + "\n");
-            }
-            rs.close();}
-        catch (Exception e){
-            System.out.println("found error: " + e);
+        ResultSetMetaData md = null;
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
+
+        try {
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
 
     }
 

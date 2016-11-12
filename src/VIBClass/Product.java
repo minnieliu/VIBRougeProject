@@ -347,20 +347,42 @@ public class Product {
         }
     }
 
-    public void avgpricepertype(){
-        String query = "SELECT AVG(price) AS avg, productType, FROM product, GROUPBY productType;";
+    public JTable avgpricepertype(){
+        String query = "SELECT AVG(price) AveragePrice, productType FROM product GROUP BY productType";
         ResultSet rs = oraManager.query(query);
-        try{
-            while (rs.next()) {
-                int producttype = rs.getInt("productType");
-                int avg = rs.getInt("avg");
+        ResultSetMetaData md = null;
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
 
-                System.out.println("type: "+ producttype + "average price: " + avg + "\n");
-            }
-            rs.close();}
-        catch (Exception e){
-            System.out.println("found error: " + e);
+        try {
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
     }
 
 
@@ -374,9 +396,10 @@ public class Product {
 //        p.checkProductbyType("nail");
 //        p.updateInventory(1001, 5);
 //        p.addProduct(1002, 50.6, "Tom Ford", 2, "lipsticks (red)");
-        p.popularProduct();
-        p.mostExpensive();
-        p.leastExpensive();
+//        p.popularProduct();
+//        p.mostExpensive();
+//        p.leastExpensive();
+        p.avgpricepertype();
 
     }
 

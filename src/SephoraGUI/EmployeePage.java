@@ -43,7 +43,7 @@ public class EmployeePage extends JPanel implements ActionListener{
 
         try {
             frame.setContentPane(panel=new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/glitter.jpg"));
+                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/glitter.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -58,7 +58,7 @@ public class EmployeePage extends JPanel implements ActionListener{
         panel.setLayout(null);
 
         JButton getReports = new JButton("Reports");
-        getReports.setBounds(330,90,110,40);
+        getReports.setBounds(220,90,110,40);
         panel.add(getReports);
 
 
@@ -86,20 +86,43 @@ public class EmployeePage extends JPanel implements ActionListener{
 
 
         JButton addInventory = new JButton("Add Inventory");
-        addInventory.setBounds(180,90,110,40);
+        addInventory.setBounds(100,90,110,40);
         panel.add(addInventory);
         addInventory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Employee employee = new Employee();
-                int productid = Integer.parseInt(prodID.getText());
-                int pNum = Integer.parseInt(prodNum.getText());
-                employee.addInventory(productid,pNum);
-                JOptionPane.showMessageDialog(null,"Successfully Added Inventory!","Success!",JOptionPane.INFORMATION_MESSAGE);
+
+                try {
+                    int productid = Integer.parseInt(prodID.getText());
+                    int pNum = Integer.parseInt(prodNum.getText());
+                    boolean b = employee.addInventory(productid, pNum);
+                    if (!b) {
+                        JOptionPane.showMessageDialog(null, "Check that the product ID is valid", "Error!", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Successfully Added Inventory!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                catch(Exception e1){
+                    JOptionPane.showMessageDialog(null,"Check that inputs are valid","Error!",JOptionPane.ERROR_MESSAGE);}
+                }
+
+        });
+        panel.add(addInventory);
+
+        JButton managerButton = new JButton("Manager Reports");
+        managerButton.setBounds(340,90,130,40);
+        panel.add(managerButton);
+
+        managerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                ManagerReports mp = new ManagerReports();
+                mp.setUpPage();
             }
         });
 
-        panel.add(addInventory);
         JButton backButton = new JButton("Go Back");
         backButton.addActionListener(new ActionListener() {
             @Override

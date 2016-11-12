@@ -1,6 +1,7 @@
 package SephoraGUI;
 
-import VIBClass.Employee;
+
+import VIBClass.PurchaseHistory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,34 +9,31 @@ import java.awt.*;
 /**
  * Created by minnieliu on 2016-11-11.
  */
-public class HighPriceReport {
-
+public class AverageItemPerCustomer {
     private JFrame frame;
     private JPanel panel;
 
-    public HighPriceReport(int highestprice) {
+    public AverageItemPerCustomer() {
         super();
-        setUpPage(highestprice);
+        setUpPage();
     }
 
-    public void setUpPage(int highestprice) {
-        System.out.print("got to  reportpage");
+    public void setUpPage() {
+
         panel = new JPanel();
-        frame = new JFrame("High Price Report Page");
+        frame = new JFrame("Average Item Per Customer");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(true);
-        Employee employee = new Employee();
-        JTable highPriceReport = employee.higherPriceReport(highestprice);
+        PurchaseHistory ph = new PurchaseHistory();
+        JTable averageItemPer  = ph.averageitemspercustomer();
         System.out.print("making table");
-        JScrollPane tableContainer = new JScrollPane(highPriceReport);
+        JScrollPane tableContainer = new JScrollPane(averageItemPer);
         System.out.print("adding table");
         panel.add(tableContainer);
         frame.add(panel);
         frame.setMinimumSize(new Dimension(600, 315));
-        frame.setVisible(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
     }
-
 }

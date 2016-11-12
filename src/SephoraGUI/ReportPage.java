@@ -79,6 +79,7 @@ public class ReportPage extends JPanel implements ActionListener {
                     int lowStockNumber = Integer.parseInt(textField.getText());
                     LowStockReportPage rp = new LowStockReportPage(lowStockNumber);
                 } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Please enter an integer value","Error",JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
                 }
 
@@ -93,6 +94,7 @@ public class ReportPage extends JPanel implements ActionListener {
                     int highestPrice = Integer.parseInt(textField.getText());
                     HighPriceReport hp = new HighPriceReport(highestPrice);
                 } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Please enter an integer value","Error",JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
                 }
 
@@ -107,6 +109,7 @@ public class ReportPage extends JPanel implements ActionListener {
                     int lowestprice = Integer.parseInt(textField.getText());
                     LowPriceReport hp = new LowPriceReport(lowestprice);
                 } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Please enter an integer value","Error",JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
                 }
 
@@ -121,6 +124,7 @@ public class ReportPage extends JPanel implements ActionListener {
                     int birthdayMonth = Integer.parseInt(textField.getText());
                     BirthdayGiftReport hp = new BirthdayGiftReport(birthdayMonth);
                 } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Please enter an integer value","Error",JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
                 }
 
