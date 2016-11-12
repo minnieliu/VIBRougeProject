@@ -37,7 +37,7 @@ public class ManagerReports {
 
         try {
             frame.setContentPane(panel = new JPanel() {
-                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/glitter.jpg"));
+                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
 
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);

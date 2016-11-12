@@ -55,7 +55,7 @@ public class Employee {
     public JTable birthdayGift(int currentDate) {
 
         ResultSet rs;
-        String query = "SELECT * FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
+        String query = "SELECT  FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
         rs = oraManager.query(query);
         ResultSetMetaData md = null;
         Vector columnNames = new Vector();
@@ -208,11 +208,35 @@ public class Employee {
 
     // select the matching product
     // then add the numberAdded to current inventory
-    public void addInventory(int productID, int numAdded) {
+    public boolean addInventory(int productID, int numAdded) {
+
+        String selectQuery = "SELECT * FROM product WHERE productID = " + productID;
+        ResultSet rs = oraManager.query(selectQuery);
+        int count = 0;
+        try {
+            while (rs.next()){
+                count++;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (count < 1){
+            return false;
+        }
+
         String updateQuery = "UPDATE product SET " +
-                "inventoryNumber = inventoryNumber + " + numAdded +
-                " WHERE productID = " + productID;
-        oraManager.execute(updateQuery);
+                    "inventoryNumber = inventoryNumber + " + numAdded +
+                    " WHERE productID = " + productID;
+
+        try{
+            oraManager.execute(updateQuery);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 
     public void addMember(String email, String password, String birthday, String name, String phoneNum){
@@ -279,7 +303,7 @@ public class Employee {
 //        }
 
         //Test AddInventory
-//        employee.addInventory(6969,30);
+       employee.addInventory(000000,30);
 //        String query = "SELECT * FROM product";
 //        ResultSet rs=null;
 //        rs = oramanager.query(query);
