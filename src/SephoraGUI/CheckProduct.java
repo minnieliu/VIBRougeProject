@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Created by hailey on 16/11/11.
@@ -41,8 +42,8 @@ public class CheckProduct {
         final JTextField txtProductID = new JTextField();
         contentPane.add(txtProductID);
 
-        JButton CheckbyIDButton = new JButton("Search Product by ID");
-        CheckbyIDButton.addActionListener(new ActionListener() {
+        JButton checkbyIDButton = new JButton("Search Product by ID");
+        checkbyIDButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int textPID=Integer.parseInt(txtProductID.getText());
@@ -51,7 +52,7 @@ public class CheckProduct {
                 cp.setUpPage();
             }
         });
-        contentPane.add(CheckbyIDButton);
+        contentPane.add(checkbyIDButton);
 
         final JLabel lblProductType= new JLabel("Product Type");
         contentPane.add(lblProductType);
@@ -59,8 +60,8 @@ public class CheckProduct {
         final JTextField txtProductType = new JTextField();
         contentPane.add(txtProductType);
 
-        JButton CheckbyTypeButton = new JButton("Search Product by Type");
-        CheckbyTypeButton.addActionListener(new ActionListener() {
+        JButton checkbyTypeButton = new JButton("Search Product by Type");
+        checkbyTypeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String textType=txtProductType.getText().trim();
@@ -69,7 +70,7 @@ public class CheckProduct {
                 cp.setUpPage();
             }
         });
-        contentPane.add(CheckbyTypeButton);
+        contentPane.add(checkbyTypeButton);
 
         final JLabel lblProductBrand= new JLabel("Product Brand");
         contentPane.add(lblProductBrand);
@@ -77,8 +78,8 @@ public class CheckProduct {
         final JTextField txtProductBrand = new JTextField();
         contentPane.add(txtProductBrand);
 
-        JButton CheckbyBrandButton = new JButton("Search Product by Brand");
-        CheckbyBrandButton.addActionListener(new ActionListener() {
+        JButton checkbyBrandButton = new JButton("Search Product by Brand");
+        checkbyBrandButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String textBrand=txtProductBrand.getText().trim();
@@ -87,7 +88,38 @@ public class CheckProduct {
                 cp.setUpPage();
             }
         });
-        contentPane.add(CheckbyBrandButton);
+        contentPane.add(checkbyBrandButton);
+
+        JButton mostExpensive = new JButton("Most Expensive Product");
+        mostExpensive.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> result=product.mostExpensive();
+                String txtproductID= result.get(0);
+                String txtprice= result.get(1);
+                String txtbrand= result.get(2).trim();
+                String txtinv= result.get(3);
+                String txttype= result.get(4);
+                JOptionPane.showMessageDialog(null,"The most expensive product has a price as "+txtprice+ " with a product ID of "+txtproductID+" and an inventory of "+txtinv+". It is from "+txtbrand+", and is a type of "+txttype +".","Message",JOptionPane.PLAIN_MESSAGE);
+
+            }
+        });
+        contentPane.add(mostExpensive);
+
+        JButton leastExpensive = new JButton("Least Expensive Product");
+        leastExpensive.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> result=product.leastExpensive();
+                String txtproductID= result.get(0);
+                String txtprice= result.get(1);
+                String txtbrand= result.get(2).trim();
+                String txtinv= result.get(3);
+                String txttype= result.get(4);
+                JOptionPane.showMessageDialog(null,"The least expensive product has a price as "+txtprice+ " with a product ID of "+txtproductID+" and an inventory of "+txtinv+". It is from "+txtbrand+", and is a type of "+txttype+".","Message",JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+        contentPane.add(leastExpensive);
 
         JButton backButton = new JButton("Go Back");
         backButton.addActionListener(new ActionListener() {

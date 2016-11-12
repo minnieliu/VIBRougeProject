@@ -1,6 +1,7 @@
 package VIBClass;
 
 import javax.swing.*;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -319,32 +320,55 @@ public class Product {
 //        }
     }
 
-    public void mostExpensive(){
-        String query = "SELECT productID FROM product WHERE price IN (SELECT MAX(price) FROM product)";
+    public ArrayList<String> mostExpensive(){
+        ArrayList<String> result=new ArrayList<String>();
+        String query = "SELECT * FROM product WHERE price IN (SELECT MAX(price) FROM product)";
         ResultSet rs = oraManager.query(query);
         try{
             while (rs.next()) {
                 int productID = rs.getInt("productID");
+                result.add(String.valueOf(productID));
+                double price= rs.getDouble("price");
+                result.add(String.valueOf(price));
+                String brand=rs.getString("brand");
+                result.add(brand);
+                int inventory= rs.getInt("inventoryNumber");
+                result.add(String.valueOf(inventory));
+                String type=rs.getString("productType");
+                result.add(type);
                 System.out.println("most expensive: "+ productID + "\n");
             }
-            rs.close();}
+            rs.close();
+        }
         catch (Exception e){
             System.out.println("found error: " + e);
         }
+        return result;
     }
 
-    public void leastExpensive(){
-        String query = "SELECT productID FROM product WHERE price IN (SELECT MIN(price) FROM product)";
+    public ArrayList<String> leastExpensive(){
+        ArrayList<String> result=new ArrayList<String>();
+        String query = "SELECT * FROM product WHERE price IN (SELECT MIN(price) FROM product)";
         ResultSet rs = oraManager.query(query);
         try{
             while (rs.next()) {
                 int productID = rs.getInt("productID");
+                result.add(String.valueOf(productID));
+                double price= rs.getDouble("price");
+                result.add(String.valueOf(price));
+                String brand=rs.getString("brand");
+                result.add(brand);
+                int inventory= rs.getInt("inventoryNumber");
+                result.add(String.valueOf(inventory));
+                String type=rs.getString("productType");
+                result.add(type);
                 System.out.println("least expensive: "+ productID + "\n");
             }
             rs.close();}
         catch (Exception e){
             System.out.println("found error: " + e);
         }
+        return result;
     }
 
     public JTable avgpricepertype(){
