@@ -69,10 +69,10 @@ public class BookService {
         contentPane.add(backButton);
 
         JButton bookButton = new JButton("Book");
-        backButton.addActionListener(new ActionListener() {
+        bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int textServiceID=Integer.parseInt(txtServiceID.getText().trim());
+                int textServiceID=Integer.parseInt(txtServiceID.getText());
                 String textName = txtName.getText().trim();
                 String textPhone = txtPhone.getText().trim();
                 System.out.println(textName+" "+ textPhone+" "+ textServiceID);
