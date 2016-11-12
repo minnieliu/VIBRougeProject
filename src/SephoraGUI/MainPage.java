@@ -47,7 +47,6 @@ public class MainPage extends JPanel{
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
 
         try {
             frame.setContentPane(panel= new JPanel(){
@@ -84,11 +83,10 @@ public class MainPage extends JPanel{
             }
         });
 
-
-        frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
+        frame.setMinimumSize(new Dimension(600, 315));
+        frame.setLocationRelativeTo(null);
     }
-
 
 
     public static void main(String[] args){

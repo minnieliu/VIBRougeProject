@@ -45,6 +45,25 @@ import javax.swing.*;
             frame = new JFrame("Customer Page");
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setResizable(false);
+
+            try {
+                frame.setContentPane(panel=new JPanel(){
+                    BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/glitter.jpg"));
+                    public void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            JButton purchaseButton = new JButton("Purchase");
+            JButton returnButton = new JButton("Return");
+            JButton backButton = new JButton("Go Back");
+
             frame.setLocationRelativeTo(null);
             frame.setResizable(true);
             panel=new JPanel();
@@ -121,6 +140,7 @@ import javax.swing.*;
 
             frame.setMinimumSize(new Dimension(600, 315));
             frame.pack();
+            frame.setLocationRelativeTo(null);
         }
 
     }

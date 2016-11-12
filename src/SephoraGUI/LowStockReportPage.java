@@ -37,7 +37,6 @@ public class LowStockReportPage {
         frame = new JFrame("Low Stock Report Page");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(true);
 
         Employee employee = new Employee();
@@ -50,6 +49,7 @@ public class LowStockReportPage {
         frame.setMinimumSize(new Dimension(600, 315));
         frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
 }

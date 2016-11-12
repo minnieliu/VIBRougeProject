@@ -35,7 +35,6 @@ public class ReportPage extends JPanel implements ActionListener {
         frame.setVisible(true);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
         try {
@@ -49,13 +48,29 @@ public class ReportPage extends JPanel implements ActionListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        panel.setLayout(new GridLayout(8,8));
+        panel.setBounds(100,100,450,300);
+        frame.setContentPane(panel);
+        panel.setLayout(null);
+      //  panel.setLayout(new GridLayout(8,8));
 
-        JButton lowStock = new JButton("Low Stock Report");
-        JButton highPrice = new JButton("High Price Report");
-        JButton lowPrice = new JButton("Low Price Report");
-        JButton birthday = new JButton("Birthday Gift Report");
+        JButton lowStock = new JButton("Low Stock");
+        lowStock.setBounds(50, 51, 110, 20);
+        panel.add(lowStock);
+        JButton highPrice = new JButton("High Price");
+        highPrice.setBounds(170, 51, 110, 20);
+        panel.add(highPrice);
+        JButton lowPrice = new JButton("Low Price");
+        lowPrice.setBounds(290, 51, 110, 20);
+        panel.add(lowPrice);
+        JButton birthday = new JButton("Birthday Gift");
+        birthday.setBounds(410, 51, 110, 20);
+        panel.add(birthday);
+        final JLabel search = new JLabel("Enter Search: ");
+        search.setBounds(50,20,110,20);
+        panel.add(search);
         final JTextField textField = new JTextField(5);
+        textField.setBounds(140, 20 , 380 ,20);
+        panel.add(textField);
 
         lowStock.addActionListener(new ActionListener() {
             @Override
@@ -112,12 +127,10 @@ public class ReportPage extends JPanel implements ActionListener {
 
             }
         });
-        panel.add(textField);
-        panel.add(lowStock);
-        panel.add(lowPrice);
-        panel.add(highPrice);
-        panel.add(birthday);
+
         JButton backButton = new JButton("Go Back");
+        backButton.setBounds(480,240,110,40);
+        panel.add(backButton);
 
 
         backButton.addActionListener(new ActionListener() {
@@ -132,6 +145,7 @@ public class ReportPage extends JPanel implements ActionListener {
         frame.setMinimumSize(new Dimension(600, 315));
         frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
 
 
     }

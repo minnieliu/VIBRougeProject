@@ -53,7 +53,6 @@ public class MemberPage extends JPanel {
         frame = new JFrame("Member Page");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
         contentPane = new JPanel();
@@ -135,6 +134,7 @@ public class MemberPage extends JPanel {
 
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
 }
