@@ -32,11 +32,9 @@ public class MemberPage extends JPanel {
     //TODO: ADD More Functions for Member Specific
     private JFrame frame;
     private JPanel contentPane;
-    private SephoraMember sephoraMember;
 
     public MemberPage(){
         super();
-        this.sephoraMember= new SephoraMember();
     }
 
     public void setUpPage(){
@@ -62,7 +60,7 @@ public class MemberPage extends JPanel {
         contentPane.add(backButton);
 
         JButton updateInfo = new JButton("Update Email and Password");
-        backButton.addActionListener(new ActionListener() {
+        updateInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -74,7 +72,7 @@ public class MemberPage extends JPanel {
 
 
         JButton checkStatusandPoint = new JButton("Check Status");
-        backButton.addActionListener(new ActionListener() {
+        checkStatusandPoint.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             }
@@ -83,7 +81,7 @@ public class MemberPage extends JPanel {
 
 
         JButton checkCurrentService = new JButton("Check Service");
-        backButton.addActionListener(new ActionListener() {
+        checkCurrentService.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             }
@@ -91,7 +89,7 @@ public class MemberPage extends JPanel {
         contentPane.add(checkCurrentService);
 
         JButton bookService = new JButton("Book Service");
-        backButton.addActionListener(new ActionListener() {
+        bookService.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -102,7 +100,6 @@ public class MemberPage extends JPanel {
         contentPane.add(bookService);
 
         frame.setMinimumSize(new Dimension(600, 315));
-        frame.setVisible(true);
         frame.pack();
     }
 

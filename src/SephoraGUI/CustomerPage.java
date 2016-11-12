@@ -29,6 +29,11 @@ import javax.swing.*;
     public class CustomerPage extends JPanel {
         private JFrame frame;
         private JPanel panel;
+        private JButton backButton;
+        private JButton purchaseButton;
+        private JButton returnButton;
+        private JButton popularProduct;
+        private JButton checkProduct;
 
         public CustomerPage(){
             super();
@@ -41,23 +46,25 @@ import javax.swing.*;
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
-            frame.setResizable(false);
+            frame.setResizable(true);
+            panel=new JPanel();
             panel.setLayout(new GridLayout(8,8));
 
-            try {
-                frame.setContentPane(panel=new JPanel(){
-                    BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
-                    public void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                        g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                frame.setContentPane(panel=new JPanel(){
+//                    BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
+//                    public void paintComponent(Graphics g) {
+//                        super.paintComponent(g);
+//                        g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+//                    }
+//                });
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
+            frame.add(panel);
 
-            JButton backButton = new JButton("Go Back");
+            backButton = new JButton("Go Back");
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -68,7 +75,7 @@ import javax.swing.*;
             });
             panel.add(backButton);
 
-            JButton purchaseButton = new JButton("Purchase Product");
+            purchaseButton = new JButton("Purchase Product");
             purchaseButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -79,7 +86,7 @@ import javax.swing.*;
             });
             panel.add(purchaseButton);
 
-            JButton returnButton = new JButton("Return Product");
+           returnButton = new JButton("Return Product");
             returnButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -90,7 +97,7 @@ import javax.swing.*;
             });
             panel.add(returnButton);
 
-            JButton popularProduct = new JButton("Popular Product");
+            popularProduct = new JButton("Popular Product");
             popularProduct.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -101,7 +108,7 @@ import javax.swing.*;
             });
             panel.add(popularProduct);
 
-            JButton checkProduct = new JButton("Check Product");
+            checkProduct = new JButton("Check Product");
             checkProduct.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

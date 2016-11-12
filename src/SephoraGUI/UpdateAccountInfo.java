@@ -3,6 +3,7 @@ package SephoraGUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,12 +26,11 @@ public class UpdateAccountInfo {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setBounds(100, 100, 450, 300);
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        frame.setContentPane(contentPane);
-        contentPane.setLayout(null);
+        frame.add(contentPane);
+        contentPane.setLayout(new GridLayout(8,8));
 
         JButton backButton = new JButton("Go Back");
         backButton.addActionListener(new ActionListener() {
@@ -42,5 +42,8 @@ public class UpdateAccountInfo {
             }
         });
         contentPane.add(backButton);
+
+        frame.setMinimumSize(new Dimension(600, 315));
+        frame.pack();
     }
 }

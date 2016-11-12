@@ -1,8 +1,11 @@
 package SephoraGUI;
 
 
+import VIBClass.SephoraMember;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,10 +15,15 @@ import java.awt.event.ActionListener;
 public class BookService {
     private JFrame frame;
     private JPanel contentPane;
+    private JTextField txtName;
+    private JTextField txtPhone;
+    private JTextField txtServiceID;
+    private SephoraMember sephoraMember;
 
     public BookService() // main method
     {
         super();
+        this.sephoraMember=new SephoraMember();
     }
 
     public void setUpPage() //create constructor
@@ -25,12 +33,29 @@ public class BookService {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setBounds(100, 100, 450, 300);
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        frame.setContentPane(contentPane);
-        contentPane.setLayout(null);
+        frame.add(contentPane);
+        contentPane.setLayout(new GridLayout(8,8));
+
+        JLabel lblUserName = new JLabel("Name");
+        contentPane.add(lblUserName);
+
+        txtName = new JTextField();
+        contentPane.add(txtName);
+
+        JLabel lblPassword = new JLabel("Phone Number");
+        contentPane.add(lblPassword);
+
+         txtPhone = new JTextField();
+        contentPane.add(txtPhone);
+
+        JLabel lblServiceID = new JLabel("Service ID");
+        contentPane.add(lblServiceID);
+
+         txtServiceID = new JTextField();
+        contentPane.add(txtServiceID);
 
         JButton backButton = new JButton("Go Back");
         backButton.addActionListener(new ActionListener() {
@@ -42,5 +67,31 @@ public class BookService {
             }
         });
         contentPane.add(backButton);
+
+        JButton bookButton = new JButton("Book");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int textServiceID=Integer.parseInt(txtServiceID.getText().trim());
+                String textName = txtName.getText().trim();
+                String textPhone = txtPhone.getText().trim();
+                System.out.println(textName+" "+ textPhone+" "+ textServiceID);
+                try{
+                    boolean book= sephoraMember.bookService(textServiceID,textName,textPhone);
+                    if(book)
+                        JOptionPane.showMessageDialog(null,"The service is booked successfully!","Message",JOptionPane.PLAIN_MESSAGE);
+                    else{
+                        JOptionPane.showMessageDialog(null,"You cannot book this service","Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                catch (Exception error){
+                    JOptionPane.showMessageDialog(null,"You cannot book this service","Error",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        contentPane.add(bookButton);
+
+        frame.setMinimumSize(new Dimension(600, 315));
+        frame.pack();
     }
 }
