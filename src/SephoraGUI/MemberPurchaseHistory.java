@@ -16,10 +16,14 @@ public class MemberPurchaseHistory {
     private JPanel panel;
     private int accountNo;
     private PurchaseHistory purchaseHistory;
+    private String name;
+    private String phone;
 
-    public MemberPurchaseHistory(int accountNo) {
+    public MemberPurchaseHistory(int accountNo, String name, String phone) {
         super();
         this.accountNo=accountNo;
+        this.name = name;
+        this.phone = phone;
         this.purchaseHistory=new PurchaseHistory();
     }
 
@@ -36,6 +40,7 @@ public class MemberPurchaseHistory {
             JTable memberHistory = purchaseHistory.checkMemberPurchaseHistory(accountNo);
             System.out.print("making table");
             JScrollPane tableContainer = new JScrollPane(memberHistory);
+            tableContainer.setPreferredSize(new Dimension(1200,600));
             System.out.print("adding table");
             panel.add(tableContainer);
         }
@@ -48,14 +53,14 @@ public class MemberPurchaseHistory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerPage cp = new CustomerPage();
-                cp.setUpPage();
+                MemberPage mp = new MemberPage(accountNo,name,phone);
+                mp.setUpPage();
             }
         });
         panel.add(backButton);
 
         //TODO:Make the table larger
-        frame.setMinimumSize(new Dimension(600, 315));
+        //frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
         frame.setLocationRelativeTo(null);
     }

@@ -112,9 +112,20 @@ public class EmployeePage extends JPanel implements ActionListener{
         });
         panel.add(addInventory);
 
-        JButton managerButton = new JButton("Manager Reports");
+        JButton managerButton = new JButton("Manager Actions");
         managerButton.setBounds(340,90,130,40);
         panel.add(managerButton);
+
+        managerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                ManagerReports mp = new ManagerReports();
+                mp.setUpPage();
+            }
+        });
+
+
 
         managerButton.addActionListener(new ActionListener() {
             @Override

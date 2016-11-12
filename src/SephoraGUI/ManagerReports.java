@@ -5,6 +5,7 @@ import VIBClass.PurchaseHistory;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.tree.ExpandVetoException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +53,7 @@ public class ManagerReports {
         panel.setLayout(null);
 
         JButton avgSales = new JButton("Average Item Purchased");
-        avgSales.setBounds(100,90,180,60);
+        avgSales.setBounds(100,100,180,40);
         panel.add(avgSales);
 
         avgSales.addActionListener(new ActionListener() {
@@ -63,12 +64,41 @@ public class ManagerReports {
         });
 
         JButton avgPrice = new JButton("Average Price Per Type");
-        avgPrice.setBounds(290,90,180,60);
+        avgPrice.setBounds(290,100,180,40);
         panel.add(avgPrice);
         avgPrice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AveragePricePerType table = new AveragePricePerType();
+            }
+        });
+
+        final JTextField textnumber = new JTextField();
+        textnumber.setBounds(240,60,150,20);
+        panel.add(textnumber);
+        JLabel lblNumber = new JLabel("Customer Number:");
+        lblNumber.setBounds(100,60,130,20);
+        panel.add(lblNumber);
+        JButton removeCustomer = new JButton("Remove Customer");
+        removeCustomer.setBounds(420,54,150,40);
+        panel.add(removeCustomer);
+
+        removeCustomer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String numberfromtext = textnumber.getText();
+                    Employee employee = new Employee();
+                    if (employee.removeCustomer(numberfromtext)){
+                        JOptionPane.showMessageDialog(null, "Customer Successfully Deleted", "Success!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Please check that number is valid", "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(null, "Please check that number is valid", "Error!", JOptionPane.ERROR_MESSAGE);
+
+                }
             }
         });
 

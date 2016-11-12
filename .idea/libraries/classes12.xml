@@ -1,7 +1,8 @@
 <component name="libraryTable">
   <library name="classes12">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../UBC Folder/classes12.zip!/" />
+      <root url="jar://$USER_HOME$/UBC Folder/classes12.zip!/" />
+      <root url="jar://$USER_HOME$/Desktop/classes12.zip!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

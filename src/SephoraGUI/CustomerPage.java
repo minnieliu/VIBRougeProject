@@ -29,8 +29,10 @@ import javax.swing.JPanel;
         private JButton popularProduct;
         private JButton checkProduct;
 
+
         public CustomerPage(){
             super();
+
            // setUpPage();
         }
 
@@ -60,22 +62,8 @@ import javax.swing.JPanel;
 
             frame.setLocationRelativeTo(null);
             frame.setResizable(true);
-            panel=new JPanel();
-            panel.setLayout(new GridLayout(8,8));
+            panel.setLayout(null);
 
-//            try {
-//                frame.setContentPane(panel=new JPanel(){
-//                    BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
-//                    public void paintComponent(Graphics g) {
-//                        super.paintComponent(g);
-//                        g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
-//                    }
-//                });
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-            frame.add(panel);
 
             backButton = new JButton("Go Back");
             backButton.addActionListener(new ActionListener() {
@@ -86,6 +74,7 @@ import javax.swing.JPanel;
                     clp.setUpPage();
                 }
             });
+            backButton.setBounds(480, 240, 110, 40);
             panel.add(backButton);
 
             purchaseButton = new JButton("Purchase Product");
@@ -97,6 +86,7 @@ import javax.swing.JPanel;
                     pp.setUpPage();
                 }
             });
+            purchaseButton.setBounds(235,40,130,40);
             panel.add(purchaseButton);
 
            returnButton = new JButton("Return Product");
@@ -108,6 +98,7 @@ import javax.swing.JPanel;
                     rp.setUpPage();
                 }
             });
+            returnButton.setBounds(235,90,130,40);
             panel.add(returnButton);
 
             popularProduct = new JButton("Popular Product");
@@ -119,6 +110,7 @@ import javax.swing.JPanel;
                     pp.setUpPage();
                 }
             });
+            popularProduct.setBounds(235,140,130,40);
             panel.add(popularProduct);
 
             checkProduct = new JButton("Check Product");
@@ -130,6 +122,7 @@ import javax.swing.JPanel;
                     cp.setUpPage();
                 }
             });
+            checkProduct.setBounds(235,190,130,40);
             panel.add(checkProduct);
 
             frame.setMinimumSize(new Dimension(600, 315));

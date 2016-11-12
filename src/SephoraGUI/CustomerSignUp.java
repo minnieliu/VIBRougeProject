@@ -44,83 +44,83 @@ public class CustomerSignUp extends JFrame //create class NewUser
     {
         frame = new JFrame("Member Sign Up Page");
         frame.setVisible(true);
-        frame.setBounds(100, 100, 400, 370);
+      //  frame.setBounds(100, 100, 400, 370);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-//        try {
-//            frame.setContentPane(contentPane=new JPanel(){
-//                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/glitter.jpg"));
-//                public void paintComponent(Graphics g) {
-//                    super.paintComponent(g);
-//                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        frame.add(contentPane);
+        try {
+            frame.setContentPane(contentPane=new JPanel(){
+                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //contentPane = new JPanel();
+        //contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        //frame.add(contentPane);
         contentPane.setLayout(null);
 
         txtemail = new JTextField();
-        txtemail.setBounds(188, 51, 200, 20);
+        txtemail.setBounds(188, 25, 200, 20);
         contentPane.add(txtemail);
         txtemail.setColumns(10);
 
         txtPassword = new JTextField();
-        txtPassword.setBounds(188, 100, 200, 20);
+        txtPassword.setBounds(188, 60, 200, 20);
         contentPane.add(txtPassword);
         txtPassword.setColumns(10);
 
         txtbday = new JTextField();
-        txtbday.setBounds(188, 150, 200, 20);
+        txtbday.setBounds(188, 90, 200, 20);
         contentPane.add(txtbday);
         txtbday.setColumns(10);
 
         txtname = new JTextField();
-        txtname.setBounds(188, 200, 200, 20);
+        txtname.setBounds(188, 125, 200, 20);
         contentPane.add(txtname);
         txtname.setColumns(10);
 
         txtphone = new JTextField();
-        txtphone.setBounds(188, 250, 200, 20);
+        txtphone.setBounds(188, 160, 200, 20);
         contentPane.add(txtphone);
         //txtphone.setColumns();
 
         txtgender = new JTextField();
-        txtgender.setBounds(188, 300, 50, 20);
+        txtgender.setBounds(188, 195, 50, 20);
         contentPane.add(txtgender);
         txtgender.setColumns(10);
 
-        JLabel lblEmail = new JLabel("Email");
+        JLabel lblEmail = new JLabel("Email:");
      //   lblEmail.setForeground(Color.white);
-        lblEmail.setBounds(70, 54, 86, 14);
+        lblEmail.setBounds(70, 29, 86, 14);
         contentPane.add(lblEmail);
 
-        JLabel lblPassword = new JLabel("Password");
+        JLabel lblPassword = new JLabel("Password:");
       //  lblPassword.setForeground(Color.white);
-        lblPassword.setBounds(70, 96, 86, 14);
+        lblPassword.setBounds(70, 64, 86, 14);
         contentPane.add(lblPassword);
 
-        JLabel lblbday = new JLabel("Birthday (Y-M-D)");
+        JLabel lblbday = new JLabel("Birthday (Y-M-D):");
      //   lblbday.setForeground(Color.white);
-        lblbday.setBounds(50,150, 120, 14);
+        lblbday.setBounds(70,94, 120, 14);
         contentPane.add(lblbday);
 
-        JLabel lblname = new JLabel("Name");
+        JLabel lblname = new JLabel("Name:");
      //   lblname.setForeground(Color.white);
-        lblname.setBounds(70, 195, 86, 14);
+        lblname.setBounds(70, 129, 86, 14);
         contentPane.add(lblname);
 
-        JLabel lblphone = new JLabel("Phone");
+        JLabel lblphone = new JLabel("Phone:");
      //   lblphone.setForeground(Color.white);
-        lblphone.setBounds(70, 245, 86, 14);
+        lblphone.setBounds(70, 164, 86, 14);
         contentPane.add(lblphone);
 
-        JLabel lblgender = new JLabel("Gender");
+        JLabel lblgender = new JLabel("Gender (M/F):");
         //   lblphone.setForeground(Color.white);
-        lblgender.setBounds(70, 300, 86, 14);
+        lblgender.setBounds(70, 199, 86, 14);
         contentPane.add(lblgender);
 
 
@@ -155,23 +155,26 @@ public class CustomerSignUp extends JFrame //create class NewUser
             }
         });
 
-        btnSignup.setBounds(70, 320, 89, 23);
+        btnSignup.setBounds(70, 240, 110, 40);
         contentPane.add(btnSignup);
 
-        btngoBack= new JButton("Go Back");
+        JButton backButton = new JButton("Go Back");
+        backButton.setBounds(480,240,110,40);
+        contentPane.add(backButton);
 
-        //add event handler on No Account button
-        btngoBack.addActionListener(new ActionListener() {
+
+        backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerLogInPage clp= new CustomerLogInPage();
-                clp.setUpPage();
+                CustomerLogInPage c = new CustomerLogInPage();
+                c.setUpPage();
             }
         });
-
-        contentPane.add(btngoBack);
-        btngoBack.setBounds(200, 320, 89, 23);
+        contentPane.add(backButton);
+        frame.setMinimumSize(new Dimension(600, 315));
+        frame.setVisible(true);
+        frame.pack();
         frame.setLocationRelativeTo(null);
 
     }

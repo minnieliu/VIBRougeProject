@@ -3,11 +3,14 @@ package SephoraGUI;
 
 import VIBClass.SephoraMember;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
  * Created by hailey on 16/11/11.
@@ -21,44 +24,61 @@ public class BookService {
     private SephoraMember sephoraMember;
     private String name;
     private String phone;
+    private int accountNo;
 
-    public BookService(String name, String phone) // main method
+    public BookService(String name, String phone, int accountNo) // main method
     {
         super();
         this.sephoraMember=new SephoraMember();
         this.name=name;
         this.phone=phone;
+        this.accountNo = accountNo;
     }
 
     public void setUpPage() //create constructor
     {
         frame = new JFrame("Book Service Page");
+
+        try {
+            frame.setContentPane(contentPane=new JPanel(){
+
+                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            frame.setContentPane(contentPane=new JPanel(){
+
+                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        frame.add(contentPane);
-        contentPane.setLayout(new GridLayout(8,8));
+       // contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(null);
 
-//        JLabel lblUserName = new JLabel("Name");
-//        contentPane.add(lblUserName);
-//
-//        txtName = new JTextField();
-//        contentPane.add(txtName);
-//
-//        JLabel lblPassword = new JLabel("Phone Number");
-//        contentPane.add(lblPassword);
-//
-//         txtPhone = new JTextField();
-//        contentPane.add(txtPhone);
-
-        JLabel lblServiceID = new JLabel("Service ID");
+        JLabel lblServiceID = new JLabel("Service ID: ");
+        lblServiceID.setBounds(215,30,80,20);
         contentPane.add(lblServiceID);
-
-         txtServiceID = new JTextField();
+        txtServiceID = new JTextField();
+        txtServiceID.setBounds(300,30,80,20);
         contentPane.add(txtServiceID);
 
 
@@ -84,20 +104,25 @@ public class BookService {
             }
         });
         contentPane.add(bookButton);
+        bookButton.setBounds(235, 60, 130,40);
 
         JButton backButton = new JButton("Go Back");
+        backButton.setBounds(480,240,110,40);
+        contentPane.add(backButton);
+
+
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                MainPage mp = new MainPage();
+                MemberPage mp = new MemberPage(accountNo,name,phone);
                 mp.setUpPage();
             }
         });
-        contentPane.add(backButton);
-
-        
         frame.setMinimumSize(new Dimension(600, 315));
+        frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
+
     }
 }

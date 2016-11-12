@@ -49,22 +49,86 @@ public class MemberPage extends JPanel {
         this.service=new Service();
     }
 
-    public void setUpPage(){
+    public void setUpPage() {
         frame = new JFrame("Member Page");
+
+        try {
+            frame.setContentPane(contentPane=new JPanel(){
+
+                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
-        contentPane = new JPanel();
-        frame.add(contentPane);
-        contentPane.setLayout(new GridLayout(8,8));
+      //  frame.add(contentPane);
+        contentPane.setLayout(null);
 
-
-        final JLabel account= new JLabel("Account No."+this.accountNo);
+        final JLabel account = new JLabel("Account No." + this.accountNo);
+        account.setFont(new Font("Arial", Font.BOLD, 14));
+        account.setBounds(30,10,180,20);
         contentPane.add(account);
 
-        JButton backButton = new JButton("Common Action");
-        backButton.addActionListener(new ActionListener() {
+        final JLabel myAccount = new JLabel("My Account");
+        myAccount.setBounds(80,35,110,20);
+        contentPane.add(myAccount);
+
+        JButton updateInfo = new JButton("Update Info");
+        updateInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                UpdateAccountInfo uai = new UpdateAccountInfo(accountNo, name, phone);
+                uai.setUpPage();
+            }
+        });
+        updateInfo.setBounds(80,65,130,40);
+        contentPane.add(updateInfo);
+
+        JButton purchaseHistory = new JButton("Purchase History");
+        purchaseHistory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MemberPurchaseHistory mph = new MemberPurchaseHistory(accountNo, name, phone);
+                mph.setUpPage();
+            }
+        });
+        purchaseHistory.setBounds(80,115,130,40);
+        contentPane.add(purchaseHistory);
+
+        JButton checkStatusandPoint = new JButton("Check Status");
+        checkStatusandPoint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String status = sephoraMember.checkStatus(accountNo);
+                    int point = sephoraMember.getCurrentPointbyNameAndPhone(name, phone);
+                    JOptionPane.showMessageDialog(null, "Your status is " + status + " with points " + point, "Message", JOptionPane.PLAIN_MESSAGE);
+                } catch (Exception error) {
+                    JOptionPane.showMessageDialog(null, "Your information is not in the database", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        checkStatusandPoint.setBounds(80,165,130,40);
+        contentPane.add(checkStatusandPoint);
+
+
+        final JLabel productsServices = new JLabel("Products/Services");
+        productsServices.setBounds(260,35,180,20);
+        contentPane.add(productsServices);
+
+        JButton purchase = new JButton("Purchase/Return");
+        purchase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -72,79 +136,60 @@ public class MemberPage extends JPanel {
                 cp.setUpPage();
             }
         });
-        contentPane.add(backButton);
+        purchase.setBounds(260,65,130,40);
+        contentPane.add(purchase);
 
-        JButton updateInfo = new JButton("Update Email and Password");
-        updateInfo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                UpdateAccountInfo uai = new UpdateAccountInfo(accountNo,name,phone);
-                uai.setUpPage();
-            }
-        });
-        contentPane.add(updateInfo);
-
-        JButton purchaseHistory = new JButton("Get my purchase History");
-        purchaseHistory.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                MemberPurchaseHistory mph = new MemberPurchaseHistory(accountNo);
-                mph.setUpPage();
-            }
-        });
-        contentPane.add(purchaseHistory);
-
-        JButton checkStatusandPoint = new JButton("Check Status");
-        checkStatusandPoint.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try{
-                    String status= sephoraMember.checkStatus(accountNo);
-                    int point= sephoraMember.getCurrentPointbyNameAndPhone(name,phone);
-                    JOptionPane.showMessageDialog(null,"Your status is " + status+ " with points "+ point,"Message",JOptionPane.PLAIN_MESSAGE);
-                }
-                catch (Exception error){
-                    JOptionPane.showMessageDialog(null,"Your information is not in the database","Error",JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        contentPane.add(checkStatusandPoint);
-
+        JLabel lblMonth = new JLabel("Service Month:");
+        lblMonth.setBounds(260,115, 110, 40);
+        contentPane.add(lblMonth);
+        final JTextField txtMonth = new JTextField();
+        txtMonth.setBounds(380,115,60,40);
+        contentPane.add(txtMonth);
 
         JButton bookService = new JButton("Book Service");
         bookService.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                BookService bs = new BookService(name,phone);
+                BookService bs = new BookService(name, phone, accountNo);
                 bs.setUpPage();
             }
         });
+        bookService.setBounds(260,215,130,40);
         contentPane.add(bookService);
 
-        JLabel lblMonth = new JLabel("Month");
-        contentPane.add(lblMonth);
-
-        final JTextField txtMonth = new JTextField();
-        contentPane.add(txtMonth);
-
-        JButton checkCurrentService = new JButton("Check Service for the Month");
+        JButton checkCurrentService = new JButton("Check Monthly Service");
         checkCurrentService.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int month= Integer.parseInt(txtMonth.getText());
+                int month = Integer.parseInt(txtMonth.getText());
                 frame.dispose();
-                ServiceThisMonth stm = new ServiceThisMonth(month,accountNo,name,phone);
+                ServiceThisMonth stm = new ServiceThisMonth(month, accountNo, name, phone);
                 stm.setUpPage();
             }
         });
+        checkCurrentService.setBounds(260,165,160,40);
         contentPane.add(checkCurrentService);
 
+        JButton back = new JButton("Go Back");
+        back.setBounds(480, 240, 110, 40);
+        contentPane.add(back);
+
+
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                CustomerLogInPage cp = new CustomerLogInPage();
+                cp.setUpPage();
+            }
+        });
+
         frame.setMinimumSize(new Dimension(600, 315));
+        frame.setVisible(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
+
     }
 
 }

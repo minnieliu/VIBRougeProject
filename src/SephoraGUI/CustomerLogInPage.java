@@ -34,11 +34,10 @@ public class CustomerLogInPage extends JFrame //create class NewUser
 
     public void setUpPage() //create constructor
     {
-
-
+        frame = new JFrame("Customer Log In Page");
         try {
-            frame.add(contentPane = new JPanel(){
-                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+            frame.setContentPane(contentPane = new JPanel(){
+                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/glitter.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -49,25 +48,24 @@ public class CustomerLogInPage extends JFrame //create class NewUser
         }
 
         this.customer=new Customer();
-        frame = new JFrame("Customer Log In Page");
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(100, 100, 450, 300);
+       // frame.setBounds(100, 100, 450, 300);
        // contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        frame.setContentPane(contentPane);
+       // contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+      //  frame.setContentPane(contentPane);
         contentPane.setLayout(null);
 
         txtName = new JTextField();
         txtName.setBounds(188, 51, 99, 20);
         contentPane.add(txtName);
-        txtName.setColumns(10);
+       // txtName.setColumns(10);
 
         txtPhone = new JTextField();
         txtPhone.setBounds(188, 106, 99, 20);
         contentPane.add(txtPhone);
-        txtPhone.setColumns(10);
+        //txtPhone.setColumns(10);
 
         JLabel lblUserName = new JLabel("Name");
         lblUserName.setBounds(70, 54, 86, 14);
@@ -134,7 +132,7 @@ public class CustomerLogInPage extends JFrame //create class NewUser
                 cp.setUpPage();
             }
         });
-        frame.setMinimumSize(new Dimension(600, 315));
+
         contentPane.add(btnNoAccount);
         btnNoAccount.setBounds(230, 165, 180, 23);
 
@@ -149,6 +147,7 @@ public class CustomerLogInPage extends JFrame //create class NewUser
         });
         backButton.setBounds(480,240,110,40);
         contentPane.add(backButton);
+        frame.setMinimumSize(new Dimension(600, 315));
         frame.setLocationRelativeTo(null);
 
     }

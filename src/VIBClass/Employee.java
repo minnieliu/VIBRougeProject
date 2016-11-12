@@ -260,9 +260,23 @@ public class Employee {
     }
 
 
-    public void removeCustomer(String number){
+    public boolean removeCustomer(String number) {
+        String selectquery = "SELECT * FROM customer WHERE phoneNumber =" + number;
+        ResultSet rs = oraManager.query(selectquery);
+        int count = 0;
+        try {
+            while (rs.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (count == 0) {
+            return false;
+        }
         String deleteQuery = "DELETE FROM customer WHERE phoneNumber =" + number;
         oraManager.execute(deleteQuery);
+        return true;
     }
 
     public static void main(String argv[]) {
