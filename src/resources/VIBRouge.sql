@@ -1,9 +1,9 @@
 drop table employee;
 drop table service;
+drop table updateStatus;
 drop table member1;
 drop table purchaseOrder;
 drop table customer;
-drop table updateStatus;
 
 drop table productOrder;
 drop table product;
@@ -14,7 +14,8 @@ create table customer
   phoneNumber CHAR(20),
   gender      CHAR(1),
   Check (gender in ('M','F')),
-  PRIMARY KEY (name, phoneNumber)
+  CONSTRAINT phoneNumber_Unique UNIQUE (phoneNumber),
+  CONSTRAINT customer_PK PRIMARY KEY (name, phoneNumber)
 );
 
 CREATE TABLE member1
@@ -27,23 +28,24 @@ CREATE TABLE member1
   currentPoints   INTEGER,
   name            CHAR(20) NOT NULL,
   phoneNumber     CHAR(20) NOT NULL,
-  PRIMARY KEY (accountNo),
-  FOREIGN KEY (name, phoneNumber) REFERENCES customer
+  CONSTRAINT member1_PK PRIMARY KEY (accountNo),
+  CONSTRAINT member1_FK FOREIGN KEY (name, phoneNumber) REFERENCES customer
 );
 
 CREATE TABLE Updatestatus
 (
   accountNo       INTEGER,
-  currentPoints INTEGER,
+  currentPoints   INTEGER,
   currentStatus   CHAR(20),
-  PRIMARY KEY (accountNo)
+  CONSTRAINT UpdateStatus_PK PRIMARY KEY (accountNo),
+  CONSTRAINT UpdateStatus_FK FOREIGN KEY (accountNo) references member1
 );
 
 create table employee
 (
   employeeID INTEGER NOT NULL,
   name       CHAR(20),
-  PRIMARY KEY (employeeID)
+  CONSTRAINT employee_PK PRIMARY KEY (employeeID)
 );
 
 create table service
@@ -51,8 +53,8 @@ create table service
   serviceID   INTEGER  NOT NULL,
   serviceDate CHAR(40),
   serviceCapacity INTEGER,
-  serviceName CHAR(50), 
-  PRIMARY KEY (serviceID)
+  serviceName CHAR(50),
+  CONSTRAINT service_PK PRIMARY KEY (serviceID)
 );
 
 create table product
@@ -62,7 +64,7 @@ create table product
   brand           CHAR(40),
   inventoryNumber INTEGER,
   productType     CHAR(40),
-  PRIMARY KEY (productID)
+  CONSTRAINT product_PK PRIMARY KEY (productID)
 );
 
 create table purchaseOrder
@@ -72,8 +74,8 @@ create table purchaseOrder
   name            CHAR(20),
   methodOfPayment CHAR(20),
   purchaseDate    CHAR(20),
-  PRIMARY KEY (purchaseID),
-  FOREIGN KEY (name,phoneNumber) REFERENCES customer
+  CONSTRAINT purchaseOrder_PK PRIMARY KEY (purchaseID),
+  CONSTRAINT purchaseOrder_FK FOREIGN KEY (name,phoneNumber) REFERENCES customer
 );
 
 create table productOrder
@@ -81,8 +83,8 @@ create table productOrder
   purchaseID INTEGER,
   productID   INTEGER,
   quantityPurchased INTEGER,
-  PRIMARY KEY (purchaseID,productID),
-  FOREIGN KEY (productID) REFERENCES product
+  CONSTRAINT productOrder_PK PRIMARY KEY (purchaseID,productID),
+  CONSTRAINT productOrder_FK FOREIGN KEY (productID) REFERENCES product
 );
 
 insert into customer
@@ -283,4 +285,39 @@ insert into productOrder
 insert into purchaseOrder
     values(74923748,'6135950177', 'Sophie Sanders', 'credit','2016-07-23');
 
+CREATE OR REPLACE TRIGGER memberDeleteCascade
+    BEFORE DELETE
+    ON customer
+    FOR EACH row
+BEGIN
+    DELETE FROM member1 WHERE phoneNumber = :OLD.phoneNumber;
+END;
+/
 
+CREATE OR REPLACE TRIGGER purchaseOrderDeleteCascade
+    BEFORE DELETE
+    ON customer
+    FOR EACH row
+BEGIN
+    DELETE FROM purchaseOrder WHERE phoneNumber = :OLD.phoneNumber;
+END;
+/
+
+CREATE OR REPLACE TRIGGER UpdateStatusDeleteCascade
+    BEFORE DELETE
+    ON member1
+    FOR EACH row
+BEGIN
+    DELETE FROM updateStatus WHERE accountNo = :OLD.accountNo;
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER productOrderDeleteCascade
+    BEFORE DELETE
+    ON product
+    FOR EACH row
+BEGIN
+    DELETE FROM productOrder WHERE productID = :OLD.productID;
+END;
+/
