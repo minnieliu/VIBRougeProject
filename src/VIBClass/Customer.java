@@ -56,6 +56,29 @@ public class Customer {
         return result;
     }
 
+    public int getAccountNo(String name, String phoneNumber)throws Exception{
+        if(isMember(name,phoneNumber)){
+            ResultSet rs = null;
+            String selectQuery = "SELECT accountNo FROM member1 WHERE name = '" + name +
+                    "' AND phoneNumber = '" + phoneNumber + "'";
+            rs = oraManager.query(selectQuery);
+            int result = 0;
+
+            try {
+                rs.first();
+                result=rs.getInt("accountNo");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+        else{
+            Exception e= new Exception("You are currently not a member");
+            throw e;
+        }
+    }
+
     public void addMember(String email, String password, String birthday, String name, String phoneNum)throws Exception {
         // changed birthday from string to date
         Random rand = new Random();

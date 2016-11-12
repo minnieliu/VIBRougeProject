@@ -1,7 +1,10 @@
 package VIBClass;
 
+import javax.swing.*;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /**
  * Created by hailey on 16/11/5.
@@ -148,22 +151,52 @@ public class Product {
         }
     }
 
-    public void popularProduct(){
-        String query = "SELECT productID FROM product WHERE NOT EXISTS" +
+    public JTable popularProduct(){
+        ResultSet rs = null;
+        String query = "SELECT * FROM product WHERE NOT EXISTS" +
                 "(SELECT * FROM customer WHERE NOT EXISTS" +
                 "(SELECT name, phoneNumber FROM purchaseOrder, productOrder WHERE" +
                 " product.productID = productOrder.productID AND purchaseOrder.name = customer.name " +
                 "AND purchaseOrder.phoneNumber = customer.phoneNumber AND purchaseOrder.purchaseID = productOrder.purchaseID))";
-        ResultSet rs = oraManager.query(query);
-        try{
-            while (rs.next()) {
-                int productID = rs.getInt("productID");
-                System.out.println("popular products: "+ productID + "\n");
+        rs = oraManager.query(query);
+        ResultSetMetaData md = null;
+        Vector data = new Vector();
+        Vector columnNames = new Vector();
+        try {
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();}
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
             }
-            rs.close();}
-        catch (Exception e){
-            System.out.println("found error: " + e);
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+                data.addElement(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        JTable table = new JTable(data,columnNames);
+        return table;
+
+
+//        try{
+//            while (rs.next()) {
+//                int productID = rs.getInt("productID");
+//                System.out.println("popular products: "+ productID + "\n");
+//            }
+//            rs.close();}
+//        catch (Exception e){
+//            System.out.println("found error: " + e);
+//        }
     }
 
     public void mostExpensive(){

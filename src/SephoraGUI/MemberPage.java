@@ -1,6 +1,9 @@
 package SephoraGUI;
 
 
+import VIBClass.SephoraMember;
+import VIBClass.Service;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -21,6 +24,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Created by hailey on 16/11/11.
@@ -28,11 +32,21 @@ import javax.swing.*;
 public class MemberPage extends JPanel {
     //TODO: ADD More Functions for Member Specific
     private JFrame frame;
-    private JPanel panel;
+    private JPanel contentPane;
+    private int accountNo;
+    private String name;
+    private String phone;
+    private SephoraMember sephoraMember;
+    private Service service;
 
-    public MemberPage(){
+    public MemberPage(int accountNo,String name,String phone)
+    {
         super();
-        // setUpPage();
+        this.accountNo=accountNo;
+        this.name=name;
+        this.phone=phone;
+        this.sephoraMember=new SephoraMember();
+        this.service=new Service();
     }
 
     public void setUpPage(){
@@ -41,35 +55,83 @@ public class MemberPage extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
-        try {
-            frame.setContentPane(panel=new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
-                public void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        contentPane = new JPanel();
+        frame.add(contentPane);
+        contentPane.setLayout(new GridLayout(8,8));
 
 
-        JButton purchaseButton = new JButton("Purchase");
-        JButton returnButton = new JButton("Return");
-        JButton backButton = new JButton("Go Back");
+        final JLabel account= new JLabel("Account No."+this.accountNo);
+        contentPane.add(account);
 
+        JButton backButton = new JButton("Common Action");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                MainPage mp = new MainPage();
-                mp.setUpPage();
+                CustomerPage cp = new CustomerPage();
+                cp.setUpPage();
             }
         });
+        contentPane.add(backButton);
 
-        panel.add(backButton);
-        panel.add(purchaseButton);
-        panel.add(returnButton);
+        JButton updateInfo = new JButton("Update Email and Password");
+        updateInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                UpdateAccountInfo uai = new UpdateAccountInfo(accountNo,name,phone);
+                uai.setUpPage();
+            }
+        });
+        contentPane.add(updateInfo);
+
+
+        JButton checkStatusandPoint = new JButton("Check Status");
+        checkStatusandPoint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    String status= sephoraMember.checkStatus(accountNo);
+                    int point= sephoraMember.getCurrentPointbyNameAndPhone(name,phone);
+                    JOptionPane.showMessageDialog(null,"Your status is " + status+ " with points "+ point,"Message",JOptionPane.PLAIN_MESSAGE);
+                }
+                catch (Exception error){
+                    JOptionPane.showMessageDialog(null,"Your information is not in the database","Error",JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        contentPane.add(checkStatusandPoint);
+
+
+        JButton bookService = new JButton("Book Service");
+        bookService.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                BookService bs = new BookService(name,phone);
+                bs.setUpPage();
+            }
+        });
+        contentPane.add(bookService);
+
+        JLabel lblMonth = new JLabel("Month");
+        contentPane.add(lblMonth);
+
+        final JTextField txtMonth = new JTextField();
+        contentPane.add(txtMonth);
+
+        JButton checkCurrentService = new JButton("Check Service for the Month");
+        checkCurrentService.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int month= Integer.parseInt(txtMonth.getText());
+                frame.dispose();
+                ServiceThisMonth stm = new ServiceThisMonth(month,accountNo,name,phone);
+                stm.setUpPage();
+            }
+        });
+        contentPane.add(checkCurrentService);
+
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
         frame.setLocationRelativeTo(null);
