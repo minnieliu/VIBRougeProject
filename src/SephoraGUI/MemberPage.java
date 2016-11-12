@@ -1,6 +1,8 @@
 package SephoraGUI;
 
 
+import VIBClass.SephoraMember;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -21,6 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Created by hailey on 16/11/11.
@@ -28,11 +31,12 @@ import javax.swing.*;
 public class MemberPage extends JPanel {
     //TODO: ADD More Functions for Member Specific
     private JFrame frame;
-    private JPanel panel;
+    private JPanel contentPane;
+    private SephoraMember sephoraMember;
 
     public MemberPage(){
         super();
-        // setUpPage();
+        this.sephoraMember= new SephoraMember();
     }
 
     public void setUpPage(){
@@ -42,36 +46,63 @@ public class MemberPage extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        try {
-            frame.setContentPane(panel=new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
-                public void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        contentPane = new JPanel();
+        frame.add(contentPane);
+        contentPane.setLayout(new GridLayout(8,8));
 
-
-        JButton purchaseButton = new JButton("Purchase");
-        JButton returnButton = new JButton("Return");
-        JButton backButton = new JButton("Go Back");
-
+        JButton backButton = new JButton("Common Action");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                MainPage mp = new MainPage();
-                mp.setUpPage();
+                CustomerPage cp = new CustomerPage();
+                cp.setUpPage();
             }
         });
+        contentPane.add(backButton);
 
-        panel.add(backButton);
-        panel.add(purchaseButton);
-        panel.add(returnButton);
+        JButton updateInfo = new JButton("Update Email and Password");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                UpdateAccountInfo uai = new UpdateAccountInfo();
+                uai.setUpPage();
+            }
+        });
+        contentPane.add(updateInfo);
+
+
+        JButton checkStatusandPoint = new JButton("Check Status");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        contentPane.add(checkStatusandPoint);
+
+
+        JButton checkCurrentService = new JButton("Check Service");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        contentPane.add(checkCurrentService);
+
+        JButton bookService = new JButton("Book Service");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                BookService bs = new BookService();
+                bs.setUpPage();
+            }
+        });
+        contentPane.add(bookService);
+
         frame.setMinimumSize(new Dimension(600, 315));
+        frame.setVisible(true);
         frame.pack();
     }
 

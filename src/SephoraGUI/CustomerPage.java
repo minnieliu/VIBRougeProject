@@ -42,6 +42,7 @@ import javax.swing.*;
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
             frame.setResizable(false);
+            panel.setLayout(new GridLayout(8,8));
 
             try {
                 frame.setContentPane(panel=new JPanel(){
@@ -56,10 +57,7 @@ import javax.swing.*;
             }
 
 
-            JButton purchaseButton = new JButton("Purchase");
-            JButton returnButton = new JButton("Return");
             JButton backButton = new JButton("Go Back");
-
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -68,10 +66,52 @@ import javax.swing.*;
                     clp.setUpPage();
                 }
             });
-
             panel.add(backButton);
+
+            JButton purchaseButton = new JButton("Purchase Product");
+            purchaseButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                    PurchaseProduct pp = new PurchaseProduct();
+                    pp.setUpPage();
+                }
+            });
             panel.add(purchaseButton);
+
+            JButton returnButton = new JButton("Return Product");
+            returnButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                    ReturnProduct rp = new ReturnProduct();
+                    rp.setUpPage();
+                }
+            });
             panel.add(returnButton);
+
+            JButton popularProduct = new JButton("Popular Product");
+            popularProduct.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                    PopularProduct pp = new PopularProduct();
+                    pp.setUpPage();
+                }
+            });
+            panel.add(popularProduct);
+
+            JButton checkProduct = new JButton("Check Product");
+            checkProduct.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                    CheckProduct cp = new CheckProduct();
+                    cp.setUpPage();
+                }
+            });
+            panel.add(checkProduct);
+
             frame.setMinimumSize(new Dimension(600, 315));
             frame.pack();
         }
