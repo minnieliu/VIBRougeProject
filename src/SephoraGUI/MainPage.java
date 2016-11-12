@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 
 import static com.sun.tools.doclint.Entity.image;
 
@@ -50,7 +51,7 @@ public class MainPage extends JPanel{
 
         try {
             frame.setContentPane(panel= new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
+                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/sephora.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -61,8 +62,12 @@ public class MainPage extends JPanel{
         }
 
 
-        JButton employeeButton = new JButton("Employee");
-        frame.add(employeeButton);
+        final JButton employeeButton = new JButton("Employee");
+        employeeButton.setFont(new Font("Arial", Font.BOLD, 14));
+        employeeButton.setBounds(150,20,100,20);
+        panel.add(employeeButton);
+
+        //frame.add(employeeButton);
         employeeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,8 +77,11 @@ public class MainPage extends JPanel{
 
             }
         });
+
         JButton customerButton = new JButton("Customer");
-        frame.add(customerButton);
+        customerButton.setFont(new Font("Arial", Font.BOLD, 14));
+        customerButton.setBounds(50,20,100,20);
+        panel.add(customerButton);
         customerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

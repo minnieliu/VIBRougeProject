@@ -137,6 +137,18 @@ public class CustomerLogInPage extends JFrame //create class NewUser
         frame.setMinimumSize(new Dimension(600, 315));
         contentPane.add(btnNoAccount);
         btnNoAccount.setBounds(230, 165, 180, 23);
+
+        JButton backButton = new JButton("Go Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MainPage mp = new MainPage();
+                mp.setUpPage();
+            }
+        });
+        backButton.setBounds(480,240,110,40);
+        contentPane.add(backButton);
         frame.setLocationRelativeTo(null);
 
     }

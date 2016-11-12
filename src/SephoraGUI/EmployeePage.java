@@ -16,21 +16,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-
 
 public class EmployeePage extends JPanel implements ActionListener{
     private JFrame frame;
@@ -106,7 +95,7 @@ public class EmployeePage extends JPanel implements ActionListener{
                 int productid = Integer.parseInt(prodID.getText());
                 int pNum = Integer.parseInt(prodNum.getText());
                 employee.addInventory(productid,pNum);
-               // JOptionPane.showMessageDialog(null, "Success", "InfoBox" , JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Successfully Added Inventory!","Success!",JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -127,7 +116,6 @@ public class EmployeePage extends JPanel implements ActionListener{
         frame.pack();
         frame.setLocationRelativeTo(null);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
