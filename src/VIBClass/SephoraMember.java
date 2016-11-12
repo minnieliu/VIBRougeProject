@@ -1,4 +1,3 @@
-
 package VIBClass;
 
 import java.sql.*;
@@ -35,7 +34,7 @@ public class SephoraMember {
                 "status = " + newStatus+
                 " WHERE accountNo = " + accountNo;
         oraManager.execute(updateQuery);
-         return newStatus;
+        return newStatus;
     }
 
     public void removeMember(int accountNo){
@@ -45,12 +44,16 @@ public class SephoraMember {
     }
 
 
-    public void updateAccountInfo(int accountNo, String email, String password){
+    public void updateAccountInfo(int accountNo, String email, String password) throws Exception {
         String updateQuery = "UPDATE member1 SET " +
                 "emailAddress = '" + email + "' , " +
                 "password = '" + password + "' WHERE accountNo = " + accountNo;
-
-        oraManager.execute(updateQuery);
+        if(accountNo != 0 && email != null && password!=null)
+            oraManager.execute(updateQuery);
+        else{
+            Exception e= new Exception("This is not a valid update");
+            throw e;
+        }
 
     }
 
@@ -84,34 +87,40 @@ public class SephoraMember {
         return result;
     }
 
-    public boolean bookService(int serviceid, String name, String phone){
+    public boolean bookService(int serviceid, String name, String phone) throws Exception {
         // checks the name and phone to see if member
         // updates the capacity number when service is booked
         int capacityNum = 0;
         Customer c = new Customer();
-        if (c.isMember(name,phone)){
-            ResultSet rs = null;
-            String selectQuery = "SELECT serviceCapacity FROM service WHERE serviceID = " + serviceid;
-            rs = oraManager.query(selectQuery);
-            try {
-                    while(rs.next()) {
+        if(serviceid != 0 && name != null && phone!=null) {
+            if (c.isMember(name, phone)) {
+                ResultSet rs = null;
+                String selectQuery = "SELECT serviceCapacity FROM service WHERE serviceID = " + serviceid;
+                rs = oraManager.query(selectQuery);
+                try {
+                    while (rs.next()) {
                         capacityNum = rs.getInt("serviceCapacity");
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (capacityNum == 0) {
+                    Exception e= new Exception("This is not a valid book");
+                    throw e;
+                }
+                capacityNum--;
+
+                String updateQuery = "UPDATE service SET serviceCapacity = " + capacityNum + "WHERE serviceID = " + serviceid;
+                oraManager.execute(updateQuery);
+
             }
-
-            if (capacityNum == 0) {
-                return false;
-            }
-            capacityNum --;
-
-            String updateQuery = "UPDATE service SET serviceCapacity = " + capacityNum + "WHERE serviceID = " + serviceid;
-            oraManager.execute(updateQuery);
-
+            return true;
         }
-        return true;
+        else{
+            Exception e= new Exception("This is not a valid book");
+            throw e;
+        }
     }
 
     public static void main(String[] args) {

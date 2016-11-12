@@ -1,7 +1,13 @@
 package VIBClass;
 
+import com.sun.jndi.cosnaming.CNCtx;
+
+import javax.swing.*;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Random;
+import java.util.Vector;
 
 
 public class PurchaseHistory {
@@ -22,24 +28,40 @@ public class PurchaseHistory {
     }
 
     //edit by Hailey
-    public void purchaseProduct (int productID,int purchaseID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date){
-
+    public int purchaseProduct (int productID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date) throws Exception {
         int currentInv = product.checkInventory(productID);
-        if(currentInv >0) {
+        if (currentInv > 0 && productID !=0 && quantity >0 && CPhoneNum !=null && CName !=null && methodOfPayment != null && date!=null) {
             // Update the inventory
-            product.updateInventory(productID, -quantity);
-            //Update the purchaseHistory with purchaseID
-            if (checkpurchaseID(purchaseID)==true){
-                this.additem(purchaseID,productID,quantity);
+            if(date.indexOf("-") == 4 && date.lastIndexOf("-") == 7) {
+                product.updateInventory(productID, -quantity);
+                //Update the purchaseHistory with purchaseID
+//
+//            if (checkpurchaseID(purchaseID)==true){
+//                this.additem(purchaseID,productID,quantity);
+//            }
+
+                Random rand = new Random();
+                int purchaseID = rand.nextInt(99999999);
+                this.additem(purchaseID, productID, quantity);
+                this.createPurchaseHistory(purchaseID, CPhoneNum, CName, methodOfPayment, date);
+                this.additem(purchaseID, productID, quantity);
+
+                //Check whether the customer is a member
+                if (customer.isMember(CName, CPhoneNum)) {
+                    int price = product.checkPrice(productID);
+                    int point = price * quantity;
+                    sephoraMember.updatePoint(CName, CPhoneNum, point);
+                }
+                return purchaseID;
             }
-            else {this.createPurchaseHistory(purchaseID,CPhoneNum, CName, methodOfPayment, date);
-                this.additem(purchaseID,productID,quantity);}
-            //Check whether the customer is a member
-            if(customer.isMember(CName,CPhoneNum)){
-                int price= product.checkPrice(productID);
-                int point= price * quantity;
-                sephoraMember.updatePoint(CName, CPhoneNum, point);
+            else {
+                Exception e= new Exception("Date must be YYYY-MM-DD");
+                throw e;
             }
+        }
+        else{
+            Exception e= new Exception("You cannot finish this purchase");
+            throw e;
         }
     }
 
@@ -61,7 +83,7 @@ public class PurchaseHistory {
         }
     }
 
-    public void returnProduct (int productID,int purchaseID){
+    public boolean returnProduct (int productID,int purchaseID) throws Exception{
 
         //check the purchaseID
         if(this.checkHistory(purchaseID))
@@ -88,7 +110,11 @@ public class PurchaseHistory {
             }
             //delete product
             this.deleteprod(purchaseID, productID, 1);
-        };
+            return true;
+        }else{
+            Exception e= new Exception("There is no record for this purchase");
+            throw e;
+        }
     }
 
     //edit the sequence of insert by Hailey to make it the same with sql
@@ -147,35 +173,78 @@ public class PurchaseHistory {
                     + purchaseID + ","
                     + productID +","
                     + quantityPurchased+")";
-            oraManager.execute(insertprod);
-            System.out.println("added successfully");
-            return true;}
+                oraManager.execute(insertprod);
+                System.out.println("added successfully");
+                return true;}
         }
         catch (Exception e){
             System.out.println("found error: " + e);
             return false;
         }
     }
-    public void checkMemberPurchaseHistory(int accountno) {
 
+    public JTable checkMemberPurchaseHistory(int accountno) throws Exception{
+        if(accountno<=0){
+            Exception e= new Exception("You are currently not a member");
+            throw e;
+        }
         ResultSet rs = oraManager.query("SELECT * " +
                 "FROM purchaseOrder, productOrder, member1 " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND purchaseOrder.name=member1.name AND purchaseOrder.phoneNumber=member1.phoneNumber AND" +
                 " member1.accountNo="+accountno);
-        try{
-            while (rs.next()) {
-                int productID = rs.getInt("productID");
-                int quantityPurchased = rs.getInt("quantityPurchased");
-                System.out.println("accountno: "+ accountno + "productID: "+ productID + "quantitypurchased: "+quantityPurchased+"\n");
-            }
-            rs.close();}
-        catch (Exception e){
-            System.out.println("found error: " + e);
+        ResultSetMetaData md = null;
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
+        try {
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
 
-//return boolean
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
+
     }
+
+//
+//    public void checkMemberPurchaseHistory(int accountno) {
+//
+//        ResultSet rs = oraManager.query("SELECT * " +
+//                "FROM purchaseOrder, productOrder, member1 " +
+//                "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND purchaseOrder.name=member1.name AND purchaseOrder.phoneNumber=member1.phoneNumber AND" +
+//                " member1.accountNo="+accountno);
+//        try{
+//            while (rs.next()) {
+//                int productID = rs.getInt("productID");
+//                int quantityPurchased = rs.getInt("quantityPurchased");
+//                System.out.println("accountno: "+ accountno + "productID: "+ productID + "quantitypurchased: "+quantityPurchased+"\n");
+//            }
+//            rs.close();}
+//        catch (Exception e){
+//            System.out.println("found error: " + e);
+//        }
+//    }
 
 
 
@@ -205,22 +274,45 @@ public class PurchaseHistory {
         return result;
     }
     //average item purchased per transaction per customer
-    public void averageitemspercustomer(){
+    public JTable averageitemspercustomer(){
         oraManager.query("CREATE VIEW purchasecount AS " +
                 "SELECT SUM(productOrder.quantityPurchased) AS count, purchaseOrder.name, purchaseOrder.phoneNumber, purchaseOrder.purchaseID FROM purchaseOrder, productOrder " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID " +
                 "GROUP BY purchaseOrder.name, purchaseOrder.phoneNumber, purchaseOrder.purchaseID");
         ResultSet rs = oraManager.query("SELECT AVG(count) AS avgcount, name FROM purchasecount GROUP BY name, phoneNumber");
-        try{
-            while (rs.next()) {
-                int avgcount = rs.getInt("avgcount");
-                String name = rs.getString("name");
-                System.out.println("name:  "+ name + "avg count: "+ avgcount + "\n");
-            }
-            rs.close();}
-        catch (Exception e){
-            System.out.println("found error: " + e);
+        ResultSetMetaData md = null;
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
+
+        try {
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
 
     }
 
@@ -261,9 +353,9 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-        ps.purchaseProduct(5555, 55543215, 2, "7782341039", "Sarah Kwong","credit", "2016-07-24");
+        // ps.purchaseProduct(5555, 55543215, 2, "7782341039", "Sarah Kwong","credit", "2016-07-24");
         ps.checkHistory(55543215);
-        ps.returnProduct(5555, 55543215);
+        //       ps.returnProduct(5555, 55543215);
         ps.checkHistory(55543215);
 
 //        ps.createPurchaseHistory(55543215,"7782341039", "Sarah Kwong", "Visa","2016-07-24");
