@@ -32,9 +32,18 @@ public class MemberPage extends JPanel {
     //TODO: ADD More Functions for Member Specific
     private JFrame frame;
     private JPanel contentPane;
+    private int accountNo;
+    private String name;
+    private String phone;
+    private SephoraMember sephoraMember;
 
-    public MemberPage(){
+    public MemberPage(int accountNo,String name,String phone)
+    {
         super();
+        this.accountNo=accountNo;
+        this.name=name;
+        this.phone=phone;
+        this.sephoraMember=new SephoraMember();
     }
 
     public void setUpPage(){
@@ -47,6 +56,10 @@ public class MemberPage extends JPanel {
         contentPane = new JPanel();
         frame.add(contentPane);
         contentPane.setLayout(new GridLayout(8,8));
+
+
+        JLabel account= new JLabel("Account No."+this.accountNo);
+        contentPane.add(account);
 
         JButton backButton = new JButton("Common Action");
         backButton.addActionListener(new ActionListener() {
@@ -75,15 +88,24 @@ public class MemberPage extends JPanel {
         checkStatusandPoint.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try{
+                    String status= sephoraMember.checkStatus(accountNo);
+                    int point= sephoraMember.getCurrentPointbyNameAndPhone(name,phone);
+                    JOptionPane.showMessageDialog(null,"Your status is " + status+ " with points "+ point,"Message",JOptionPane.PLAIN_MESSAGE);
+                }
+                catch (Exception error){
+                    JOptionPane.showMessageDialog(null,"Your information is not in the database","Error",JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         contentPane.add(checkStatusandPoint);
 
 
-        JButton checkCurrentService = new JButton("Check Service");
+        JButton checkCurrentService = new JButton("Check Service for this Month");
         checkCurrentService.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //TODO:change the return to JTABLE
             }
         });
         contentPane.add(checkCurrentService);
