@@ -80,7 +80,7 @@ public class PurchaseHistory {
         }
     }
 
-    public void returnProduct (int productID,int purchaseID){
+    public boolean returnProduct (int productID,int purchaseID) throws Exception{
 
         //check the purchaseID
         if(this.checkHistory(purchaseID))
@@ -107,7 +107,11 @@ public class PurchaseHistory {
             }
             //delete product
             this.deleteprod(purchaseID, productID, 1);
-        };
+            return true;
+        }else{
+            Exception e= new Exception("There is no record for this purchase");
+            throw e;
+        }
     }
 
     //edit the sequence of insert by Hailey to make it the same with sql
@@ -282,7 +286,7 @@ public class PurchaseHistory {
         PurchaseHistory ps = new PurchaseHistory();
        // ps.purchaseProduct(5555, 55543215, 2, "7782341039", "Sarah Kwong","credit", "2016-07-24");
         ps.checkHistory(55543215);
-        ps.returnProduct(5555, 55543215);
+ //       ps.returnProduct(5555, 55543215);
         ps.checkHistory(55543215);
 
 //        ps.createPurchaseHistory(55543215,"7782341039", "Sarah Kwong", "Visa","2016-07-24");
