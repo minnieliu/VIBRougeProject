@@ -2,6 +2,7 @@ package SephoraGUI;
 
 
 import VIBClass.SephoraMember;
+import VIBClass.Service;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -36,6 +37,7 @@ public class MemberPage extends JPanel {
     private String name;
     private String phone;
     private SephoraMember sephoraMember;
+    private Service service;
 
     public MemberPage(int accountNo,String name,String phone)
     {
@@ -44,6 +46,7 @@ public class MemberPage extends JPanel {
         this.name=name;
         this.phone=phone;
         this.sephoraMember=new SephoraMember();
+        this.service=new Service();
     }
 
     public void setUpPage(){
@@ -101,15 +104,6 @@ public class MemberPage extends JPanel {
         contentPane.add(checkStatusandPoint);
 
 
-        JButton checkCurrentService = new JButton("Check Service for this Month");
-        checkCurrentService.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO:change the return to JTABLE
-            }
-        });
-        contentPane.add(checkCurrentService);
-
         JButton bookService = new JButton("Book Service");
         bookService.addActionListener(new ActionListener() {
             @Override
@@ -120,6 +114,24 @@ public class MemberPage extends JPanel {
             }
         });
         contentPane.add(bookService);
+
+        JLabel lblMonth = new JLabel("Month");
+        contentPane.add(lblMonth);
+
+        final JTextField txtMonth = new JTextField();
+        contentPane.add(txtMonth);
+
+        JButton checkCurrentService = new JButton("Check Service for the Month");
+        checkCurrentService.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int month= Integer.parseInt(txtMonth.getText());
+                frame.dispose();
+                ServiceThisMonth stm = new ServiceThisMonth(month,accountNo,name,phone);
+                stm.setUpPage();
+            }
+        });
+        contentPane.add(checkCurrentService);
 
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();

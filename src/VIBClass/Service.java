@@ -3,6 +3,7 @@ package VIBClass;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.print.StreamPrintService;
+import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 /**
@@ -78,26 +79,54 @@ public class Service {
         oraManager.query(updateQuery);
     }
 
-    public ArrayList<String> checkServiceForThisMonth(int month){
+    public JTable checkServiceForThisMonth(int month) throws Exception{
+        ResultSet rs = null;
+        if (month <=0 || month>12){
+            Exception e= new Exception("It is not a valid month");
+            throw e;
+        }
 
         String checkeQuery = "SELECT serviceName, serviceID, serviceCapacity FROM service WHERE serviceDate LIKE " + "'%-"+month+"-%'";
 //        System.out.println(checkeQuery);
-        ResultSet rs = oraManager.query(checkeQuery);
+        rs = oraManager.query(checkeQuery);
+        ResultSetMetaData md = null;
         ArrayList<String> result = new ArrayList<String>();
+        Vector data = new Vector();
+        Vector columnNames = new Vector();
         try {
-//            System.out.print("serviceCapacity:" );
-            while(rs.next()){
-                String serviceName=rs.getString("serviceName");
-                Integer cap = rs.getInt("serviceCapacity");
-                String serviceID=rs.getString("serviceID");
-//                System.out.println(serviceID+ " "+serviceName);
-                result.add(serviceID + " " + serviceName + "Capacity Left: " + cap);
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();}
+
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
             }
+
+            while (rs.next()) {
+                Vector row = new Vector(columns);
+
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+                data.addElement(row);
+            }
+//            System.out.print("serviceCapacity:" );
+//            while(rs.next()){
+//                String serviceName=rs.getString("serviceName");
+//                Integer cap = rs.getInt("serviceCapacity");
+//                String serviceID=rs.getString("serviceID");
+////                System.out.println(serviceID+ " "+serviceName);
+//                result.add(serviceID + " " + serviceName + "Capacity Left: " + cap);
+//            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        JTable table = new JTable(data,columnNames);
+        return table;
     }
 
     public static void main(String[] args) {

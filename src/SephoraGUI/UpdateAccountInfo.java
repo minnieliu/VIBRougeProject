@@ -16,9 +16,9 @@ public class UpdateAccountInfo {
     private JFrame frame;
     private JPanel contentPane;
     private int accountNo;
-    private SephoraMember sephoraMember;
     private String name;
     private String phone;
+    private SephoraMember sephoraMember;
 
     public UpdateAccountInfo(int accountNo,String name,String phone) // main method
     {
