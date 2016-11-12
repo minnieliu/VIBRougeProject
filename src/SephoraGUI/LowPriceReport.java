@@ -24,7 +24,6 @@ public class LowPriceReport {
         frame = new JFrame("Low Price Report Page");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(true);
 
         Employee employee = new Employee();
@@ -36,5 +35,6 @@ public class LowPriceReport {
         frame.add(panel);
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 }

@@ -39,7 +39,6 @@ public class MemberPage extends JPanel {
         frame = new JFrame("Member Page");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
         try {
@@ -73,6 +72,7 @@ public class MemberPage extends JPanel {
         panel.add(returnButton);
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
 }

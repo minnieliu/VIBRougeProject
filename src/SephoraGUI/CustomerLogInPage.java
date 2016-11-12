@@ -1,9 +1,13 @@
 package SephoraGUI;//import statement
 import VIBClass.Customer;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -30,13 +34,27 @@ public class CustomerLogInPage extends JFrame //create class NewUser
 
     public void setUpPage() //create constructor
     {
+
+
+        try {
+            frame.setContentPane(contentPane = new JPanel(){
+                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/glitter.jpg"));
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.customer=new Customer();
         frame = new JFrame("Customer Log In Page");
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
+       // contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         frame.setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -115,9 +133,10 @@ public class CustomerLogInPage extends JFrame //create class NewUser
                 cp.setUpPage();
             }
         });
-
+        frame.setMinimumSize(new Dimension(600, 315));
         contentPane.add(btnNoAccount);
         btnNoAccount.setBounds(230, 165, 180, 23);
+        frame.setLocationRelativeTo(null);
 
     }
 }

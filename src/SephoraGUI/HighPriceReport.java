@@ -24,7 +24,6 @@ public class HighPriceReport {
         frame = new JFrame("High Price Report Page");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(true);
 
         Employee employee = new Employee();
@@ -37,6 +36,7 @@ public class HighPriceReport {
         frame.setMinimumSize(new Dimension(600, 315));
         frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
 }

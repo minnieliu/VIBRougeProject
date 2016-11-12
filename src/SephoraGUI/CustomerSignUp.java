@@ -46,19 +46,18 @@ public class CustomerSignUp extends JFrame //create class NewUser
         frame.setVisible(true);
         frame.setBounds(100, 100, 400, 370);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-//        try {
-//            frame.setContentPane(contentPane=new JPanel(){
-//                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
-//                public void paintComponent(Graphics g) {
-//                    super.paintComponent(g);
-//                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            frame.setContentPane(contentPane=new JPanel(){
+                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/glitter.jpg"));
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         frame.add(contentPane);
@@ -173,7 +172,7 @@ public class CustomerSignUp extends JFrame //create class NewUser
 
         contentPane.add(btngoBack);
         btngoBack.setBounds(200, 320, 89, 23);
-
+        frame.setLocationRelativeTo(null);
 
     }
 }

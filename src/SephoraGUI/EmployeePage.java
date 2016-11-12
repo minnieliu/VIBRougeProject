@@ -49,14 +49,12 @@ public class EmployeePage extends JPanel implements ActionListener{
 
         frame = new JFrame("Employee Page");
         frame.setVisible(true);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
         try {
             frame.setContentPane(panel=new JPanel(){
-                BufferedImage image = ImageIO.read(new File("/Users/hailey/Desktop/CPSC304/VIBRougeProject/src/resources/sephora.jpg"));
+                BufferedImage image = ImageIO.read(new File("/Users/minnieliu/VIBRougeProject/src/resources/glitter.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
@@ -66,8 +64,16 @@ public class EmployeePage extends JPanel implements ActionListener{
             e.printStackTrace();
         }
 
-            JButton getReports = new JButton("Reports");
-            getReports.addActionListener(new ActionListener() {
+        panel.setBounds(100,100,450,300);
+        frame.setContentPane(panel);
+        panel.setLayout(null);
+
+        JButton getReports = new JButton("Reports");
+        getReports.setBounds(330,90,110,40);
+        panel.add(getReports);
+
+
+        getReports.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -76,19 +82,23 @@ public class EmployeePage extends JPanel implements ActionListener{
         });
 
 
-        panel.setLayout(new GridLayout(10,2));
-
         JLabel productLabel = new JLabel("Product ID:");
+        productLabel.setBounds(50, 51, 80, 20);
+        panel.add(productLabel);
         final JTextField prodID = new JTextField("");
-        final JLabel NumberAdded = new JLabel("Number of Inventory to Add:");
+        prodID.setBounds(140, 51, 110, 20);
+        panel.add(prodID);
+        JLabel NumberAdded = new JLabel("Number added:");
+        NumberAdded.setBounds(260, 51, 100, 20);
+        panel.add(NumberAdded);
         final JTextField prodNum = new JTextField("");
+        prodNum.setBounds(370, 51, 110, 20);
+        panel.add(prodNum);
 
-        panel.add(productLabel,BorderLayout.WEST);
-        panel.add(prodID,BorderLayout.CENTER);
-        panel.add(NumberAdded,BorderLayout.WEST);
-        panel.add(prodNum,BorderLayout.CENTER);
 
         JButton addInventory = new JButton("Add Inventory");
+        addInventory.setBounds(180,90,110,40);
+        panel.add(addInventory);
         addInventory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,7 +111,6 @@ public class EmployeePage extends JPanel implements ActionListener{
         });
 
         panel.add(addInventory);
-        final JTextField textField = new JTextField(5);
         JButton backButton = new JButton("Go Back");
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -111,11 +120,12 @@ public class EmployeePage extends JPanel implements ActionListener{
                 mp.setUpPage();
             }
         });
-        panel.add(getReports);
+        backButton.setBounds(480,240,110,40);
         panel.add(backButton);
         frame.setMinimumSize(new Dimension(600, 315));
         frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
     @Override
