@@ -182,26 +182,69 @@ public class PurchaseHistory {
             return false;
         }
     }
-    public void checkMemberPurchaseHistory(int accountno) {
 
+    public JTable checkMemberPurchaseHistory(int accountno) throws Exception{
+        if(accountno<=0){
+            Exception e= new Exception("You are currently not a member");
+            throw e;
+        }
         ResultSet rs = oraManager.query("SELECT * " +
                 "FROM purchaseOrder, productOrder, member1 " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND purchaseOrder.name=member1.name AND purchaseOrder.phoneNumber=member1.phoneNumber AND" +
                 " member1.accountNo="+accountno);
-        try{
-            while (rs.next()) {
-                int productID = rs.getInt("productID");
-                int quantityPurchased = rs.getInt("quantityPurchased");
-                System.out.println("accountno: "+ accountno + "productID: "+ productID + "quantitypurchased: "+quantityPurchased+"\n");
-            }
-            rs.close();}
-        catch (Exception e){
-            System.out.println("found error: " + e);
+        ResultSetMetaData md = null;
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
+        try {
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
+        try {
+            int columns = md.getColumnCount();
+            //  Get column names
+            for (int i = 1; i <= columns; i++) {
+                columnNames.addElement(md.getColumnName(i));
+            }
+            //  Get row data
+            while (rs.next()) {
+                Vector row = new Vector(columns);
 
-//return boolean
+                for (int i = 1; i <= columns; i++) {
+                    row.addElement(rs.getObject(i));
+                }
+
+                data.addElement(row);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JTable table = new JTable(data,columnNames);
+        return table;
+
     }
+
+//
+//    public void checkMemberPurchaseHistory(int accountno) {
+//
+//        ResultSet rs = oraManager.query("SELECT * " +
+//                "FROM purchaseOrder, productOrder, member1 " +
+//                "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND purchaseOrder.name=member1.name AND purchaseOrder.phoneNumber=member1.phoneNumber AND" +
+//                " member1.accountNo="+accountno);
+//        try{
+//            while (rs.next()) {
+//                int productID = rs.getInt("productID");
+//                int quantityPurchased = rs.getInt("quantityPurchased");
+//                System.out.println("accountno: "+ accountno + "productID: "+ productID + "quantitypurchased: "+quantityPurchased+"\n");
+//            }
+//            rs.close();}
+//        catch (Exception e){
+//            System.out.println("found error: " + e);
+//        }
+//    }
 
 
 

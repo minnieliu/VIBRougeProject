@@ -85,6 +85,16 @@ public class MemberPage extends JPanel {
         });
         contentPane.add(updateInfo);
 
+        JButton purchaseHistory = new JButton("Get my purchase History");
+        purchaseHistory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MemberPurchaseHistory mph = new MemberPurchaseHistory(accountNo);
+                mph.setUpPage();
+            }
+        });
+        contentPane.add(purchaseHistory);
 
         JButton checkStatusandPoint = new JButton("Check Status");
         checkStatusandPoint.addActionListener(new ActionListener() {
