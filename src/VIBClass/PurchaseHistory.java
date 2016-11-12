@@ -384,8 +384,7 @@ public class PurchaseHistory {
 //        ps.averageitemspercustomer();
 
 
-
+    }
 
 
     }
-}

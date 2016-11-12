@@ -43,7 +43,9 @@ public class EmployeePage extends JPanel implements ActionListener{
 
         try {
             frame.setContentPane(panel=new JPanel(){
+
                 BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);

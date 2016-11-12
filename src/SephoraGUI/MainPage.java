@@ -25,7 +25,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 
-import static com.sun.tools.doclint.Entity.image;
+
 
 /**
  * Created by minnieliu on 2016-11-05.
@@ -51,7 +51,9 @@ public class MainPage extends JPanel{
 
         try {
             frame.setContentPane(panel= new JPanel(){
+
                 BufferedImage image = ImageIO.read(new File("./src/resources/sephora.jpg"));
+
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
