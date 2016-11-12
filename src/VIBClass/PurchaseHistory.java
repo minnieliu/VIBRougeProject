@@ -1,7 +1,10 @@
 package VIBClass;
 
+import com.sun.jndi.cosnaming.CNCtx;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 
 public class PurchaseHistory {
@@ -22,24 +25,40 @@ public class PurchaseHistory {
     }
 
     //edit by Hailey
-    public void purchaseProduct (int productID,int purchaseID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date){
-
+    public int purchaseProduct (int productID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date) throws Exception {
         int currentInv = product.checkInventory(productID);
-        if(currentInv >0) {
+        if (currentInv > 0 && productID !=0 && quantity >0 && CPhoneNum !=null && CName !=null && methodOfPayment != null && date!=null) {
             // Update the inventory
-            product.updateInventory(productID, -quantity);
-            //Update the purchaseHistory with purchaseID
-            if (checkpurchaseID(purchaseID)==true){
-                this.additem(purchaseID,productID,quantity);
+            if(date.indexOf("-") == 4 && date.lastIndexOf("-") == 7) {
+                product.updateInventory(productID, -quantity);
+                //Update the purchaseHistory with purchaseID
+//
+//            if (checkpurchaseID(purchaseID)==true){
+//                this.additem(purchaseID,productID,quantity);
+//            }
+
+                Random rand = new Random();
+                int purchaseID = rand.nextInt(99999999);
+                this.additem(purchaseID, productID, quantity);
+                this.createPurchaseHistory(purchaseID, CPhoneNum, CName, methodOfPayment, date);
+                this.additem(purchaseID, productID, quantity);
+
+                //Check whether the customer is a member
+                if (customer.isMember(CName, CPhoneNum)) {
+                    int price = product.checkPrice(productID);
+                    int point = price * quantity;
+                    sephoraMember.updatePoint(CName, CPhoneNum, point);
+                }
+                return purchaseID;
             }
-            else {this.createPurchaseHistory(purchaseID,CPhoneNum, CName, methodOfPayment, date);
-                this.additem(purchaseID,productID,quantity);}
-            //Check whether the customer is a member
-            if(customer.isMember(CName,CPhoneNum)){
-                int price= product.checkPrice(productID);
-                int point= price * quantity;
-                sephoraMember.updatePoint(CName, CPhoneNum, point);
+            else {
+                Exception e= new Exception("Date must be YYYY-MM-DD");
+                throw e;
             }
+        }
+        else{
+            Exception e= new Exception("You cannot finish this purchase");
+            throw e;
         }
     }
 
@@ -261,7 +280,7 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-        ps.purchaseProduct(5555, 55543215, 2, "7782341039", "Sarah Kwong","credit", "2016-07-24");
+       // ps.purchaseProduct(5555, 55543215, 2, "7782341039", "Sarah Kwong","credit", "2016-07-24");
         ps.checkHistory(55543215);
         ps.returnProduct(5555, 55543215);
         ps.checkHistory(55543215);
