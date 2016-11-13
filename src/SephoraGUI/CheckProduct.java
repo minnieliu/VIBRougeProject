@@ -3,11 +3,14 @@ package SephoraGUI;
 
 import VIBClass.Product;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -26,20 +29,32 @@ public class CheckProduct {
     public void setUpPage() //create constructor
     {
         frame = new JFrame("Check Product Page");
+
+        try {
+            frame.setContentPane(contentPane=new JPanel(){
+                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-
-        contentPane = new JPanel();
-        frame.setContentPane(contentPane);
-        contentPane.setLayout(new GridLayout(8,8));
+        contentPane.setLayout(null);
+        //contentPane.setLayout(new GridLayout(8,8));
 
         final JLabel lblProductID= new JLabel("Product ID");
+        lblProductID.setBounds(120,30,110,20);
         contentPane.add(lblProductID);
 
         final JTextField txtProductID = new JTextField();
+        txtProductID.setBounds(240,30,80,20);
         contentPane.add(txtProductID);
 
         JButton checkbyIDButton = new JButton("Search Product by ID");
@@ -52,12 +67,15 @@ public class CheckProduct {
                 cp.setUpPage();
             }
         });
+        checkbyIDButton.setBounds(140,55,180,40);
         contentPane.add(checkbyIDButton);
 
         final JLabel lblProductType= new JLabel("Product Type");
         contentPane.add(lblProductType);
+        lblProductType.setBounds(120, 105, 110,20);
 
         final JTextField txtProductType = new JTextField();
+        txtProductType.setBounds(240,105,80,20);
         contentPane.add(txtProductType);
 
         JButton checkbyTypeButton = new JButton("Search Product by Type");
@@ -70,12 +88,15 @@ public class CheckProduct {
                 cp.setUpPage();
             }
         });
+        checkbyTypeButton.setBounds(140,135,180,40);
         contentPane.add(checkbyTypeButton);
 
         final JLabel lblProductBrand= new JLabel("Product Brand");
+        lblProductBrand.setBounds(120,185,110,20);
         contentPane.add(lblProductBrand);
 
         final JTextField txtProductBrand = new JTextField();
+        txtProductBrand.setBounds(240,185,80,20);
         contentPane.add(txtProductBrand);
 
         JButton checkbyBrandButton = new JButton("Search Product by Brand");
@@ -88,6 +109,7 @@ public class CheckProduct {
                 cp.setUpPage();
             }
         });
+        checkbyBrandButton.setBounds(140,215,180,40);
         contentPane.add(checkbyBrandButton);
 
         JButton mostExpensive = new JButton("Most Expensive Product");
