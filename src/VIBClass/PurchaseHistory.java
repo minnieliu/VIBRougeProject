@@ -26,7 +26,7 @@ public class PurchaseHistory {
     }
 
     //edit by Hailey
-    public int purchaseProduct (int productID, int quantity,String CPhoneNum,String CName, String methodOfPayment, String date) throws Exception {
+    public int purchaseProduct (int productID, int quantity,String CPhoneNum,String CName,String gender, String methodOfPayment, String date) throws Exception {
         int currentInv = product.checkInventory(productID);
         if (currentInv > 0 && productID !=0 && quantity >0 && CPhoneNum !=null && CName !=null && methodOfPayment != null && date!=null) {
             // Update the inventory
@@ -37,14 +37,6 @@ public class PurchaseHistory {
 //            if (checkpurchaseID(purchaseID)==true){
 //                this.additem(purchaseID,productID,quantity);
 //            }
-
-                Random rand = new Random();
-                int purchaseID = rand.nextInt(99999999);
-                this.additem(purchaseID, productID, quantity);
-                this.createPurchaseHistory(purchaseID, CPhoneNum, CName, methodOfPayment, date);
-                this.additem(purchaseID, productID, quantity);
-
-
                 //Check whether the customer is a member
                 if (customer.isMember(CName, CPhoneNum)) {
                     int price = product.checkPrice(productID);
@@ -52,6 +44,15 @@ public class PurchaseHistory {
                     sephoraMember.updatePoint(CName, CPhoneNum, point);
                     sephoraMember.updateStatus(point,CName,CPhoneNum);
                 }
+                else if(!customer.isMember(CName,CPhoneNum)){
+                    customer.addCustomer(CName,CPhoneNum,gender);
+                }
+
+                Random rand = new Random();
+                int purchaseID = rand.nextInt(99999999);
+                this.additem(purchaseID, productID, quantity);
+                this.createPurchaseHistory(purchaseID, CPhoneNum, CName, methodOfPayment, date);
+                this.additem(purchaseID, productID, quantity);
                 return purchaseID;
             }
             else {
@@ -355,38 +356,38 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-        try {
-            ps.purchaseProduct(5555, 100, "7782341039", "Sarah Kwong","credit", "2016-07-24");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//               ps.returnProduct(5555, 55543215);
-        System.out.println("Member Table" + "\n");
-        ResultSet rs = null;
-        OraManager oramanager = new OraManager();
-        String query1 = "SELECT * FROM member1";
-        rs = oramanager.query(query1);
-        try {
-            while(rs.next())
-            {
-                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " +rs.getString(7) + " "  + rs.getString(8)+ "\n");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("purchaseOrder Table" + "\n");
-    String query2 = "SELECT * FROM purchaseOrder";
-    rs = oramanager.query(query2);
-    try {
-        while(rs.next())
-        {
-            System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3)+ "\n");
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+//        try {
+//            ps.purchaseProduct(5555, 100, "7782341039", "Sarah Kwong","credit", "2016-07-24");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+////               ps.returnProduct(5555, 55543215);
+//        System.out.println("Member Table" + "\n");
+//        ResultSet rs = null;
+//        OraManager oramanager = new OraManager();
+//        String query1 = "SELECT * FROM member1";
+//        rs = oramanager.query(query1);
+//        try {
+//            while(rs.next())
+//            {
+//                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " +rs.getString(7) + " "  + rs.getString(8)+ "\n");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("purchaseOrder Table" + "\n");
+//    String query2 = "SELECT * FROM purchaseOrder";
+//    rs = oramanager.query(query2);
+//    try {
+//        while(rs.next())
+//        {
+//            System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3)+ "\n");
+//        }
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
 
 //        ps.createPurchaseHistory(55543215,"7782341039", "Sarah Kwong", "Visa","2016-07-24");
 //        System.out.println("adding first item");
