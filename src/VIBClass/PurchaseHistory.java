@@ -44,11 +44,13 @@ public class PurchaseHistory {
                 this.createPurchaseHistory(purchaseID, CPhoneNum, CName, methodOfPayment, date);
                 this.additem(purchaseID, productID, quantity);
 
+
                 //Check whether the customer is a member
                 if (customer.isMember(CName, CPhoneNum)) {
                     int price = product.checkPrice(productID);
                     int point = price * quantity;
                     sephoraMember.updatePoint(CName, CPhoneNum, point);
+                    sephoraMember.updateStatus(point,CName,CPhoneNum);
                 }
                 return purchaseID;
             }
@@ -105,6 +107,7 @@ public class PurchaseHistory {
             if(customer.isMember(name,phoneNumber)){
                 int price = product.checkPrice(productID);
                 sephoraMember.updatePoint(name, phoneNumber, -price);
+                sephoraMember.updateStatus(-price,name,phoneNumber);
             }
             //delete product
             this.deleteprod(purchaseID, productID, 1);
@@ -352,10 +355,38 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-        // ps.purchaseProduct(5555, 55543215, 2, "7782341039", "Sarah Kwong","credit", "2016-07-24");
-        ps.checkHistory(55543215);
-        //       ps.returnProduct(5555, 55543215);
-        ps.checkHistory(55543215);
+        try {
+            ps.purchaseProduct(5555, 100, "7782341039", "Sarah Kwong","credit", "2016-07-24");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//               ps.returnProduct(5555, 55543215);
+        System.out.println("Member Table" + "\n");
+        ResultSet rs = null;
+        OraManager oramanager = new OraManager();
+        String query1 = "SELECT * FROM member1";
+        rs = oramanager.query(query1);
+        try {
+            while(rs.next())
+            {
+                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " +rs.getString(7) + " "  + rs.getString(8)+ "\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("purchaseOrder Table" + "\n");
+    String query2 = "SELECT * FROM purchaseOrder";
+    rs = oramanager.query(query2);
+    try {
+        while(rs.next())
+        {
+            System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3)+ "\n");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
 
 //        ps.createPurchaseHistory(55543215,"7782341039", "Sarah Kwong", "Visa","2016-07-24");
 //        System.out.println("adding first item");

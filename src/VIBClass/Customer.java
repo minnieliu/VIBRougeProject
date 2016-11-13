@@ -85,6 +85,7 @@ public class Customer {
         int accountNum = rand.nextInt(99999999);
         int yearSpenttoDate = 0;
         int currentPoints = 0;
+        String currentStatus = "'Beauty Insider'";
 
         String insertQuery = "INSERT INTO member1 VALUES ("
                 + accountNum + ","
@@ -92,7 +93,8 @@ public class Customer {
                 + email + "', '"
                 + password + "', '"
                 + birthday + "',"
-                + currentPoints + ", '"
+                + currentPoints + ", "
+                + currentStatus + ", '"
                 + name + "','"
                 + phoneNum
                 + "')";
@@ -141,19 +143,19 @@ public class Customer {
         // Test addCustomer
         // c.addCustomer("Minnie Liu", "6041234567", "F");
         // c.addCustomer("It Works", "123456", "throw error");
-        c.addCustomer("It Works", "123456", "a");
+//        c.addCustomer("TRIGGER TEST 3.0", "11112222", "F");
         // Test isMember
 //        System.out.println("Should be false: " + c.isMember("Sarah Up", "2847"));
 //        System.out.println("Should be true for contain Jessica Peters? : " + c.isMember("Jessica Peters", "6042958190"));
 
         // Test addMember
 //        System.out.println("Should be false: " + c.isMember("Minnie Liu", "6041234567"));
-        //c.addMember("minnieliu96@hotmail.com", "hello", "10/27/1996", "Minnie Liu", "6041234567");
+//       c.addMember("awefasdf", "awefasdfwf", "1993-09-34", "TRIGGER TEST 3.0", "11112222");
 //        System.out.println("Should be true after add Minnie: " + c.isMember("Minnie Liu", "6041234567"));
 
 
         // Test deleteMember
-        // c.deleteMember(42590000, "eciwhe1");
+//         c.deleteMember(42590000, "eciwhe1");
 
 //        String query = "SELECT * FROM member1";
 //        ResultSet rs=null;
@@ -162,6 +164,19 @@ public class Customer {
 //            while(rs.next())
 //            {
 //                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " +rs.getString(7) + " "  + rs.getString(8));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println("Status Table" + "\n");
+//
+//        String query3 = "SELECT * FROM Updatestatus";
+//        rs = oramanager.query(query3);
+//        try {
+//            while(rs.next())
+//            {
+//                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3)+ "\n");
 //            }
 //        } catch (SQLException e) {
 //            e.printStackTrace();

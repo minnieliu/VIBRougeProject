@@ -13,27 +13,51 @@ public class SephoraMember {
     public SephoraMember() {
         oraManager = new OraManager();
     }
+//
+//    public String checkStatus(int accountNo) throws SQLException {
+//        int yearToDateSpent = 0;
+//        String newStatus = "Beauty Insider";
+//        ResultSet rs = null;
+//        String selectQuery = "SELECT yearToDateSpent FROM member1 WHERE accountNo =" + accountNo;
+//        rs = oraManager.query(selectQuery);
+//        while (rs.next()) {
+////            System.out.print("yeartodatespent from result: " + rs.getInt("yearToDateSpent") + "\n");
+//            yearToDateSpent = rs.getInt("yearToDateSpent");
+//        }
+//        if (yearToDateSpent > 350){
+//            newStatus = "VIB";
+//        }
+//        if (yearToDateSpent > 1000){
+//            newStatus = "VIB Rouge";
+//        }
+//        String updateQuery = "UPDATE member1 SET " +
+//                "currentStatus = '" + newStatus + "'" +
+//                " WHERE accountNo = " + accountNo;
+//        oraManager.execute(updateQuery);
+//        return newStatus;
+//    }
 
-    public String checkStatus(int accountNo) throws SQLException {
-        int yearToDateSpent = 0;
-        String newStatus = "BeautyInsider";
+   public String updateStatus(int points, String name, String number) throws SQLException {
+       int yearToDateSpent = 0;
+        String newStatus = "Beauty Insider";
         ResultSet rs = null;
-        String selectQuery = "SELECT yearToDateSpent FROM member1 WHERE accountNo =" + accountNo;
+        String selectQuery = "SELECT yearToDateSpent FROM member1 WHERE name = '" + name + "' AND phoneNumber = '" + number +"'";
         rs = oraManager.query(selectQuery);
         while (rs.next()) {
-            System.out.print("yeartodatespent from result: " + rs.getInt("yearToDateSpent"));
             yearToDateSpent = rs.getInt("yearToDateSpent");
+            yearToDateSpent = yearToDateSpent + points;
         }
+
         if (yearToDateSpent > 350){
             newStatus = "VIB";
         }
         if (yearToDateSpent > 1000){
             newStatus = "VIB Rouge";
         }
-        String updateQuery = "UPDATE updateStatus SET " +
-                "yearToDateSpent = " + yearToDateSpent + " AND " +
-                "status = " + newStatus+
-                " WHERE accountNo = " + accountNo;
+        String updateQuery = "UPDATE member1 SET " +
+                "yearToDateSpent = " + yearToDateSpent +
+                ", currentStatus = '" + newStatus + "'" +
+                "  WHERE name = '" + name + "' AND phoneNumber = '" + number +"'";
         oraManager.execute(updateQuery);
         return newStatus;
     }
@@ -131,13 +155,13 @@ public class SephoraMember {
         // Test updatePoints
         // sm.updatePoint("Sarah Kwong", "7782341039",70);
 
-        // Test UpdateStatus <- need to finish
-        try {
-            String s = sm.checkStatus(12304509);
-            System.out.print("Status: " + s);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // Test UpdateStatus
+//        try {
+//            String s = sm.checkStatus(12304509);
+//            System.out.print("Status: " + s);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         // Test removeMember
         // sm.removeMember(39512350);

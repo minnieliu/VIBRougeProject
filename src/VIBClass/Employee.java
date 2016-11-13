@@ -52,10 +52,10 @@ public class Employee {
     }
 
     //return the list of name of customer who has birthday on the current date
-    public JTable birthdayGift(int currentDate) {
+    public JTable birthdayGift(int currentMonth) {
 
         ResultSet rs;
-        String query = "SELECT * FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
+        String query = "SELECT name FROM member1 WHERE birthday LIKE " + "'%-"+currentMonth+"-%'" + " OR birthday LIKE " + "'%-0" + currentMonth + "-%'";
         rs = oraManager.query(query);
         ResultSetMetaData md = null;
         Vector columnNames = new Vector();
@@ -261,12 +261,13 @@ public class Employee {
 
 
     public boolean removeCustomer(String number) {
-        String selectquery = "SELECT * FROM customer WHERE phoneNumber =" + number;
+        String selectquery = "SELECT * FROM customer WHERE phoneNumber = " + number;
         ResultSet rs = oraManager.query(selectquery);
         int count = 0;
         try {
             while (rs.next()) {
                 count++;
+                System.out.println("count is: " + count);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,8 +277,11 @@ public class Employee {
         }
         String deleteQuery = "DELETE FROM customer WHERE phoneNumber =" + number;
         oraManager.execute(deleteQuery);
+        System.out.println("finished deleting customer");
         return true;
     }
+
+
 
     public static void main(String argv[]) {
         Employee employee = new Employee();
@@ -298,7 +302,7 @@ public class Employee {
 //        employee.removeEmployee(36475);
 
         // Test Birthday
-//        ArrayList<String> list = employee.birthdayGift(10);
+//        ArrayList<String> list = employee.birthdayGift(02);
 //        for(int i=0; i<list.size(); i++){
 //            System.out.println(list.get(i));
 //        }
@@ -348,10 +352,10 @@ public class Employee {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-//
-//        employee.removeCustomer("6042019382");
 ////
-//        // Test on Delete Cascade for removeCustomer
+//        employee.removeCustomer("6042019382");
+//////
+////        // Test on Delete Cascade for removeCustomer
 //        System.out.println("Customer Table" + "\n");
 //        String query = "SELECT * FROM customer";
 //        ResultSet rs=null;
@@ -389,18 +393,6 @@ public class Employee {
 //        e.printStackTrace();
 //    }
 //
-//        System.out.println("Status Table" + "\n");
-//
-//        String query3 = "SELECT * FROM updateStatus";
-//        rs = oramanager.query(query3);
-//        try {
-//            while(rs.next())
-//            {
-//                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3)+ "\n");
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
 }
 
 }
