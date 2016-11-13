@@ -24,7 +24,6 @@ public class ManagerReports {
     public ManagerReports(){
         super();
         this.employee=new Employee();
-        setUpPage();
     }
 
     public void setUpPage() {
