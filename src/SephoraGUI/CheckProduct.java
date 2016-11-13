@@ -1,6 +1,7 @@
 package SephoraGUI;
 
 
+import VIBClass.Customer;
 import VIBClass.Product;
 
 import javax.imageio.ImageIO;
@@ -50,11 +51,11 @@ public class CheckProduct {
         //contentPane.setLayout(new GridLayout(8,8));
 
         final JLabel lblProductID= new JLabel("Product ID");
-        lblProductID.setBounds(120,30,110,20);
+        lblProductID.setBounds(120,30,100,20);
         contentPane.add(lblProductID);
 
         final JTextField txtProductID = new JTextField();
-        txtProductID.setBounds(240,30,80,20);
+        txtProductID.setBounds(220,30,80,20);
         contentPane.add(txtProductID);
 
         JButton checkbyIDButton = new JButton("Search Product by ID");
@@ -72,10 +73,10 @@ public class CheckProduct {
 
         final JLabel lblProductType= new JLabel("Product Type");
         contentPane.add(lblProductType);
-        lblProductType.setBounds(120, 105, 110,20);
+        lblProductType.setBounds(120, 105, 100,20);
 
         final JTextField txtProductType = new JTextField();
-        txtProductType.setBounds(240,105,80,20);
+        txtProductType.setBounds(220,105,80,20);
         contentPane.add(txtProductType);
 
         JButton checkbyTypeButton = new JButton("Search Product by Type");
@@ -92,11 +93,11 @@ public class CheckProduct {
         contentPane.add(checkbyTypeButton);
 
         final JLabel lblProductBrand= new JLabel("Product Brand");
-        lblProductBrand.setBounds(120,185,110,20);
+        lblProductBrand.setBounds(120,185,100,20);
         contentPane.add(lblProductBrand);
 
         final JTextField txtProductBrand = new JTextField();
-        txtProductBrand.setBounds(240,185,80,20);
+        txtProductBrand.setBounds(220,185,80,20);
         contentPane.add(txtProductBrand);
 
         JButton checkbyBrandButton = new JButton("Search Product by Brand");
@@ -146,6 +147,10 @@ public class CheckProduct {
         contentPane.add(leastExpensive);
 
         JButton backButton = new JButton("Go Back");
+        backButton.setBounds(480,240,110,40);
+        contentPane.add(backButton);
+
+
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,8 +159,6 @@ public class CheckProduct {
                 cp.setUpPage();
             }
         });
-        contentPane.add(backButton);
-
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
     }
