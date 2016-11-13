@@ -126,6 +126,7 @@ public class CheckProduct {
 
             }
         });
+        mostExpensive.setBounds(340,100,180,40);
         contentPane.add(mostExpensive);
 
         JButton leastExpensive = new JButton("Least Expensive Product");
@@ -141,6 +142,7 @@ public class CheckProduct {
                 JOptionPane.showMessageDialog(null,"The least expensive product has a price as "+txtprice+ " with a product ID of "+txtproductID+" and an inventory of "+txtinv+". It is from "+txtbrand+", and is a type of "+txttype+".","Message",JOptionPane.PLAIN_MESSAGE);
             }
         });
+        leastExpensive.setBounds(340,150,180,40);
         contentPane.add(leastExpensive);
 
         JButton backButton = new JButton("Go Back");

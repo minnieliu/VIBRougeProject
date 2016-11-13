@@ -3,11 +3,14 @@ package SephoraGUI;
 
 import VIBClass.PurchaseHistory;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
  * Created by hailey on 16/11/11.
@@ -26,6 +29,17 @@ public class ReturnProduct {
     public void setUpPage() //create constructor
     {
         frame = new JFrame("Return Product Page");
+        try {
+            frame.setContentPane(contentPane=new JPanel(){
+                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+                public void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
