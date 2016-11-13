@@ -1,6 +1,7 @@
 package SephoraGUI;
 
 
+import VIBClass.Customer;
 import VIBClass.PurchaseHistory;
 
 import javax.imageio.ImageIO;
@@ -72,7 +73,7 @@ public class PurchaseProduct {
         final JTextField txtname = new JTextField();
         contentPane.add(txtname);
 
-        JLabel lblmop = new JLabel("Method of Payment");
+        JLabel lblmop = new JLabel("Method of Payment (debit/credit)");
         contentPane.add(lblmop);
 
         final JTextField txtmop = new JTextField();
@@ -84,6 +85,13 @@ public class PurchaseProduct {
         final JTextField txtdate = new JTextField();
         contentPane.add(txtdate);
 
+        JLabel lblGender = new JLabel("Gender (M/F)");
+        contentPane.add(lblGender);
+
+        final JTextField txtGender = new JTextField();
+        contentPane.add(txtGender);
+
+
         JButton purchaseButton = new JButton("Purchase Now");
         purchaseButton.addActionListener(new ActionListener() {
             @Override
@@ -94,9 +102,15 @@ public class PurchaseProduct {
                 String textName = txtname.getText().trim();
                 String textmop = txtmop.getText().trim();
                 String textdate=txtdate.getText().trim();
+                String txtgender = txtGender.getText().trim();
+
 
                 try{
-                    int record= purchaseHistory.purchaseProduct(textPID,textqt,textPhone,textName,textmop,textdate);
+                    Customer c = new Customer();
+                    if (!c.isCustomer(textName, textPhone)) {
+                        c.addCustomer(textName,textPhone,txtgender);
+                    }
+                    int record= purchaseHistory.purchaseProduct(textPID,textqt,textPhone,textName,txtgender,textmop,textdate);
                     JOptionPane.showMessageDialog(null,"You have succesfully purchased and your purchase history ID is " +record,"Message",JOptionPane.PLAIN_MESSAGE);
                 }
                 catch (Exception error){

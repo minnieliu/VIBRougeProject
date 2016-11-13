@@ -44,9 +44,9 @@ public class PurchaseHistory {
                     sephoraMember.updatePoint(CName, CPhoneNum, point);
                     sephoraMember.updateStatus(point,CName,CPhoneNum);
                 }
-                else if(!customer.isMember(CName,CPhoneNum)){
-                    customer.addCustomer(CName,CPhoneNum,gender);
-                }
+//                else if(!customer.isMember(CName,CPhoneNum)){
+//                    customer.addCustomer(CName,CPhoneNum,gender);
+//                }
 
                 Random rand = new Random();
                 int purchaseID = rand.nextInt(99999999);
@@ -87,9 +87,8 @@ public class PurchaseHistory {
     public boolean returnProduct (int productID,int purchaseID) throws Exception{
 
         //check the purchaseID
-        if(this.checkHistory(purchaseID))
+        if(this.checkHistory(purchaseID, productID))
         {
-            //update the inventory number
             product.updateInventory(productID, 1);
 
             //should deduct point for customer
@@ -114,8 +113,7 @@ public class PurchaseHistory {
             this.deleteprod(purchaseID, productID, 1);
             return true;
         }else{
-            Exception e= new Exception("There is no record for this purchase");
-            throw e;
+            return false;
         }
     }
 
@@ -251,20 +249,20 @@ public class PurchaseHistory {
 
 
 
-    public boolean checkHistory(int purchaseID) {
+    public boolean checkHistory(int purchaseID, int productID) {
 
         ResultSet rs = oraManager.query("SELECT * " +
                 "FROM purchaseOrder, productOrder " +
                 "WHERE purchaseOrder.purchaseID = productOrder.purchaseID AND" +
-                " purchaseOrder.purchaseID="+purchaseID);
+                " purchaseOrder.purchaseID="+purchaseID + " AND productOrder.productID=" + productID);
         Boolean result = true;
-
+        int count = 0;
         try{
             //edited by Hailey
             while (rs.next()) {
-                int productID = rs.getInt("productID");
                 int quantityPurchased = rs.getInt("quantityPurchased");
-                System.out.println("purchaseID: "+ purchaseID + "productID: "+ productID + "quantityPurchased "+quantityPurchased+"\n");
+                count++;
+               // System.out.println("purchaseID: "+ purchaseID + "productID: "+ productID + "quantityPurchased "+quantityPurchased+"\n");
             }
             rs.close();
         }
@@ -272,9 +270,12 @@ public class PurchaseHistory {
             System.out.println("found error: " + e);
             result = false;
         }
-
-
-        return result;
+        if (count == 0){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
     //average item purchased per transaction per customer
     public JTable averageitemspercustomer(){

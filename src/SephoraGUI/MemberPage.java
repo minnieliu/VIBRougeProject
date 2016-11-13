@@ -111,8 +111,9 @@ public class MemberPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String status = sephoraMember.checkStatus(accountNo);
+
                     int point = sephoraMember.getCurrentPointbyNameAndPhone(name, phone);
+                    String status = sephoraMember.updateStatus(point,name,phone);
                     JOptionPane.showMessageDialog(null, "Your status is " + status + " with points " + point, "Message", JOptionPane.PLAIN_MESSAGE);
                 } catch (Exception error) {
                     JOptionPane.showMessageDialog(null, "Your information is not in the database", "Error", JOptionPane.ERROR_MESSAGE);

@@ -79,7 +79,7 @@ public class Customer {
         }
     }
 
-    public void addMember(String email, String password, String birthday, String name, String phoneNum)throws Exception {
+    public void addMember(String email, String password, String birthday, String name, String phoneNum) throws Exception {
         // changed birthday from string to date
         Random rand = new Random();
         int accountNum = rand.nextInt(99999999);
@@ -87,7 +87,7 @@ public class Customer {
         int currentPoints = 0;
         String currentStatus = "'Beauty Insider'";
 
-        String insertQuery = "INSERT INTO member1 VALUES ("
+        String insertQuery = "INSERT INTO member1 VALUES("
                 + accountNum + ","
                 + yearSpenttoDate + ",'"
                 + email + "', '"
@@ -101,8 +101,9 @@ public class Customer {
 
 
         if(email != null && name != null && phoneNum!= null && birthday!= null && password !=null){
-            if(birthday.indexOf("-") == 4 && birthday.lastIndexOf("-") == 7)
+            if(birthday.indexOf("-") == 4 && birthday.lastIndexOf("-") == 7) {
                 oraManager.execute(insertQuery);
+            }
             else{
                 Exception e= new Exception("The birthday format is YEAR-MONTH-DAY e.g. 1994-09-25");
                 throw e;
@@ -134,7 +135,26 @@ public class Customer {
         }
     }
 
+    public boolean isCustomer(String name, String phone){
+        String selectQuery = "SELECT * FROM customer WHERE name = '" + name + "' AND " + "phoneNumber = '" +phone + "'";
+        int count = 0;
+        ResultSet rs = oraManager.query(selectQuery);
+        try {
+            while(rs.next()){
+                count ++;
 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (count == 0){
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
 
     public static void main(String[] args) throws Exception {
         Customer c = new Customer();
@@ -150,7 +170,7 @@ public class Customer {
 
         // Test addMember
 //        System.out.println("Should be false: " + c.isMember("Minnie Liu", "6041234567"));
-//       c.addMember("awefasdf", "awefasdfwf", "1993-09-34", "TRIGGER TEST 3.0", "11112222");
+//      c.addMember("awefasdf", "awefasdfwf", "1993-09-34", "TRIGGER TEST 3.0", "11112222");
 //        System.out.println("Should be true after add Minnie: " + c.isMember("Minnie Liu", "6041234567"));
 
 

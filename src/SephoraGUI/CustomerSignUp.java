@@ -142,7 +142,7 @@ public class CustomerSignUp extends JFrame //create class NewUser
                 try {
                     customer.addCustomer(textname, textphone, textgender);
                     customer.addMember(textemail,textPassword,textbday,textname,textphone);
-                    JOptionPane.showMessageDialog(null,"Welcome Beauty Insider","Message",JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Welcome Beauty Insider","Success",JOptionPane.PLAIN_MESSAGE);
                     // go back to the log in page
                     frame.dispose();
                     CustomerLogInPage clp= new CustomerLogInPage();

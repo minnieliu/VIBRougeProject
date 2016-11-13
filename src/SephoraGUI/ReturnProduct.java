@@ -57,6 +57,11 @@ public class ReturnProduct {
             public void actionPerformed(ActionEvent e) {
                 int textProductID = Integer.parseInt(txtProductID.getText());
                 int textpurchaseID = Integer.parseInt(txtPurchaseID.getText());
+                boolean valid = true;
+                valid = purchaseHistory.checkHistory(textpurchaseID, textProductID);
+                if (!valid){
+                    JOptionPane.showMessageDialog(null, "Invalid PurchaseID, Try again", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 try {
                     boolean result= purchaseHistory.returnProduct(textProductID,textpurchaseID);
                     if(result)
