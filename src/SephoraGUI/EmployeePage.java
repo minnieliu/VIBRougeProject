@@ -126,16 +126,6 @@ public class EmployeePage extends JPanel implements ActionListener{
         });
 
 
-
-        managerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                ManagerReports mp = new ManagerReports();
-                mp.setUpPage();
-            }
-        });
-
         JButton backButton = new JButton("Go Back");
         backButton.addActionListener(new ActionListener() {
             @Override

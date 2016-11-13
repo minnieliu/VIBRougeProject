@@ -37,6 +37,7 @@ public class CustomerLogInPage extends JFrame //create class NewUser
         frame = new JFrame("Customer Log In Page");
         try {
             frame.setContentPane(contentPane = new JPanel(){
+
                 BufferedImage image = ImageIO.read(new File("./src/resources/customerglitter.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
