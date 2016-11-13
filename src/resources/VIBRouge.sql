@@ -26,19 +26,11 @@ CREATE TABLE member1
   password        CHAR(30),
   birthday        CHAR(20),
   currentPoints   INTEGER,
+  currentStatus   CHAR(20) DEFAULT 'Beauty Insider',
   name            CHAR(20) NOT NULL,
   phoneNumber     CHAR(20) NOT NULL,
   CONSTRAINT member1_PK PRIMARY KEY (accountNo),
   CONSTRAINT member1_FK FOREIGN KEY (name, phoneNumber) REFERENCES customer
-);
-
-CREATE TABLE Updatestatus
-(
-  accountNo       INTEGER,
-  currentPoints   INTEGER,
-  currentStatus   CHAR(20),
-  CONSTRAINT UpdateStatus_PK PRIMARY KEY (accountNo),
-  CONSTRAINT UpdateStatus_FK FOREIGN KEY (accountNo) references member1
 );
 
 create table employee
@@ -114,34 +106,19 @@ insert into customer
 
 
 insert into member1
-    values(42590000,140,'sarah_kwong@yahoo.com','eciwhe1','1988-09-24', 280, 'Sarah Kwong','7782341039');
-
-insert into updateStatus
-    values(42590000,140, 'BeautyInsider');
+    values(42590000,140,'sarah_kwong@yahoo.com','eciwhe1','1988-09-24', 280, 'BeautyInsider', 'Sarah Kwong','7782341039');
 
 insert into member1
-    values(39512350,400,'jpeter@gmail.com','12kdj8*','1980-02-02', 2500 , 'Jessica Peters','6042958190');
-
-insert into updateStatus
-    values(39512350,400, 'VIB');
+    values(39512350,400,'jpeter@gmail.com','12kdj8*','1980-02-02', 2500 , 'VIB','Jessica Peters','6042958190');
 
 insert into member1
-    values(91827400,1600,'lililili@yahoo.com','qowieh*4','1990-10-24', 3000, 'Lily Jin','6042019382');
-
-insert into updateStatus
-    values(91827400,1600, 'VIB Rouge');
+    values(91827400,1600,'lililili@yahoo.com','qowieh*4','1990-10-24', 3000,'VIB Rouge', 'Lily Jin','6042019382');
 
 insert into member1
-    values(12304509,234,'sally_change@outlook.com','57dlfn*3lk','1997-01-14', 380, 'Sally Chang','7785933842');
-
-insert into updateStatus
-    values(12304509,234, 'BeautyInsider');
+    values(12304509,234,'sally_change@outlook.com','57dlfn*3lk','1997-01-14', 380,'BeautyInsider', 'Sally Chang','7785933842');
 
 insert into member1
-    values(18572039,600,'sophies@gmail.com','dlvnei$7','1992-06-18', 700, 'Sophie Sanders','6135950177');
-
-insert into updateStatus
-    values(18572039 ,600, 'VIB');
+    values(18572039,600,'sophies@gmail.com','dlvnei$7','1992-06-18', 700,'VIB', 'Sophie Sanders','6135950177');
 
 insert into employee
     values(13579,'John Smith');
@@ -302,16 +279,6 @@ BEGIN
     DELETE FROM purchaseOrder WHERE phoneNumber = :OLD.phoneNumber;
 END;
 /
-
-CREATE OR REPLACE TRIGGER UpdateStatusDeleteCascade
-    BEFORE DELETE
-    ON member1
-    FOR EACH row
-BEGIN
-    DELETE FROM updateStatus WHERE accountNo = :OLD.accountNo;
-END;
-/
-
 
 CREATE OR REPLACE TRIGGER productOrderDeleteCascade
     BEFORE DELETE
