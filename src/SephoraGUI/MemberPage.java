@@ -55,7 +55,7 @@ public class MemberPage extends JPanel {
         try {
             frame.setContentPane(contentPane=new JPanel(){
 
-                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+                BufferedImage image = ImageIO.read(new File("./src/resources/customerglitter.jpg"));
 
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);

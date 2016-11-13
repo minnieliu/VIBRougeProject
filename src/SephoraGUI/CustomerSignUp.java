@@ -49,7 +49,7 @@ public class CustomerSignUp extends JFrame //create class NewUser
         frame.setResizable(false);
         try {
             frame.setContentPane(contentPane=new JPanel(){
-                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+                BufferedImage image = ImageIO.read(new File("./src/resources/customerglitter.jpg"));
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(image,0,0,image.getWidth(),image.getHeight(),this);

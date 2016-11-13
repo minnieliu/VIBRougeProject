@@ -28,9 +28,7 @@ public class BirthdayGiftReport {
 
         Employee employee = new Employee();
         JTable birthdayGifts = employee.birthdayGift(birthdayMonth);
-        System.out.print("making table");
         JScrollPane tableContainer = new JScrollPane(birthdayGifts);
-        System.out.print("adding table");
         panel.add(tableContainer);
         frame.add(panel);
         frame.setMinimumSize(new Dimension(600, 315));

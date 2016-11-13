@@ -55,7 +55,7 @@ public class Employee {
     public JTable birthdayGift(int currentDate) {
 
         ResultSet rs;
-        String query = "SELECT  FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
+        String query = "SELECT * FROM member1 WHERE birthday LIKE " + "'%-"+currentDate+"-%'";
         rs = oraManager.query(query);
         ResultSetMetaData md = null;
         Vector columnNames = new Vector();
