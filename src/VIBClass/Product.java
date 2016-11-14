@@ -260,15 +260,17 @@ public class Product {
         return result;
     }
 
-    public void removeProduct(int productID) {
+    public boolean removeProduct(int productID) {
         oraManager.buildConnection();
         if(checkProductbyID(productID)) {
             String deleteQuery = "DELETE FROM product WHERE productID = " + productID;
             oraManager.execute(deleteQuery);
             System.out.println("delete the productID" +productID);
+            return true;
         }
         else{
             System.out.println("there is no such productID");
+            return false;
         }
     }
 
