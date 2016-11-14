@@ -138,6 +138,9 @@ public class CustomerSignUp extends JFrame //create class NewUser
                 String textname = txtname.getText().trim();
                 String textphone = txtphone.getText().trim();
                 String textgender = txtgender.getText().trim();
+                if(txtemail.getText()==null || txtPassword.getText()==null || txtbday.getText()==null || txtgender.getText()==null || txtphone.getText()==null){
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Please fill in all blank","Error",JOptionPane.ERROR_MESSAGE);
+                }
                 System.out.println(textemail+" "+ textPassword+" "+textbday+" "+textname+" "+textphone+" "+textgender);
                 try {
                     customer.addCustomer(textname, textphone, textgender);

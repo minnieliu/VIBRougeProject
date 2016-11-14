@@ -102,7 +102,7 @@ public class CustomerLogInPage extends JFrame //create class NewUser
                     boolean membership= customer.isMember(textName,textPhone);
                     if(membership){
                         int accountNo= customer.getAccountNo(textName,textPhone);
-                        JOptionPane.showMessageDialog(null,"Welcome Back!","Message",JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Welcome Back "+textName,"Message",JOptionPane.PLAIN_MESSAGE);
                         frame.dispose();
                         MemberPage mp= new MemberPage(accountNo,textName,textPhone);
                         mp.setUpPage();

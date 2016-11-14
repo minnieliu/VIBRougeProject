@@ -35,6 +35,22 @@ public class Employee {
 
     }
 
+    public String getName (int employeeID) {
+        ResultSet rs = null;
+        String query = "SELECT name FROM employee WHERE employeeID = " + employeeID;
+        rs = oraManager.query(query);
+        String result = null;
+        try {
+            rs.first();
+            result = rs.getString("name");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+
+
     public void addEmployee(int employeeID, String name) {
         String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + ")";
 
