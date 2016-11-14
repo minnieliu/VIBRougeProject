@@ -92,7 +92,6 @@ public class CustomerLogInPage extends JFrame //create class NewUser
 		contentPane.add(btnSignup);
 
         btnLogIn = new JButton("Log In");
-        //TODO: add event handler on Log In button
         btnLogIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

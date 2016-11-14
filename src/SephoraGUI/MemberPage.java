@@ -30,7 +30,6 @@ import javax.swing.border.EmptyBorder;
  * Created by hailey on 16/11/11.
  */
 public class MemberPage extends JPanel {
-    //TODO: ADD More Functions for Member Specific
     private JFrame frame;
     private JPanel contentPane;
     private int accountNo;

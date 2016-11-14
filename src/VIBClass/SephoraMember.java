@@ -9,9 +9,11 @@ public class SephoraMember {
 
 
     OraManager oraManager;
-
+    Service service;
     public SephoraMember() {
+
         oraManager = new OraManager();
+        this.service=new Service();
     }
 //
 //    public String checkStatus(int accountNo) throws SQLException {
@@ -118,6 +120,11 @@ public class SephoraMember {
         int capacityNum = 0;
         Customer c = new Customer();
         if(serviceid != 0 && name != null && phone!=null) {
+            if(!service.checkService(serviceid)){
+                Exception e= new Exception("serviceID does not exist");
+                throw e;
+            }
+
             if (c.isMember(name, phone)) {
                 ResultSet rs = null;
                 String selectQuery = "SELECT serviceCapacity FROM service WHERE serviceID = " + serviceid;
