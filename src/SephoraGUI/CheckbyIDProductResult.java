@@ -35,6 +35,7 @@ public class CheckbyIDProductResult {
             Product = product.checkProductbyIDForUI(productID);
         } catch (Exception e) {
                 JOptionPane.showMessageDialog(null,"Search Error","Error",JOptionPane.ERROR_MESSAGE);
+
         }
         System.out.print("making table");
         JScrollPane tableContainer = new JScrollPane(Product);

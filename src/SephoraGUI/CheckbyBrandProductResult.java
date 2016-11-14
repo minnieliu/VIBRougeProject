@@ -32,9 +32,10 @@ public class CheckbyBrandProductResult {
 
         JTable Product = null;
         try {
-            Product = product.checkProductbyBrand(brand);
+            Product = product.checkProductbyBrandforUI(brand);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Search Error","Error",JOptionPane.ERROR_MESSAGE);
+
         }
         System.out.print("making table");
         JScrollPane tableContainer = new JScrollPane(Product);
