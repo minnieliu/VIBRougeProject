@@ -90,7 +90,6 @@ public class BookService {
 //                String textName = txtName.getText().trim();
 //                String textPhone = txtPhone.getText().trim();
 //                System.out.println(textName+" "+ textPhone+" "+ textServiceID);
-                // TODO need error checking
                 try{
                     boolean book= sephoraMember.bookService(textServiceID,name,phone);
                     if(book)
