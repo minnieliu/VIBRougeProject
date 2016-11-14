@@ -52,18 +52,24 @@ public class Employee {
 
 
     public void addEmployee(int employeeID, String name) {
-        String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + ")";
 
+        String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + ")";
         oraManager.execute(insertQuery);
 
 
     }
 
     //delete employee tuple that matches the employeeID
-    public void removeEmployee(int employeeID) {
-        String deleteQuery = "DELETE FROM employee WHERE employeeID = '"+employeeID+"'";
+    public boolean removeEmployee(int employeeID) {
 
-        oraManager.execute(deleteQuery);
+        if (this.isEmployee(employeeID)) {
+            String deleteQuery = "DELETE FROM employee WHERE employeeID = '" + employeeID + "'";
+            oraManager.execute(deleteQuery);
+            return true;
+        }
+        else{
+            return false;
+        }
 
     }
 
