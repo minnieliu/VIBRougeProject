@@ -56,7 +56,7 @@ public class BookService {
         try {
             frame.setContentPane(contentPane=new JPanel(){
 
-                BufferedImage image = ImageIO.read(new File("./src/resources/glitter.jpg"));
+                BufferedImage image = ImageIO.read(new File("./src/resources/customerglitter.jpg"));
 
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
@@ -90,6 +90,7 @@ public class BookService {
 //                String textName = txtName.getText().trim();
 //                String textPhone = txtPhone.getText().trim();
 //                System.out.println(textName+" "+ textPhone+" "+ textServiceID);
+                // TODO need error checking
                 try{
                     boolean book= sephoraMember.bookService(textServiceID,name,phone);
                     if(book)

@@ -71,11 +71,13 @@ public class ManagerReports {
                 AveragePricePerType table = new AveragePricePerType();
             }
         });
-
+        //TODO need to add/remove employees
+        //TODO make employees login with employeeID
+        //TODO add add/delete product
         final JTextField textnumber = new JTextField();
         textnumber.setBounds(240,60,150,20);
         panel.add(textnumber);
-        JLabel lblNumber = new JLabel("Customer Number:");
+        JLabel lblNumber = new JLabel("Customer Phone#:");
         lblNumber.setBounds(100,60,130,20);
         panel.add(lblNumber);
         JButton removeCustomer = new JButton("Remove Customer");

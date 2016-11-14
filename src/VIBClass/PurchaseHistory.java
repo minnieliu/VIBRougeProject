@@ -109,7 +109,7 @@ public class PurchaseHistory {
                 sephoraMember.updatePoint(name, phoneNumber, -price);
                 sephoraMember.updateStatus(-price,name,phoneNumber);
             }
-            //delete product
+
             this.deleteprod(purchaseID, productID, 1);
             return true;
         }else{
@@ -324,8 +324,7 @@ public class PurchaseHistory {
         try{
             oraManager.execute("DELETE FROM purchaseOrder " +
                     "WHERE purchaseID = " + purchaseID);
-            oraManager.execute("DELETE FROM productOrder " +
-                    "WHERE purchaseID = "+ purchaseID );
+
             return true;
         }
         catch (Exception e){
@@ -340,9 +339,10 @@ public class PurchaseHistory {
                     "WHERE purchaseID = " + purchaseID +
                     " AND productID = " + productID);
             System.out.println("added successfully");
-            oraManager.execute("DELETE productOrder " +
+           oraManager.execute("DELETE productOrder " +
                     "WHERE purchaseID = " + purchaseID
                     +" AND productID = " + productID+ " AND quantityPurchased <=0");
+            this.deletePurchase(purchaseID);
             return true;
 
         }
@@ -352,6 +352,23 @@ public class PurchaseHistory {
         }
     }
 
+    public void deletePurchase(int purchaseID){
+        String selectQuery = "SELECT * FROM productOrder WHERE purchaseID = " + purchaseID;
+        ResultSet rs = oraManager.query(selectQuery);
+        int count = 0;
+        try {
+            while(rs.next()){
+                count++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (count == 0){
+            this.deleteEntirePurchase(purchaseID);
+
+        }
+
+    };
 
 
 
