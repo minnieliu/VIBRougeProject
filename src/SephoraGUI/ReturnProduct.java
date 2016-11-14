@@ -55,19 +55,23 @@ public class ReturnProduct {
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int textProductID = Integer.parseInt(txtProductID.getText());
-                int textpurchaseID = Integer.parseInt(txtPurchaseID.getText());
-                boolean valid = true;
+//                boolean valid = true;
 
                 //TODO: error exception
-                valid = purchaseHistory.checkHistory(textpurchaseID, textProductID);
-                if (!valid){
-                    JOptionPane.showMessageDialog(null, "Invalid PurchaseID, Try again", "Error", JOptionPane.ERROR_MESSAGE);
+//                valid = purchaseHistory.checkHistory(textpurchaseID, textProductID);
+//                if (!valid){
+//                    JOptionPane.showMessageDialog(null, "Invalid PurchaseID, Try again", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
+                if(txtProductID.getText()==null || txtPurchaseID.getText()==null){
+                    JOptionPane.showMessageDialog(null, "Please fill in both the purchaseID and productID", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 try {
-                    boolean result= purchaseHistory.returnProduct(textProductID,textpurchaseID);
-                    if(result)
-                        JOptionPane.showMessageDialog(null,"You have succesfully returned your purchase with ID " +textpurchaseID +" for product ID " +textProductID,"Message",JOptionPane.PLAIN_MESSAGE);
+                    if(txtProductID.getText()!=null && txtPurchaseID.getText()!=null) {
+                        int textProductID = Integer.parseInt(txtProductID.getText());
+                        int textpurchaseID = Integer.parseInt(txtPurchaseID.getText());
+                        purchaseHistory.returnProduct(textProductID, textpurchaseID);
+                        JOptionPane.showMessageDialog(null, "You have succesfully returned your purchase with ID " + textpurchaseID + " for product ID " + textProductID, "Message", JOptionPane.PLAIN_MESSAGE);
+                    }
                 } catch (Exception error) {
                     JOptionPane.showMessageDialog(null, "You cannot finish this return", "Error", JOptionPane.ERROR_MESSAGE);
                 }
