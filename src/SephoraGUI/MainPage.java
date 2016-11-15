@@ -74,8 +74,8 @@ public class MainPage extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                EmployeePage ep = new EmployeePage();
-                ep.setUpPage();
+                EmployeeLogInPage elp = new EmployeeLogInPage();
+                elp.setUpPage();
 
             }
         });

@@ -1,6 +1,7 @@
 package SephoraGUI;
 
 import VIBClass.Employee;
+import VIBClass.Product;
 import VIBClass.PurchaseHistory;
 
 import javax.imageio.ImageIO;
@@ -52,7 +53,7 @@ public class ManagerReports {
         panel.setLayout(null);
 
         JButton avgSales = new JButton("Average Item Purchased");
-        avgSales.setBounds(100,100,180,40);
+        avgSales.setBounds(100,155,180,40);
         panel.add(avgSales);
 
         avgSales.addActionListener(new ActionListener() {
@@ -63,7 +64,7 @@ public class ManagerReports {
         });
 
         JButton avgPrice = new JButton("Average Price Per Type");
-        avgPrice.setBounds(290,100,180,40);
+        avgPrice.setBounds(290,155,180,40);
         panel.add(avgPrice);
         avgPrice.addActionListener(new ActionListener() {
             @Override
@@ -71,16 +72,81 @@ public class ManagerReports {
                 AveragePricePerType table = new AveragePricePerType();
             }
         });
-
+        //TODO need to add/remove employees
+        //TODO make employees login with employeeID
+        //TODO add add/delete product
         final JTextField textnumber = new JTextField();
-        textnumber.setBounds(240,60,150,20);
+        textnumber.setBounds(190,60,150,20);
         panel.add(textnumber);
-        JLabel lblNumber = new JLabel("Customer Number:");
-        lblNumber.setBounds(100,60,130,20);
+        JLabel lblNumber = new JLabel("Customer Phone#:");
+        lblNumber.setBounds(50,60,130,20);
         panel.add(lblNumber);
         JButton removeCustomer = new JButton("Remove Customer");
-        removeCustomer.setBounds(420,54,150,40);
+        removeCustomer.setBounds(350,60,150,20);
         panel.add(removeCustomer);
+
+        final JTextField txtproductID = new JTextField();
+        txtproductID.setBounds(190,90,150,20);
+        panel.add(txtproductID);
+        JLabel lblProductID = new JLabel("Product ID:");
+        lblProductID.setBounds(50,90,130,20);
+        panel.add(lblProductID);
+        JButton removeProduct = new JButton("Remove Product");
+        removeProduct.setBounds(350,90,150,20);
+        panel.add(removeProduct);
+
+        final JTextField employeeID = new JTextField();
+        employeeID.setBounds(190,120,150,20);
+        panel.add(employeeID);
+        JLabel lblemployeeID = new JLabel("Employee ID:");
+        lblemployeeID.setBounds(50,120,130,20);
+        panel.add(lblemployeeID);
+        JButton removeEmpoylee = new JButton("Remove Employee");
+        removeEmpoylee.setBounds(350,120,150,20);
+        panel.add(removeEmpoylee);
+
+        removeProduct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    int pid = Integer.parseInt(txtproductID.getText());
+                    Product p = new Product();
+                    boolean success = p.removeProduct(pid);
+                    if (success) {
+                        JOptionPane.showMessageDialog(null, "Product Successfully Removed!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "ProductID invalid!", "Error!", JOptionPane.ERROR_MESSAGE);
+
+                    }
+                }catch(Exception err){
+                    JOptionPane.showMessageDialog(null, "ProductID invalid!", "Error!", JOptionPane.ERROR_MESSAGE);
+
+                }
+            }
+        });
+
+        removeEmpoylee.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    int employeeId = Integer.parseInt(employeeID.getText());
+                    Employee employee = new Employee();
+                    if (employee.removeEmployee(employeeId)){
+                        JOptionPane.showMessageDialog(null, "Employee Successfully Removed!", "Success!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "EmployeeID invalid!", "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                catch(Exception err ){
+                    JOptionPane.showMessageDialog(null, "EmployeeID invalid!", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+
+
 
         removeCustomer.addActionListener(new ActionListener() {
             @Override

@@ -84,11 +84,23 @@ public class PurchaseHistory {
         }
     }
 
-    public boolean returnProduct (int productID,int purchaseID) throws Exception{
-
+    public void returnProduct (int productID,int purchaseID) throws Exception{
         //check the purchaseID
+        if(productID<=0 || purchaseID<=0 ){
+            Exception e= new Exception("the input is invalid");
+            throw e;
+        }
+
         if(this.checkHistory(purchaseID, productID))
         {
+            if(!product.checkProductbyID(productID)){
+                Exception e= new Exception("the productID is invalid");
+                throw e;
+            }
+            if(!checkpurchaseID(purchaseID)){
+                Exception e= new Exception("the purchaseID is invalid");
+                throw e;
+            }
             product.updateInventory(productID, 1);
 
             //should deduct point for customer
@@ -98,8 +110,8 @@ public class PurchaseHistory {
             String phoneNumber = "";
             try {
                 rs.first();
-                name = rs.getString("name");
-                phoneNumber = rs.getString("phoneNumber");
+                name = rs.getString("name").trim();
+                phoneNumber = rs.getString("phoneNumber").trim();
                 rs.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -109,11 +121,11 @@ public class PurchaseHistory {
                 sephoraMember.updatePoint(name, phoneNumber, -price);
                 sephoraMember.updateStatus(-price,name,phoneNumber);
             }
-            //delete product
+
             this.deleteprod(purchaseID, productID, 1);
-            return true;
         }else{
-            return false;
+            Exception e= new Exception("You cannot finish this purchase");
+            throw e;
         }
     }
 
@@ -324,8 +336,7 @@ public class PurchaseHistory {
         try{
             oraManager.execute("DELETE FROM purchaseOrder " +
                     "WHERE purchaseID = " + purchaseID);
-            oraManager.execute("DELETE FROM productOrder " +
-                    "WHERE purchaseID = "+ purchaseID );
+
             return true;
         }
         catch (Exception e){
@@ -340,9 +351,10 @@ public class PurchaseHistory {
                     "WHERE purchaseID = " + purchaseID +
                     " AND productID = " + productID);
             System.out.println("added successfully");
-            oraManager.execute("DELETE productOrder " +
+           oraManager.execute("DELETE productOrder " +
                     "WHERE purchaseID = " + purchaseID
                     +" AND productID = " + productID+ " AND quantityPurchased <=0");
+            this.deletePurchase(purchaseID);
             return true;
 
         }
@@ -352,6 +364,23 @@ public class PurchaseHistory {
         }
     }
 
+    public void deletePurchase(int purchaseID){
+        String selectQuery = "SELECT * FROM productOrder WHERE purchaseID = " + purchaseID;
+        ResultSet rs = oraManager.query(selectQuery);
+        int count = 0;
+        try {
+            while(rs.next()){
+                count++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (count == 0){
+            this.deleteEntirePurchase(purchaseID);
+
+        }
+
+    };
 
 
 

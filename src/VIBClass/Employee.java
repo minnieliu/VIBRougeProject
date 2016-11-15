@@ -21,9 +21,9 @@ public class Employee {
         oraManager.buildConnection();
     }
 
-    public boolean isEmployee(int employeeID) {
+    public boolean isEmployee(String name, String phoneNumber) {
         ResultSet rs = null;
-        String query = "SELECT * FROM employee WHERE employeeID = " + employeeID;
+        String query = "SELECT * FROM employee WHERE name = " + name + " AND phoneNumber = " + phoneNumber;
         rs = oraManager.query(query);
         Boolean result = null;
         try {
@@ -35,19 +35,41 @@ public class Employee {
 
     }
 
-    public void addEmployee(int employeeID, String name) {
-        String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + ")";
+    public String getName (int employeeID) {
+        ResultSet rs = null;
+        String query = "SELECT name FROM employee WHERE employeeID = " + employeeID;
+        rs = oraManager.query(query);
+        String result = null;
+        try {
+            rs.first();
+            result = rs.getString("name");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
 
+    }
+
+
+    public void addEmployee(int employeeID, String name, String phoneNumber) {
+
+        String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + "," + phoneNumber + ")";
         oraManager.execute(insertQuery);
 
 
     }
 
     //delete employee tuple that matches the employeeID
-    public void removeEmployee(int employeeID) {
-        String deleteQuery = "DELETE FROM employee WHERE employeeID = '"+employeeID+"'";
+    public boolean removeEmployee(String name, String phoneNumber) {
 
-        oraManager.execute(deleteQuery);
+        if (this.isEmployee(name, phoneNumber)) {
+            String deleteQuery = "DELETE FROM employee WHERE name = '" + name + " AND phoneNumber = " + phoneNumber + "'";
+            oraManager.execute(deleteQuery);
+            return true;
+        }
+        else{
+            return false;
+        }
 
     }
 

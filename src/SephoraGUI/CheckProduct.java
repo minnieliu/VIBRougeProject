@@ -49,7 +49,6 @@ public class CheckProduct {
 
         contentPane.setLayout(null);
         //contentPane.setLayout(new GridLayout(8,8));
-
         final JLabel lblProductID= new JLabel("Product ID");
         lblProductID.setBounds(120,30,100,20);
         contentPane.add(lblProductID);

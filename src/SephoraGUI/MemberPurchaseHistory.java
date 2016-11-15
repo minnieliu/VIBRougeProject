@@ -59,7 +59,6 @@ public class MemberPurchaseHistory {
         });
         panel.add(backButton);
 
-        //TODO:Make the table larger
         //frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();
         frame.setLocationRelativeTo(null);

@@ -32,7 +32,7 @@ public class CheckbyTypeProductResult {
 
         JTable Product = null;
         try {
-            Product = product.checkProductbyType(type);
+            Product = product.checkProductbyTypeforUI(type);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Search Error","Error",JOptionPane.ERROR_MESSAGE);
         }
