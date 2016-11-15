@@ -37,6 +37,7 @@ create table employee
 (
   employeeID INTEGER NOT NULL,
   name       CHAR(20),
+  phoneNumber CHAR(20),
   CONSTRAINT employee_PK PRIMARY KEY (employeeID)
 );
 
@@ -121,22 +122,22 @@ insert into member1
     values(18572039,600,'sophies@gmail.com','dlvnei$7','1992-06-18', 700,'VIB', 'Sophie Sanders','6135950177');
 
 insert into employee
-    values(13579,'John Smith');
+    values(13579,'John Smith', '6041234563');
 
 insert into employee
-    values(12345,'Elizabeth Martin');
+    values(12345,'Elizabeth Martin','6041234562');
 
 insert into employee
-    values(12645,'Adam Smith');
+    values(12645,'Adam Smith','6041234561');
 
 insert into employee
-    values(19283,'Jane Doe');
+    values(19283,'Jane Doe','6041234567');
 
 insert into employee
-    values(87364,'Max Lee');
+    values(87364,'Max Lee','6041234568');
 
 insert into employee
-    values(36475,'Carter Wong');
+    values(36475,'Carter Wong','6041234569');
 
 insert into service
     values(123456,'2016-2-15',20,'make-up tutorial');
