@@ -21,9 +21,9 @@ public class Employee {
         oraManager.buildConnection();
     }
 
-    public boolean isEmployee(int employeeID) {
+    public boolean isEmployee(String name, String phoneNumber) {
         ResultSet rs = null;
-        String query = "SELECT * FROM employee WHERE employeeID = " + employeeID;
+        String query = "SELECT * FROM employee WHERE name = " + name + " AND phoneNumber = " + phoneNumber;
         rs = oraManager.query(query);
         Boolean result = null;
         try {
@@ -51,19 +51,19 @@ public class Employee {
     }
 
 
-    public void addEmployee(int employeeID, String name) {
+    public void addEmployee(int employeeID, String name, String phoneNumber) {
 
-        String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + ")";
+        String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + "," + phoneNumber + ")";
         oraManager.execute(insertQuery);
 
 
     }
 
     //delete employee tuple that matches the employeeID
-    public boolean removeEmployee(int employeeID) {
+    public boolean removeEmployee(String name, String phoneNumber) {
 
-        if (this.isEmployee(employeeID)) {
-            String deleteQuery = "DELETE FROM employee WHERE employeeID = '" + employeeID + "'";
+        if (this.isEmployee(name, phoneNumber)) {
+            String deleteQuery = "DELETE FROM employee WHERE name = '" + name + " AND phoneNumber = " + phoneNumber + "'";
             oraManager.execute(deleteQuery);
             return true;
         }
