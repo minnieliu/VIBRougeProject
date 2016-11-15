@@ -1,10 +1,10 @@
 package VIBClass;
 
 import javax.swing.*;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Random;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 
@@ -19,6 +19,20 @@ public class Employee {
     public Employee() {
         oraManager = new OraManager();
         oraManager.buildConnection();
+    }
+
+    public boolean isEmployee(int employeeID) {
+        ResultSet rs = null;
+        String query = "SELECT * FROM employee WHERE employeeID=" + employeeID;
+        rs = oraManager.query(query);
+        Boolean result = null;
+        try {
+            result = rs.isBeforeFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+
     }
 
     public boolean isEmployee(String name, String phoneNumber) {
@@ -53,17 +67,20 @@ public class Employee {
 
     public void addEmployee(int employeeID, String name, String phoneNumber) {
 
-        String insertQuery = "INSERT INTO employee VALUES (" + employeeID + "," + name + "," + phoneNumber + ")";
+        String insertQuery = "INSERT INTO employee VALUES("
+                + employeeID + ",'"
+                + name + "','"
+                + phoneNumber + "')";
         oraManager.execute(insertQuery);
 
 
     }
 
     //delete employee tuple that matches the employeeID
-    public boolean removeEmployee(String name, String phoneNumber) {
+    public boolean removeEmployee(int employeeID) {
 
-        if (this.isEmployee(name, phoneNumber)) {
-            String deleteQuery = "DELETE FROM employee WHERE name = '" + name + " AND phoneNumber = " + phoneNumber + "'";
+        if (this.isEmployee(employeeID)) {
+            String deleteQuery = "DELETE FROM employee WHERE employeeID="+employeeID;
             oraManager.execute(deleteQuery);
             return true;
         }
@@ -309,8 +326,8 @@ public class Employee {
         Employee employee = new Employee();
         OraManager oramanager =  new OraManager();
         // Test add employee
-//        employee.addEmployee(9348534, "'IT DOES WORKS'");
-//        employee.addEmployee(123456, "'ABC'");
+        employee.addEmployee(9999, "Clara Chu", "3234324289");
+
 
         // Test isEmployee
 //        System.out.println("Should be true: " + employee.isEmployee(9348534));
@@ -321,7 +338,27 @@ public class Employee {
 //        System.out.println("Before remove is true: " + employee.isEmployee(12645));
 //        employee.removeEmployee(12645);
 //        System.out.println("After removing Adam Smith, is false: " + employee.isEmployee(12645));
-//        employee.removeEmployee(36475);
+        String query = "SELECT * FROM employee";
+        ResultSet rs=null;
+        rs = oramanager.query(query);
+        try {
+            while(rs.next())
+            {
+                System.out.println(rs.getInt(1) + " " + rs.getString(2)+ " "+rs.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        employee.removeEmployee(9999);
+        rs = oramanager.query(query);
+        try {
+            while(rs.next())
+            {
+                System.out.println(rs.getInt(1) + " " + rs.getString(2)+ " "+rs.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Test Birthday
 //        ArrayList<String> list = employee.birthdayGift(02);
