@@ -4,6 +4,7 @@ import VIBClass.Customer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -97,24 +98,32 @@ public class CustomerLogInPage extends JFrame //create class NewUser
             public void actionPerformed(ActionEvent e) {
                 String textName = txtName.getText().trim();
                 String textPhone = txtPhone.getText().trim();
-                System.out.println(textName+" "+ textPhone);
+
                 try{
-                    boolean membership= customer.isMember(textName,textPhone);
-                    if(membership){
-                        int accountNo= customer.getAccountNo(textName,textPhone);
-                        JOptionPane.showMessageDialog(null,"Welcome Back "+textName,"Message",JOptionPane.PLAIN_MESSAGE);
-                        frame.dispose();
-                        MemberPage mp= new MemberPage(accountNo,textName,textPhone);
-                        mp.setUpPage();
+                Double doublePhoneTest=Double.parseDouble(txtPhone.getText().trim());
+                    try{
+                        boolean membership= customer.isMember(textName,textPhone);
+                        if(membership){
+                            int accountNo= customer.getAccountNo(textName,textPhone);
+                            JOptionPane.showMessageDialog(null,"Welcome Back "+textName,"Message",JOptionPane.PLAIN_MESSAGE);
+                            frame.dispose();
+                            MemberPage mp= new MemberPage(accountNo,textName,textPhone);
+                            mp.setUpPage();
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null,"You are not a member yet, sign up first!","Error",JOptionPane.ERROR_MESSAGE);
+                        }
+
                     }
-                    else{
+                    catch (Exception error){
                         JOptionPane.showMessageDialog(null,"You are not a member yet, sign up first!","Error",JOptionPane.ERROR_MESSAGE);
                     }
 
                 }
                 catch (Exception error){
-                    JOptionPane.showMessageDialog(null,"You are not a member yet, sign up first!","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Please fill in a valid Phone Number!","Error",JOptionPane.ERROR_MESSAGE);
                 }
+
 
             }
         });
