@@ -45,7 +45,6 @@ public class MainPage extends JPanel{
     public void setUpPage(){
         frame = new JFrame("VIB Rouge");
         frame.setVisible(true);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
@@ -62,36 +61,51 @@ public class MainPage extends JPanel{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        panel.setLayout(null);
 
+        final JButton welcomeBUtton = new JButton("Welcome");
+        welcomeBUtton.setFont(new Font("Arial", Font.BOLD,14));
+        welcomeBUtton.setBounds(250,40,100,20);
+        panel.add(welcomeBUtton);
 
-        final JButton employeeButton = new JButton("Employee");
-        employeeButton.setFont(new Font("Arial", Font.BOLD, 14));
-        employeeButton.setBounds(150,20,100,20);
-        panel.add(employeeButton);
-
-        //frame.add(employeeButton);
-        employeeButton.addActionListener(new ActionListener() {
+        welcomeBUtton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                EmployeeLogInPage elp = new EmployeeLogInPage();
-                elp.setUpPage();
-
+                CustomerLogInPage cp = new CustomerLogInPage();
+                cp.setUpPage();
             }
         });
 
-        JButton customerButton = new JButton("Customer");
-        customerButton.setFont(new Font("Arial", Font.BOLD, 14));
-        customerButton.setBounds(50,20,100,20);
-        panel.add(customerButton);
-        customerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                CustomerLogInPage clp= new CustomerLogInPage();
-                clp.setUpPage();
-            }
-        });
+
+//        final JButton employeeButton = new JButton("Employee");
+//        employeeButton.setFont(new Font("Arial", Font.BOLD, 14));
+//        employeeButton.setBounds(150,20,100,20);
+//        panel.add(employeeButton);
+//
+//        //frame.add(employeeButton);
+//        employeeButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                frame.dispose();
+//                EmployeeLogInPage elp = new EmployeeLogInPage();
+//                elp.setUpPage();
+//
+//            }
+//        });
+//
+//        JButton customerButton = new JButton("Customer");
+//        customerButton.setFont(new Font("Arial", Font.BOLD, 14));
+//        customerButton.setBounds(50,20,100,20);
+//        panel.add(customerButton);
+//        customerButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                frame.dispose();
+//                CustomerLogInPage clp= new CustomerLogInPage();
+//                clp.setUpPage();
+//            }
+//        });
 
         frame.pack();
         frame.setMinimumSize(new Dimension(600, 315));
