@@ -37,7 +37,7 @@ public class Employee {
 
     public boolean isEmployee(String name, String phoneNumber) {
         ResultSet rs = null;
-        String query = "SELECT * FROM employee WHERE name = " + name + " AND phoneNumber = " + phoneNumber;
+        String query = "SELECT name FROM employee WHERE name = '" + name + "'" + "AND phoneNumber = '" + phoneNumber + "'" ;
         rs = oraManager.query(query);
         Boolean result = null;
         try {
