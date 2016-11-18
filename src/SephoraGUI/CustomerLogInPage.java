@@ -1,5 +1,6 @@
 package SephoraGUI;//import statement
 import VIBClass.Customer;
+import VIBClass.Employee;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,7 @@ public class CustomerLogInPage extends JFrame //create class NewUser
 
     public void setUpPage() //create constructor
     {
-        frame = new JFrame("Customer Log In Page");
+        frame = new JFrame("Log In Page");
         try {
             frame.setContentPane(contentPane = new JPanel(){
 
@@ -110,8 +111,17 @@ public class CustomerLogInPage extends JFrame //create class NewUser
                             MemberPage mp= new MemberPage(accountNo,textName,textPhone);
                             mp.setUpPage();
                         }
-                        else{
-                            JOptionPane.showMessageDialog(null,"You are not a member yet, sign up first!","Error",JOptionPane.ERROR_MESSAGE);
+                        Employee employee = new Employee();
+                        boolean isEmployee = employee.isEmployee(textName,textPhone);
+                        if (isEmployee){
+                            frame.dispose();
+                            JOptionPane.showMessageDialog(null,"Welcome Back "+textName,"Message",JOptionPane.PLAIN_MESSAGE);
+                            EmployeePage ep = new EmployeePage();
+                            ep.setUpPage();
+                        }
+                        if (!isEmployee && !membership){
+                            JOptionPane.showMessageDialog(null,"Name and phone number is incorrect!","Error",JOptionPane.ERROR_MESSAGE);
+
                         }
 
                     }
