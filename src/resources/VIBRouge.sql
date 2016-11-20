@@ -56,7 +56,8 @@ create table product
   brand           CHAR(40),
   inventoryNumber INTEGER,
   productType     CHAR(40),
-  CONSTRAINT product_PK PRIMARY KEY (productID)
+  CONSTRAINT product_PK PRIMARY KEY (productID),
+  CHECK (inventoryNumber > 0)
 );
 
 create table purchaseOrder
