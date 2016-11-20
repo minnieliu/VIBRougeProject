@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by hailey on 16/11/11.
@@ -63,9 +65,20 @@ public class UpdateAccountInfo {
             public void actionPerformed(ActionEvent e) {
                 String textEmail = txtEmail.getText().trim();
                 String textPassword = txtPassword.getText().trim();
+
+                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher m = p.matcher(textEmail);
+                boolean matchFound = m.matches();
                 try{
-                    sephoraMember.updateAccountInfo(accountNo,textEmail,textPassword);
-                    JOptionPane.showMessageDialog(null,"The information is successfully updated!","Message",JOptionPane.PLAIN_MESSAGE);
+                    if (matchFound){
+                        sephoraMember.updateAccountInfo(accountNo,textEmail,textPassword);
+                        JOptionPane.showMessageDialog(null,"The information is successfully updated!","Message",JOptionPane.PLAIN_MESSAGE);
+
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Incorrect email format!","Error",JOptionPane.ERROR_MESSAGE);
+                    }
+
                 }
                 catch (Exception error){
                     JOptionPane.showMessageDialog(null,"You cannot update this information","Error",JOptionPane.ERROR_MESSAGE);
