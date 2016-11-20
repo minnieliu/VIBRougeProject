@@ -63,7 +63,7 @@ public class OraManager {
 
 
 
-    public ResultSet query(String stringForQuery){
+    public ResultSet query(String stringForQuery) {
         ResultSet resultset = null;
         Statement stm = null;
         buildConnection();
