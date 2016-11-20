@@ -12,6 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by hailey on 16/11/11.
@@ -96,25 +99,39 @@ public class PurchaseProduct {
         purchaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int textPID=Integer.parseInt(txtProductID.getText());
-                int textqt=Integer.parseInt(txtQuantity.getText());
+                int textPID = Integer.parseInt(txtProductID.getText());
+                int textqt = Integer.parseInt(txtQuantity.getText());
                 String textPhone = txtPhoneNumb.getText().trim();
                 String textName = txtname.getText().trim();
                 String textmop = txtmop.getText().trim();
-                String textdate=txtdate.getText().trim();
+                String textdate = txtdate.getText().trim();
                 String txtgender = txtGender.getText().trim();
 
 
-                try{
-                    Customer c = new Customer();
-                    if (!c.isCustomer(textName, textPhone)) {
-                        c.addCustomer(textName,textPhone,txtgender);
+                Pattern p = Pattern.compile("^\\d{10}$");
+                Matcher m = p.matcher(textPhone);
+                boolean matchFound = m.matches();
+                System.out.print(matchFound + textmop);
+
+                if ((textmop.equals("credit") || textmop.equals("debit")) && matchFound){
+                    try {
+                        Customer c = new Customer();
+                        if (!c.isCustomer(textName, textPhone)) {
+                            c.addCustomer(textName, textPhone, txtgender);
+                        }
+
+                        try {
+                            int record = purchaseHistory.purchaseProduct(textPID, textqt, textPhone, textName, txtgender, textmop, textdate);
+                            JOptionPane.showMessageDialog(null, "You have succesfully purchased and your purchase history ID is " + record, "Message", JOptionPane.PLAIN_MESSAGE);
+                        } catch (SQLException error) {
+                            JOptionPane.showMessageDialog(null, "Not enough inventory to complete purchase!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (Exception error) {
+                        JOptionPane.showMessageDialog(null, "You cannot finish this purchase, please ensure date is YYYY-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    int record= purchaseHistory.purchaseProduct(textPID,textqt,textPhone,textName,txtgender,textmop,textdate);
-                    JOptionPane.showMessageDialog(null,"You have succesfully purchased and your purchase history ID is " +record,"Message",JOptionPane.PLAIN_MESSAGE);
                 }
-                catch (Exception error){
-                    JOptionPane.showMessageDialog(null,"You cannot finish this purchase, please ensure date is YYYY-MM-DD","Error",JOptionPane.ERROR_MESSAGE);
+                else{
+                    JOptionPane.showMessageDialog(null, "Invalid purchase method or phone number!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
