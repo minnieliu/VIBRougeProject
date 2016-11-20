@@ -123,8 +123,8 @@ public class PurchaseProduct {
                         try {
                             int record = purchaseHistory.purchaseProduct(textPID, textqt, textPhone, textName, txtgender, textmop, textdate);
                             JOptionPane.showMessageDialog(null, "You have succesfully purchased and your purchase history ID is " + record, "Message", JOptionPane.PLAIN_MESSAGE);
-                            if(textqt > 50){
-                                JOptionPane.showMessageDialog(null, "You have earned a gift and extra points by purchasing more than 50 products!", "Message", JOptionPane.PLAIN_MESSAGE);
+                            if(textqt > 5){
+                                JOptionPane.showMessageDialog(null, "You have earned a gift and extra points by purchasing more than 5 products!", "Message", JOptionPane.PLAIN_MESSAGE);
                             }
                         } catch (SQLException error) {
                             JOptionPane.showMessageDialog(null, "Not enough inventory to complete purchase!", "Error", JOptionPane.ERROR_MESSAGE);
