@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 import javax.imageio.ImageIO;
@@ -138,22 +140,37 @@ public class CustomerSignUp extends JFrame //create class NewUser
                 String textname = txtname.getText().trim();
                 String textphone = txtphone.getText().trim();
                 String textgender = txtgender.getText().trim();
+                Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher m = p.matcher(textemail);
+                boolean matchFound = m.matches();
+
+                if (!matchFound){
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Incorrect format for email","Error",JOptionPane.ERROR_MESSAGE);
+                }
+                Pattern p1 = Pattern.compile("^\\d{10}$");
+                Matcher m1 = p1.matcher(textphone);
+                boolean phoneMatch = m1.matches();
+                if (!phoneMatch){
+                    JOptionPane.showMessageDialog(null,"Invalid Input: Incorrect phone number","Error",JOptionPane.ERROR_MESSAGE);
+                }
+
                 if(txtemail.getText()==null || txtPassword.getText()==null || txtbday.getText()==null || txtgender.getText()==null || txtphone.getText()==null){
                     JOptionPane.showMessageDialog(null,"Invalid Input: Please fill in all blank","Error",JOptionPane.ERROR_MESSAGE);
                 }
-                System.out.println(textemail+" "+ textPassword+" "+textbday+" "+textname+" "+textphone+" "+textgender);
-                try {
-                    customer.addCustomer(textname, textphone, textgender);
-                    customer.addMember(textemail,textPassword,textbday,textname,textphone);
-                    JOptionPane.showMessageDialog(null,"Welcome Beauty Insider","Success",JOptionPane.PLAIN_MESSAGE);
-                    // go back to the log in page
-                    frame.dispose();
-                    CustomerLogInPage clp= new CustomerLogInPage();
-                    clp.setUpPage();
-                }
-                catch (Exception error){
-                    JOptionPane.showMessageDialog(null,"Invalid Input: Please fill in all blank; the birthay format is YYYY-MM-DD","Error",JOptionPane.ERROR_MESSAGE);
-                    System.out.println(error.getMessage());
+
+               if (matchFound && phoneMatch && txtemail.getText()!=null && txtPassword.getText()!= null && txtbday.getText()!=null && txtgender.getText()!=null && txtphone.getText()!= null){
+                    try {
+                        customer.addCustomer(textname, textphone, textgender);
+                        customer.addMember(textemail, textPassword, textbday, textname, textphone);
+                        JOptionPane.showMessageDialog(null, "Welcome Beauty Insider", "Success", JOptionPane.PLAIN_MESSAGE);
+                        // go back to the log in page
+                        frame.dispose();
+                        CustomerLogInPage clp = new CustomerLogInPage();
+                        clp.setUpPage();
+                    } catch (Exception error) {
+                        JOptionPane.showMessageDialog(null, "Invalid Input: Please fill in all blank; the birthay format is YYYY-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
+                        System.out.println(error.getMessage());
+                    }
                 }
             }
         });
