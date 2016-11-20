@@ -249,13 +249,18 @@ public class Product {
         return result;
     }
 
-    public int updateInventory(int productID, int change){
+    public int updateInventory(int productID, int change) throws SQLException{
         oraManager.buildConnection();
         int currentInv = this.checkInventory(productID);
         int newInv = currentInv + change;
         String updateQuery = "UPDATE product SET inventoryNumber ="+ newInv+ "WHERE productID = " + productID;
         System.out.println(updateQuery);
-        oraManager.query(updateQuery);
+
+        ResultSet rs = oraManager.query(updateQuery);
+        if (rs == null){
+            throw new SQLException("error");
+        }
+
         int result = this.checkInventory(productID);
         System.out.println("After changing "+ change+", Inventory Number for productID "+ productID+ " is "+ result);
         return result;
