@@ -33,10 +33,7 @@ public class PurchaseHistory {
             if(date.indexOf("-") == 4 && date.lastIndexOf("-") == 7) {
                 product.updateInventory(productID, -quantity);
                 //Update the purchaseHistory with purchaseID
-//
-//            if (checkpurchaseID(purchaseID)==true){
-//                this.additem(purchaseID,productID,quantity);
-//            }
+
                 //Check whether the customer is a member
                 if (customer.isMember(CName, CPhoneNum)) {
                     int price = product.checkPrice(productID);
