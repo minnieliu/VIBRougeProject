@@ -168,7 +168,7 @@ public class CustomerSignUp extends JFrame //create class NewUser
                         CustomerLogInPage clp = new CustomerLogInPage();
                         clp.setUpPage();
                     } catch (Exception error) {
-                        JOptionPane.showMessageDialog(null, "Invalid Input: Please fill in all blank; the birthay format is YYYY-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Invalid Input: Please fill in all blank; the birthay format is YYYY-MM-DD, put F/M for gender", "Error", JOptionPane.ERROR_MESSAGE);
                         System.out.println(error.getMessage());
                     }
                 }

@@ -86,11 +86,12 @@ public class BookService {
         bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int textServiceID=Integer.parseInt(txtServiceID.getText());
+
 //                String textName = txtName.getText().trim();
 //                String textPhone = txtPhone.getText().trim();
 //                System.out.println(textName+" "+ textPhone+" "+ textServiceID);
                 try{
+                    int textServiceID=Integer.parseInt(txtServiceID.getText());
                     boolean book= sephoraMember.bookService(textServiceID,name,phone);
                     if(book)
                         JOptionPane.showMessageDialog(null,"The service is booked successfully!","Message",JOptionPane.PLAIN_MESSAGE);

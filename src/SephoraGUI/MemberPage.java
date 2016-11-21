@@ -162,10 +162,14 @@ public class MemberPage extends JPanel {
         checkCurrentService.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int month = Integer.parseInt(txtMonth.getText());
-                frame.dispose();
-                ServiceThisMonth stm = new ServiceThisMonth(month, accountNo, name, phone);
-                stm.setUpPage();
+                try {
+                    int month = Integer.parseInt(txtMonth.getText());
+                    frame.dispose();
+                    ServiceThisMonth stm = new ServiceThisMonth(month, accountNo, name, phone);
+                    stm.setUpPage();
+                }catch (Exception error) {
+                    JOptionPane.showMessageDialog(null, "please ensure the month is in integer 1-12", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         checkCurrentService.setBounds(260,165,160,40);

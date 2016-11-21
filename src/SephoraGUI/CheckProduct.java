@@ -61,10 +61,15 @@ public class CheckProduct {
         checkbyIDButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int textPID=Integer.parseInt(txtProductID.getText());
-                frame.dispose();
-                CheckbyIDProductResult cp = new CheckbyIDProductResult(textPID);
-                cp.setUpPage();
+                try {
+                    int textPID = Integer.parseInt(txtProductID.getText());
+                    frame.dispose();
+                    CheckbyIDProductResult cp = new CheckbyIDProductResult(textPID);
+                    cp.setUpPage();
+                }
+                catch (Exception error) {
+                    JOptionPane.showMessageDialog(null, "please fill in productID as integer", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         checkbyIDButton.setBounds(140,55,180,40);

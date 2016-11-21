@@ -27,9 +27,14 @@ public class BirthdayGiftReport {
         frame.setResizable(true);
 
         Employee employee = new Employee();
-        JTable birthdayGifts = employee.birthdayGift(birthdayMonth);
-        JScrollPane tableContainer = new JScrollPane(birthdayGifts);
-        panel.add(tableContainer);
+        try {
+            JTable birthdayGifts = employee.birthdayGift(birthdayMonth);
+            JScrollPane tableContainer = new JScrollPane(birthdayGifts);
+            panel.add(tableContainer);
+        }
+        catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Fill in a valid month 1-12", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         frame.add(panel);
         frame.setMinimumSize(new Dimension(600, 315));
         frame.pack();

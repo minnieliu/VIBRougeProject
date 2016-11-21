@@ -91,8 +91,11 @@ public class Employee {
     }
 
     //return the list of name of customer who has birthday on the current date
-    public JTable birthdayGift(int currentMonth) {
-
+    public JTable birthdayGift(int currentMonth) throws Exception {
+        if(currentMonth>12 ||currentMonth<1){
+            Exception e= new Exception("error month");
+            throw e;
+        }
         ResultSet rs;
         String query = "SELECT name FROM member1 WHERE birthday LIKE " + "'%-"+currentMonth+"-%'" + " OR birthday LIKE " + "'%-0" + currentMonth + "-%'";
         rs = oraManager.query(query);
@@ -252,10 +255,11 @@ public class Employee {
         String selectQuery = "SELECT * FROM product WHERE productID = " + productID;
         ResultSet rs = oraManager.query(selectQuery);
         int count = 0;
+        int invnum=0;
         try {
             while (rs.next()){
                 count++;
-
+                invnum= rs.getInt("inventoryNumber");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -264,9 +268,10 @@ public class Employee {
         if (count < 1){
             return false;
         }
-
+        invnum=invnum+numAdded;
+        System.out.println(invnum);
         String updateQuery = "UPDATE product SET " +
-                "inventoryNumber = inventoryNumber + " + numAdded +
+                "inventoryNumber =" +invnum +
                 " WHERE productID = " + productID;
 
         try{

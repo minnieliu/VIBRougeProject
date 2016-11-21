@@ -99,8 +99,6 @@ public class PurchaseProduct {
         purchaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int textPID = Integer.parseInt(txtProductID.getText());
-                int textqt = Integer.parseInt(txtQuantity.getText());
                 String textPhone = txtPhoneNumb.getText().trim();
                 String textName = txtname.getText().trim();
                 String textmop = txtmop.getText().trim();
@@ -113,7 +111,7 @@ public class PurchaseProduct {
                 boolean matchFound = m.matches();
                 System.out.print(matchFound + textmop);
 
-                if ((textmop.equals("credit") || textmop.equals("debit")) && matchFound){
+                if ((textmop.equals("credit") || textmop.equals("debit")) && matchFound && (txtgender.equals("F")||txtgender.equals("M"))){
                     try {
                         Customer c = new Customer();
                         if (!c.isCustomer(textName, textPhone)) {
@@ -121,20 +119,19 @@ public class PurchaseProduct {
                         }
 
                         try {
+                            int textPID = Integer.parseInt(txtProductID.getText());
+                            int textqt = Integer.parseInt(txtQuantity.getText());
                             int record = purchaseHistory.purchaseProduct(textPID, textqt, textPhone, textName, txtgender, textmop, textdate);
                             JOptionPane.showMessageDialog(null, "You have succesfully purchased and your purchase history ID is " + record, "Message", JOptionPane.PLAIN_MESSAGE);
-                            if(textqt > 5){
-                                JOptionPane.showMessageDialog(null, "You have earned a gift and extra points by purchasing more than 5 products!", "Message", JOptionPane.PLAIN_MESSAGE);
-                            }
                         } catch (SQLException error) {
                             JOptionPane.showMessageDialog(null, "Not enough inventory to complete purchase!", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (Exception error) {
-                        JOptionPane.showMessageDialog(null, "You cannot finish this purchase, please ensure date is YYYY-MM-DD", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "You cannot finish this purchase, please ensure date is YYYY-MM-DD, the productID and quantity are integers", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Invalid purchase method or phone number!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid purchase method or phone number or F/M for gender!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
