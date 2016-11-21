@@ -1,3 +1,4 @@
+
 package VIBClass;
 
 import javax.swing.*;
@@ -28,12 +29,17 @@ public class PurchaseHistory {
     //edit by Hailey
     public int purchaseProduct (int productID, int quantity,String CPhoneNum,String CName,String gender, String methodOfPayment, String date) throws Exception {
         int currentInv = product.checkInventory(productID);
-        if (currentInv > 0 && productID !=0 && quantity >0 && CPhoneNum !=null && CName !=null && methodOfPayment != null && date!=null) {
+
+        if (currentInv > 0 && productID !=0 && quantity >0 && quantity<currentInv && CPhoneNum !=null && CName !=null && methodOfPayment != null && date!=null) {
             // Update the inventory
             if(date.indexOf("-") == 4 && date.lastIndexOf("-") == 7) {
-                product.updateInventory(productID, -quantity);
-                //Update the purchaseHistory with purchaseID
 
+               // product.updateInventory(productID, -quantity);
+                //Update the purchaseHistory with purchaseID
+//
+//            if (checkpurchaseID(purchaseID)==true){
+//                this.additem(purchaseID,productID,quantity);
+//            }
                 //Check whether the customer is a member
                 if (customer.isMember(CName, CPhoneNum)) {
                     int price = product.checkPrice(productID);
@@ -98,6 +104,7 @@ public class PurchaseHistory {
                 Exception e= new Exception("the purchaseID is invalid");
                 throw e;
             }
+
             product.updateInventory(productID, 1);
 
             //should deduct point for customer
@@ -383,26 +390,60 @@ public class PurchaseHistory {
 
     public static void main(String argv[]) {
         PurchaseHistory ps = new PurchaseHistory();
-//        try {
-//            ps.purchaseProduct(5555, 100, "7782341039", "Sarah Kwong","credit", "2016-07-24");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-////               ps.returnProduct(5555, 55543215);
-//        System.out.println("Member Table" + "\n");
-//        ResultSet rs = null;
-//        OraManager oramanager = new OraManager();
-//        String query1 = "SELECT * FROM member1";
-//        rs = oramanager.query(query1);
+        try {
+            ps.purchaseProduct(1000, 5, "7782341039", "Sarah Kwong", "F","credit", "2016-07-24");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("ProductOrder Table" + "\n");
+        ResultSet rs = null;
+        OraManager oramanager = new OraManager();
+        String query4 = "SELECT * FROM productOrder";
+        rs = oramanager.query(query4);
+        try {
+            while(rs.next())
+            {
+                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getInt(3) + "\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Product Table" + "\n");
+
+        String query1 = "SELECT * FROM product";
+        rs = oramanager.query(query1);
+        try {
+            while(rs.next())
+            {
+                System.out.println(rs.getInt(1) + " " + rs.getInt(4) + "\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        System.out.println("PurchaseOrder Table" + "\n");
+//        String query8 = "SELECT * FROM purchaseOrder";
+//        rs = oramanager.query(query8);
 //        try {
 //            while(rs.next())
 //            {
-//                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " +rs.getString(7) + " "  + rs.getString(8)+ "\n");
+//                System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) +" " + rs.getString(4) + "\n");
 //            }
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+////               ps.returnProduct(5555, 55543215);
+        System.out.println("Member Table" + "\n");
+        String query2 = "SELECT * FROM member1";
+        rs = oramanager.query(query2);
+        try {
+            while(rs.next())
+            {
+                System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getString(4) + " " + rs.getInt(6) + " " + rs.getString(7) + " "  + rs.getString(8)+ "\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 //
 //        System.out.println("purchaseOrder Table" + "\n");
 //    String query2 = "SELECT * FROM purchaseOrder";
