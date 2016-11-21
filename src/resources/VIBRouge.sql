@@ -56,8 +56,7 @@ create table product
   brand           CHAR(40),
   inventoryNumber INTEGER,
   productType     CHAR(40),
-  CONSTRAINT product_PK PRIMARY KEY (productID),
-  CHECK (inventoryNumber > 0)
+  CONSTRAINT product_PK PRIMARY KEY (productID)
 );
 
 create table purchaseOrder
@@ -233,13 +232,13 @@ insert into product
     values(6969,78.99,'Guerlain',20, 'makeup');
 
 insert into product
-    values(9999,0.00,'Givenchy',5, 'pointPerks');
+    values(9999,0.00,'Givenchy',50, 'pointPerks');
 
 insert into product
     values(8123,24.99,'GlamGlow',30, 'skinCare');
 
 insert into product
-    values(1000,10.99,'OPI',199, 'nail');
+    values(1000,1.00,'OPI',199, 'nail');
 
 insert into product
     values(5151,129.99,'Caudalie',29, 'skinCare');
@@ -418,3 +417,12 @@ BEGIN
 END;
 /
 
+-- Simple Trigger
+CREATE OR REPLACE TRIGGER updateProductQuantity
+    AFTER INSERT
+    ON productOrder
+    FOR EACH row
+BEGIN
+    UPDATE product SET inventoryNumber = product.inventoryNumber - :new.quantityPurchased where product.productID = :new.productID;
+END;
+/
